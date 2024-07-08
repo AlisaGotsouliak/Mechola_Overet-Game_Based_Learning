@@ -365,5 +365,52 @@ namespace template.Server.Controllers
             return BadRequest("user is not authenticated");
 
         }
+
+
+        [HttpGet("GetFullGame/{authUserId}/{gameCode}")]
+        public async Task<IActionResult> GetFullGame(int authUserId, int gameCode)
+        {
+            if (authUserId > 0)
+            {
+                object param = new
+                {
+                    UserId = authUserId,
+                    GameCode = gameCode
+                };
+
+                string query = "SELECT Games.Game, Games.GameCode, Games.CanPublish, Games.Time, count(Questions.ID) AS Num_Questions FROM Games LEFT OUTER JOIN Questions on Games.GameCode = Questions.GameID WHERE Games.GameCode = @GameCode AND UserId=@UserId GROUP BY Games.GameCode";
+
+                var record = await _db.GetRecordsAsync<FullGame>(query, param);
+
+                FullGame game = record.FirstOrDefault();
+                if (game != null)
+                {
+                    string QuestionQuery = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID FROM Questions WHERE Questions.GameID=@GameCode";
+                    var recordeQ = await _db.GetRecordsAsync<QuestionDB>(QuestionQuery, param);
+                    game.question_List = recordeQ.ToList();
+                    if (game.question_List.Count > 0)
+                    {
+                        foreach (QuestionDB q in game.question_List)
+                        {
+                            object paramQid = new
+                            {
+                                QuestionID = q.ID
+                            };
+                            string AnswerQuery = "SELECT Answers.IsCorrect, Answers.AnswerText, Answers.AnswerImage FROM Answers WHERE Answers.QuestionID = @QuestionID";
+                            var recordeA = await _db.GetRecordsAsync<AnswerDB>(AnswerQuery, paramQid);
+                            q.Answers = recordeA.ToList();
+                        }
+                        return Ok(game);
+                    }
+                    else
+                        return Ok(game);
+                }
+                else
+                    return BadRequest("No such game");
+            }
+            else
+                return BadRequest("user is not authenticated");
+        }
+
     }
 }

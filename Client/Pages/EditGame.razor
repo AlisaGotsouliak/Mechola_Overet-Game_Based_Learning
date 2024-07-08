@@ -157,15 +157,17 @@ else if (isShown == "Edit")
 
     protected override async Task OnInitializedAsync()
     {
-        gameToAdd.Time = GameTime;
-        gameToAdd.Game = GameName;
-        settingToSend.Time = gameToAdd.Time;
-        settingToSend.Game = gameToAdd.Game;
-        settingToSend.GameCode = GameCode;
-        foreach (QuestionDB question in questionList)
-        {
-            question.GameID = GameCode;
-        }
+
+
+        //gameToAdd.Time = GameTime;
+        //gameToAdd.Game = GameName;
+        //settingToSend.Time = gameToAdd.Time;
+        //settingToSend.Game = gameToAdd.Game;
+        //settingToSend.GameCode = GameCode;
+        //foreach (QuestionDB question in questionList)
+        //{
+        //    question.GameID = GameCode;
+        //}
     }
 
     async Task CreateGame()
