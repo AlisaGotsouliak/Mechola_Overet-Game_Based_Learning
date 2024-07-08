@@ -76,18 +76,34 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
-#Container_bg {
+#allGames {
+    width: 1120px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+#gameContainer {
     background-image: url('images/Container.svg');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    width: 256px;
+    height: 138px;
+    padding-top: 50px;
+    margin:12px;
 }
 
 #CreateNewGame {
     background-image: url('images/newgamecontainer.svg');
-    width: 20%;
-    height: 20%;
-    margin:5%;
+    width: 256px;
+    height: 138px;
+    margin: 12px;
 }
+
+
 
 
