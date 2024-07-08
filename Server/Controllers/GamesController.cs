@@ -9,7 +9,7 @@ using template.Server.Helpers;
 using template.Shared.DTOs;
 using template.Shared.Games;
 using template.Shared.Models.Games;
-//BLABLABLA
+
 namespace template.Server.Controllers
 {
     [Route("api/[controller]")]
@@ -351,7 +351,8 @@ namespace template.Server.Controllers
                                 UpdatedAnswers.Add(isAnsUpdated);
                             }
                         }
-                        return BadRequest("ans ID invalid");
+                        else
+                            return BadRequest("ans ID invalid");
                     }
                     int diff = question.Answers.Count - UpdatedAnswers.Count;
                     if (diff == 0)
