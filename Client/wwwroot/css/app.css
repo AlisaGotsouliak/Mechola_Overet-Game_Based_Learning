@@ -77,8 +77,33 @@ a, .btn-link {
     }
 
 h3 {
-    color: white;
+    color: white !important;
+    margin-right:70px;
+}
+
+#pageTop, #pageTop > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
 
+.toolTip {
+    height: 30px;
+    width: 30px;
+    margin-left: 70px;
+    background-color: #233E46;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    align-content: center;
+}
+
+#infoContainers {
+    display: none;
+}
+
+#gamesToolTip:hover + #infoContainers {
+    display: block; /*?????????????????????????????????*/
+}

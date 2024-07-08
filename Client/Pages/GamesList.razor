@@ -4,12 +4,16 @@
 @inject HttpClient Http;
 @inject NavigationManager Nav;
 
-<h3>המשחקים שלי</h3>
+<div id="pageTop">
+    <h3>המשחקים שלי</h3>
+    <div>
+        <div id="infoContainers">YYYYYYYYYY</div>
+        <div id="gamesToolTip" class="toolTip">?</div>
+    </div>
+</div>
+
 <div class="page_bg" style="display:flex; justify-content:center;">
     <PageTitle>המשחקים שלי</PageTitle>
-    
-    <span></span>
-
 
     @if (MyGamesList != null)
     {

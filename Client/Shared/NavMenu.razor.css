@@ -1,7 +1,9 @@
 ﻿nav {
     width: 100%;
-    background-color: #5BC9E5;
     font-size: 0;
+    background-image: url('css/images/navbg.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
     justify-content: flex-end;
     display: flex;
 }
