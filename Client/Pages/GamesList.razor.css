@@ -1,5 +1,27 @@
-﻿/*table {
-    width: 100%;
-    color: black;
-    background-color: white;
-}*/
+﻿#allGames {
+    width: 1120px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-top: 70px;
+}
+
+#gameContainer {
+    background-image: url('css/images/container.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 256px;
+    height: 138px;
+    padding-top: 50px;
+    margin: 12px;
+}
+
+#CreateNewGame {
+    background-image: url('css/images/newgamecontainer.svg');
+    width: 256px;
+    height: 138px;
+    margin: 12px;
+}
