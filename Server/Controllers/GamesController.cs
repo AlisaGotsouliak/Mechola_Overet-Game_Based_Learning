@@ -367,8 +367,8 @@ namespace template.Server.Controllers
         }
 
 
-        [HttpGet("GetFullGame/{authUserId}/{gameCode}")]
-        public async Task<IActionResult> GetFullGame(int authUserId, int gameCode)
+        [HttpGet("GetFullGame/{gameCode}")]
+        public async Task<IActionResult> GetFullGame(int gameCode, int authUserId)
         {
             if (authUserId > 0)
             {
@@ -385,9 +385,10 @@ namespace template.Server.Controllers
                 FullGame game = record.FirstOrDefault();
                 if (game != null)
                 {
-                    string QuestionQuery = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID FROM Questions WHERE Questions.GameID=@GameCode";
+                    string QuestionQuery = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameCode";
                     var recordeQ = await _db.GetRecordsAsync<QuestionDB>(QuestionQuery, param);
                     game.question_List = recordeQ.ToList();
+
                     if (game.question_List.Count > 0)
                     {
                         foreach (QuestionDB q in game.question_List)
@@ -396,7 +397,7 @@ namespace template.Server.Controllers
                             {
                                 QuestionID = q.ID
                             };
-                            string AnswerQuery = "SELECT Answers.IsCorrect, Answers.AnswerText, Answers.AnswerImage FROM Answers WHERE Answers.QuestionID = @QuestionID";
+                            string AnswerQuery = "SELECT Answers.IsCorrect, Answers.AnswerText, Answers.AnswerImage, Answers.QuestionID, Answers.ID FROM Answers WHERE Answers.QuestionID = @QuestionID";
                             var recordeA = await _db.GetRecordsAsync<AnswerDB>(AnswerQuery, paramQid);
                             q.Answers = recordeA.ToList();
                         }

@@ -38,7 +38,7 @@
                     <p>עריכת משחק</p>
                     <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
                         <DataAnnotationsValidator />
-                        <CustomInputText @bind-Value="gameToAdd.Game" maxLength="30" minLength="3" />
+                        <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
                         <ValidationMessage For="@(() => gameToAdd.Game)" />
                         <div>
                             <select id="timeOptions" @bind="gameToAdd.Time">
@@ -49,14 +49,14 @@
                             </select>
                         </div>
                         <br />
-                        @if (gameToAdd.Game.Length < 3)
-                        {
-                            <input type="submit" value="עדכון משחק" disabled />
-                        }
-                        else
-                        {
-                            <input type="submit" value="עדכון משחק" />
-                        }
+                        @*                        @if (gameToAdd.Game.Length < 3)
+                    {
+                    <input type="submit" value="עדכון משחק" disabled />
+                    }
+                    else
+                    {
+                    <input type="submit" value="עדכון משחק" />
+                    }*@
                     </EditForm>
                 }
 
@@ -64,8 +64,8 @@
         </div>
     </div>
 </div>
-<div class="accordion" id="accordionExample">
-    <div class="accordion-item">
+@*<div class="accordion" id="accordionExample">*@
+@*    <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 שאלות המשחק
@@ -82,16 +82,16 @@
                             <p>@question.QuestionText</p>
                             <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
                         </div>*@
-                    }
-@*                    <input type="button" value="+" @onclick="AddInput">
-*@                }
-            </div>
+@*                    }
+                    <input type="button" value="+" @onclick="AddInput">
+                }*@
+@*            </div>
         </div>
     </div>
 
-</div>
+</div>*@
 
-@if (isShown == "true")
+@*@if (isShown == "true")
 {
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -108,8 +108,8 @@
                         <input type="text" placeholder="Image" @bind=toShow.QuestionImage />
                     </div>
                 </div>
-@*                <input type="button" value="Save" @onclick="AddQuestion">
-*@            </div>
+                <input type="button" value="Save" @onclick="AddQuestion">
+            </div>
         </div>
     </div>
 }
@@ -130,11 +130,11 @@ else if (isShown == "Edit")
                         <input type="text" @bind=toShow.QuestionImage />
                     </div>
                 </div>
-@*                <input type="button" value="Save" @onclick="SaveQtoList">
-*@            </div>
+                <input type="button" value="Save" @onclick="SaveQtoList">
+            </div>
         </div>
     </div>
-}
+}*@
 
 
 <p>@msg</p>
@@ -142,12 +142,13 @@ else if (isShown == "Edit")
 @code {
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
-    // פתיחת מופע חדש של המחלקה
-    string msg = "";
-    List<QuestionDB> questionList = new List<QuestionDB>();
-    QuestionDB toShow;
-    int i = 0;
+    //// פתיחת מופע חדש של המחלקה
+    //List<QuestionDB> questionList = new List<QuestionDB>();
+    //QuestionDB toShow;
+    //int i = 0;
     string isShown = "false";
+    string msg = "";
+    FullGame full_gameInfo = new FullGame();
     [Parameter]
     public int GameCode { get; set; }
     [Parameter]
@@ -157,17 +158,17 @@ else if (isShown == "Edit")
 
     protected override async Task OnInitializedAsync()
     {
+        gameToAdd.Time = GameTime;
+        gameToAdd.Game = GameName;
+        settingToSend.GameCode = GameCode;
 
-
-        //gameToAdd.Time = GameTime;
-        //gameToAdd.Game = GameName;
-        //settingToSend.Time = gameToAdd.Time;
-        //settingToSend.Game = gameToAdd.Game;
-        //settingToSend.GameCode = GameCode;
-        //foreach (QuestionDB question in questionList)
-        //{
-        //    question.GameID = GameCode;
-        //}
+        var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+        if (full_game_res.IsSuccessStatusCode)
+        {
+            full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+        }
+        else
+            msg = full_game_res.Content.ReadAsStringAsync().Result;
     }
 
     async Task CreateGame()
@@ -197,18 +198,18 @@ else if (isShown == "Edit")
         ShowError(error);
     }
 
-    async Task AddQuestion()
-    {
-        var newQuestion = await Http.PostAsJsonAsync("api/Games/AddQuestion", toShow);
-        if (newQuestion.IsSuccessStatusCode)
-        {
-            questionList = newQuestion.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
-            toShow = new QuestionDB();
-        }
-        else
-            msg = newQuestion.Content.ReadAsStringAsync().Result;
+    //async Task AddQuestion()
+    //{
+    //    var newQuestion = await Http.PostAsJsonAsync("api/Games/AddQuestion", toShow);
+    //    if (newQuestion.IsSuccessStatusCode)
+    //    {
+    //        questionList = newQuestion.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
+    //        toShow = new QuestionDB();
+    //    }
+    //    else
+    //        msg = newQuestion.Content.ReadAsStringAsync().Result;
 
-    }
+    //}
 
     //private void AddInput()
     //{
