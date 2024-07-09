@@ -51,7 +51,7 @@
 
                         <div style="display:flex; justify-content:space-around; padding-right:21px; padding-left:21px; margin-top:7px">
                             <a href="https://localhost:7022/EditGame/RouteParams/@game.GameCode/@game.Game/@game.Time">
-                                <input type="button" value="עריכה">
+                                <div id="editIcon"></div>
                             </a>
 
                             @if (game.CanPublish == false)
@@ -63,8 +63,7 @@
                                 <input type="checkbox" checked="@game.IsPublished"
                            @onchange="(() =>changePublish(game))" />
                             }
-                            <input type="button" value="מחיקה"
-                           @onclick="(() =>DeleteGame(game))">
+                            <div id="deleteIcon" @onclick="(() =>DeleteGame(game))"></div>
                         </div>
                     </div>
                 </div>

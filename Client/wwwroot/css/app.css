@@ -107,3 +107,21 @@ h3 {
 #gamesToolTip:hover + #infoContainers {
     display: block; /*?????????????????????????????????*/
 }
+
+#deleteIcon, #editIcon {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 20px;
+}
+
+
+#deleteIcon {
+    background-image: url('images/trashicon.svg');
+    width: 17px;
+}
+
+#editIcon {
+    background-image: url('images/pencilicon.svg');
+    width: 20px;
+}
