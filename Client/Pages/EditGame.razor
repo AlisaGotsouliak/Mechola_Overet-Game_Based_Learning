@@ -30,7 +30,7 @@
                             </select>
                         </div>
                         <br />
-                        <input type="submit" value="יצירת משחק" />
+                        <input type="submit" value="שמירת הגדרות" />
                     </EditForm>
                 }
                 else
@@ -49,14 +49,14 @@
                             </select>
                         </div>
                         <br />
-                        @*                        @if (gameToAdd.Game.Length < 3)
-                    {
-                    <input type="submit" value="עדכון משחק" disabled />
-                    }
-                    else
-                    {
-                    <input type="submit" value="עדכון משחק" />
-                    }*@
+                        @if (gameToAdd.Game.Length < 3)
+                        {
+                            <input type="submit" value="שמירת הגדרות" disabled />
+                        }
+                        else
+                        {
+                            <input type="submit" value="שמירת הגדרות" />
+                        }
                     </EditForm>
                 }
 
@@ -64,8 +64,8 @@
         </div>
     </div>
 </div>
-@*<div class="accordion" id="accordionExample">*@
-@*    <div class="accordion-item">
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 שאלות המשחק
@@ -76,22 +76,25 @@
                 @if (gameToAdd.Game != " " && gameToAdd.Time != null)
                 {
                     <h4>שאלות המשחק</h4>
-                    @foreach (QuestionDB question in questionList)
+                    if (full_gameInfo.question_List != null)
                     {
-@*                        <div @onclick="(() =>ShowQuestion(question))" style="border: 2px solid black; border-radius:10px">
-                            <p>@question.QuestionText</p>
-                            <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
-                        </div>*@
-@*                    }
-                    <input type="button" value="+" @onclick="AddInput">
-                }*@
-@*            </div>
+                        @foreach (QuestionDB question in full_gameInfo.question_List)
+                        {
+                            <div @onclick="(() =>ShowQuestion(question))" style="border: 2px solid black; border-radius:10px">
+                                <p>@question.QuestionText</p>
+                                <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
+                            </div>
+                        }
+                    }
+                    @*<input type="button" value="+" @onclick="AddInput">*@
+                }
+            </div>
         </div>
     </div>
 
-</div>*@
+</div>
 
-@*@if (isShown == "true")
+@if (isShown == "true")
 {
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -108,7 +111,7 @@
                         <input type="text" placeholder="Image" @bind=toShow.QuestionImage />
                     </div>
                 </div>
-                <input type="button" value="Save" @onclick="AddQuestion">
+                @*<input type="button" value="Save" @onclick="AddQuestion"> *@
             </div>
         </div>
     </div>
@@ -126,15 +129,33 @@ else if (isShown == "Edit")
                 <div class="accordion-body">
                     <p>שאלה</p>
                     <div>
-                        <input type="text" @bind=toShow.QuestionText />
-                        <input type="text" @bind=toShow.QuestionImage />
+                        @if (toShow != null)
+                        {
+                            <input type="text" @bind=toShow.QuestionText />
+                            <input type="text" @bind=toShow.QuestionImage />
+                            @if (toShow.Answers != null)
+                            {
+                                foreach (AnswerDB ans in toShow.Answers)
+                                {
+                                    @if (ans.AnswerText != "")
+                                    {
+                                        <input type="text" @bind=ans.AnswerText />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" @bind=ans.AnswerImage />
+                                    }
+                                    <input type="radio" checked="@ans.IsCorrect" />
+                                }
+                            }
+                        }
                     </div>
                 </div>
-                <input type="button" value="Save" @onclick="SaveQtoList">
+                @*<input type="button" value="Save" @onclick="SaveQtoList">*@
             </div>
         </div>
     </div>
-}*@
+}
 
 
 <p>@msg</p>
@@ -144,7 +165,7 @@ else if (isShown == "Edit")
     SettingsUpdate settingToSend = new SettingsUpdate();
     //// פתיחת מופע חדש של המחלקה
     //List<QuestionDB> questionList = new List<QuestionDB>();
-    //QuestionDB toShow;
+    QuestionDB toShow = new QuestionDB();
     //int i = 0;
     string isShown = "false";
     string msg = "";
@@ -218,17 +239,17 @@ else if (isShown == "Edit")
     //    questionList.Add(toShow);
     //}
 
-    //private void RemoveInput(InsertQuestion input)
-    //{
-    //    isShown = "false";
-    //    questionList.Remove(input);
-    //}
+    private void RemoveInput(QuestionDB input)
+    {
+        isShown = "false";
+        full_gameInfo.question_List.Remove(input);
+    }
 
-    //void ShowQuestion(InsertQuestion questionToShow)
-    //{
-    //    isShown = "Edit";
-    //    toShow = questionToShow;
-    //}
+    void ShowQuestion(QuestionDB questionToShow)
+    {
+        isShown = "Edit";
+        toShow = questionToShow;
+    }
 
     //void SaveQtoList()
     //{

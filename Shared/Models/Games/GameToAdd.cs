@@ -10,7 +10,7 @@ namespace template.Shared.Models.Games
     public class GameToAdd
     {
         [MinLength(3, ErrorMessage = " ")]
-        [StringLength(30, ErrorMessage = " ")]
+        [StringLength(20, ErrorMessage = " ")]
         public string Game { get; set; }
         public int Time { get; set; }
     }
