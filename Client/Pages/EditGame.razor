@@ -107,12 +107,13 @@
                 <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
                     <div class="accordion-body">
                         <p>שאלה</p>
-                        <div>
-                            <input type="text" placeholder="Text" @bind=toShow.QuestionText />
-                            <input type="text" placeholder="Image" @bind=toShow.QuestionImage />
-                        </div>
-                        <input type="button" value="Save" @onclick="AddQuestion">
-
+                        <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                            <DataAnnotationsValidator />
+                            <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
+                            <ValidationMessage For="@(() => toShow.QuestionText)" />
+                            <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
+                            <input type="button" value="Save">
+                        </EditForm>
                     </div>
                 </div>
             </div>
@@ -133,8 +134,13 @@
                         <div>
                             @if (toShow != null)
                             {
-                                <input type="text" @bind=toShow.QuestionText />
-                                <input type="text" @bind=toShow.QuestionImage />
+                                <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                                    <DataAnnotationsValidator />
+                                    <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
+                                    <ValidationMessage For="@(() => toShow.QuestionText)" />
+                                    <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
+                                    <input type="button" value="Save">
+                                </EditForm>
                                 @if (toShow.Answers != null)
                                 {
                                     foreach (AnswerDB ans in toShow.Answers)
@@ -249,6 +255,7 @@
     private void AddInput()
     {
         toShow = new QuestionDB();
+        toShow.QuestionText = "";
         toShow.GameID = GameCode;
         isShown = "true";
         //questionList.Add(toShow);

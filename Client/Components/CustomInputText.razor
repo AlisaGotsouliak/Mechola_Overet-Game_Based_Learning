@@ -1,7 +1,7 @@
 ﻿@inherits Microsoft.AspNetCore.Components.Forms.InputText
 
 <input @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength" />
-<span>@length.ToString()/@maxLength.ToString()</span>
+<p>@length.ToString()/@maxLength.ToString()</p>
 
 @code {
     //  פרמטר לקבלת אורך מחרוזת מינימלי
@@ -28,7 +28,7 @@
         {
             inputClass = "good-input";
         }
-        else if (/*length >= midLength && */length == maxLength)
+        else if (length == maxLength)
         {
             inputClass = "warnning-input";
         }
