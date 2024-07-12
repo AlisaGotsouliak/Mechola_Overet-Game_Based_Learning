@@ -88,7 +88,7 @@
                                     </div>
                                 }
                             }
-                            @*<input type="button" value="+" @onclick="AddInput">*@
+                            <input type="button" value="+" @onclick="AddInput">
                         }
                     </div>
                 </div>
@@ -111,8 +111,9 @@
                             <input type="text" placeholder="Text" @bind=toShow.QuestionText />
                             <input type="text" placeholder="Image" @bind=toShow.QuestionImage />
                         </div>
+                        <input type="button" value="Save" @onclick="AddQuestion">
+
                     </div>
-                    @*<input type="button" value="Save" @onclick="AddQuestion"> *@
                 </div>
             </div>
         </div>
@@ -220,6 +221,18 @@
         ShowError(error);
     }
 
+    async Task AddQuestion()
+    {
+        if (toShow.QuestionImage == null)
+            toShow.QuestionImage = "No Image";
+        var addQ = await Http.PostAsJsonAsync("api/Games/AddQuestion", toShow);
+        if (addQ.IsSuccessStatusCode)
+        {
+            full_gameInfo.question_List = addQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
+            toShow = new QuestionDB();
+        }
+    }
+
     //async Task AddQuestion()
     //{
     //    var newQuestion = await Http.PostAsJsonAsync("api/Games/AddQuestion", toShow);
@@ -233,12 +246,13 @@
 
     //}
 
-    //private void AddInput()
-    //{
-    //    toShow = new InsertQuestion();
-    //    isShown = "true";
-    //    questionList.Add(toShow);
-    //}
+    private void AddInput()
+    {
+        toShow = new QuestionDB();
+        toShow.GameID = GameCode;
+        isShown = "true";
+        //questionList.Add(toShow);
+    }
 
     private void RemoveInput(QuestionDB input)
     {
@@ -283,4 +297,4 @@
                 break;
         }
     }
-    }
+}

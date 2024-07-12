@@ -281,34 +281,47 @@ namespace template.Server.Controllers
                 int newQuestionID = await _db.InsertReturnIdAsyncQuestions(query, param);
                 if (newQuestionID > 0)
                 {
-                    List<int> addedId = new List<int>();
-                    foreach (AnswerDB ans in question.Answers)
+                    if (question.Answers != null)
                     {
-                        object param_ans = new
+                        List<int> addedId = new List<int>();
+                        foreach (AnswerDB ans in question.Answers)
                         {
-                            AnswerText = ans.AnswerText,
-                            AnswerImage = ans.AnswerImage,
-                            IsCorrect = ans.IsCorrect,
-                            QuestionID = newQuestionID
-                        };
-                        string query_ans = "INSERT INTO Answers (AnswerText,AnswerImage,IsCorrect,QuestionID) VALUES (@AnswerText,@AnswerImage,@IsCorrect,@QuestionID)";
+                            object param_ans = new
+                            {
+                                AnswerText = ans.AnswerText,
+                                AnswerImage = ans.AnswerImage,
+                                IsCorrect = ans.IsCorrect,
+                                QuestionID = newQuestionID
+                            };
+                            string query_ans = "INSERT INTO Answers (AnswerText,AnswerImage,IsCorrect,QuestionID) VALUES (@AnswerText,@AnswerImage,@IsCorrect,@QuestionID)";
 
-                        int newAnsID = await _db.InsertReturnIdAsyncGames(query_ans, param_ans);
-                        if (newAnsID > 0)
-                        {
-                            addedId.Add(newAnsID);
+                            int newAnsID = await _db.InsertReturnIdAsyncGames(query_ans, param_ans);
+                            if (newAnsID > 0)
+                            {
+                                addedId.Add(newAnsID);
+                            }
                         }
-                    }
-                    int diff = question.Answers.Count - addedId.Count;
-
-                    if (diff == 0)
-                    {
-                        return Ok(newQuestionID);
+                        int diff = question.Answers.Count - addedId.Count;
+                        if (diff == 0)
+                        {
+                            string query_NewQList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";
+                            var rec = await _db.GetRecordsAsync<QuestionDB>(query_NewQList, param);
+                            List<QuestionDB> newQuestionList = rec.ToList();
+                            return Ok(newQuestionList);
+                        }
+                        else
+                        {
+                            return BadRequest("Question not created");
+                        }
                     }
                     else
                     {
-                        return BadRequest("Some tasks not created");
+                        string query_NewQList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";
+                        var rec = await _db.GetRecordsAsync<QuestionDB>(query_NewQList, param);
+                        List<QuestionDB> newQuestionList = rec.ToList();
+                        return Ok(newQuestionList);
                     }
+
                 }
                 return BadRequest("Failed to add quesiton");
             }
