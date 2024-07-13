@@ -426,5 +426,28 @@ namespace template.Server.Controllers
                 return BadRequest("user is not authenticated");
         }
 
+        [HttpPost("DeleteQuestion")]
+        public async Task<IActionResult> DeleteQuestion(int authUserId, QuestionDB question)
+        {
+            if (authUserId > 0)
+            {
+                object paramQ = new
+                {
+                    QuestionID = question.ID
+                };
+                string queryDeleteAnswers = "DELETE FROM Answers WHERE Answers.QuestionID=@QuestionID";
+                int isDeleted = await _db.SaveDataAsync(queryDeleteAnswers, paramQ);
+                //??????
+                string queryDeleteQuestion = "DELETE FROM Questions WHERE ID=@QuestionID";
+                int isQDeleted = await _db.SaveDataAsync(queryDeleteQuestion, paramQ);
+                if (isQDeleted == 1)
+                    return Ok("Question deleted succesfully");
+                else
+                    return BadRequest("Couldn't delete question");
+            }
+            else
+                return BadRequest("user is not authenticated");
+        }
+
     }
 }
