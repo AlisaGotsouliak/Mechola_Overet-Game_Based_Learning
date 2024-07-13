@@ -3,173 +3,176 @@
 @using template.Shared.Models.Games;
 @using template.Client.Components;
 @inject HttpClient Http;
-@* please workkkk *@
-<div id="allAccordions">
-    <div id="settingsAndQList">
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="tabName">
-                            הגדרות כלליות
-                        </span>                        
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-                    <div class="accordion-body">
 
-                        @if (GameName == " ")
-                        {
-                            <p>הוספת משחק חדש</p>
-                            <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
-                                <DataAnnotationsValidator />
-                                <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
-                                <ValidationMessage For="@(() => gameToAdd.Game)" />
-                                <div>
-                                    <select id="timeOptions" @bind="gameToAdd.Time">
-                                        <option value="50">50 שניות</option>
-                                        <option value="60">60 שניות</option>
-                                        <option value="90">90 שניות</option>
-                                        <option value="0">ללא הגבלה</option>
-                                    </select>
-                                </div>
-                                <br />
-                                <input type="submit" value="שמירת הגדרות" />
-                            </EditForm>
-                        }
-                        else
-                        {
-                            @* <p>עריכת משחק</p> *@
-                            <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
-                                <DataAnnotationsValidator />
-                                <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
-                                <ValidationMessage For="@(() => gameToAdd.Game)" />
-                                <div>
-                                    <select id="timeOptions" @bind="gameToAdd.Time">
-                                        <option value="50">50 שניות</option>
-                                        <option value="60">60 שניות</option>
-                                        <option value="90">90 שניות</option>
-                                        <option value="0">ללא הגבלה</option>
-                                    </select>
-                                </div>
-                                <br />
-                                @if (gameToAdd.Game.Length < 3)
-                                {
-                                    <input type="submit" value="שמירת הגדרות" disabled />
-                                }
-                                else
-                                {
-                                    <input type="submit" value="שמירת הגדרות" />
-                                }
-                            </EditForm>
-                        }
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        שאלות המשחק
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse show" aria-labelledby="headingTwo">
-                    <div class="accordion-body">
-                        @if (gameToAdd.Game != " " && gameToAdd.Time != null)
-                        {
-                            @* <h4>שאלות המשחק</h4> *@
-                            if (full_gameInfo.question_List != null)
+<div class="page_bg" style="display:flex; justify-content:center; flex-direction:column">
+    <h3>עריכת משחק</h3>
+    <div id="allAccordions">
+        <div id="settingsAndQList">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span class="tabName">
+                                הגדרות כלליות
+                            </span>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                        <div class="accordion-body">
+
+                            @if (GameName == " ")
                             {
-                                @foreach (QuestionDB question in full_gameInfo.question_List)
-                                {
-                                    <div @onclick="(() =>ShowQuestion(question))" style="border: 2px solid black; border-radius:10px">
-                                        <p>@question.QuestionText</p>
-                                        <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
-                                    </div>
-                                }
-                            }
-                            <input type="button" value="+" @onclick="AddInput">
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if (isShown == "true")
-    {
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse">
-                        יצירת שאלה
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
-                    <div class="accordion-body">
-                        <p>שאלה</p>
-                        <EditForm Model="toShow" OnValidSubmit="AddQuestion">
-                            <DataAnnotationsValidator />
-                            <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
-                            <ValidationMessage For="@(() => toShow.QuestionText)" />
-                            <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
-                            <input type="button" value="Save">
-                        </EditForm>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-    else if (isShown == "Edit")
-    {
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button" data-bs-toggle="collapse">
-                        עריכת שאלה
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
-                    <div class="accordion-body">
-                        <p>שאלה</p>
-                        <div>
-                            @if (toShow != null)
-                            {
-                                <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                                <p>הוספת משחק חדש</p>
+                                <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
                                     <DataAnnotationsValidator />
-                                    <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
-                                    <ValidationMessage For="@(() => toShow.QuestionText)" />
-                                    <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
-                                    <input type="button" value="Save">
+                                    <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
+                                    <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                    <div>
+                                        <select id="timeOptions" @bind="gameToAdd.Time">
+                                            <option value="50">50 שניות</option>
+                                            <option value="60">60 שניות</option>
+                                            <option value="90">90 שניות</option>
+                                            <option value="0">ללא הגבלה</option>
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <input type="submit" value="שמירת הגדרות" />
                                 </EditForm>
-                                @if (toShow.Answers != null)
-                                {
-                                    foreach (AnswerDB ans in toShow.Answers)
+                            }
+                            else
+                            {
+                                @* <p>עריכת משחק</p> *@
+                                <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
+                                    <DataAnnotationsValidator />
+                                    <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
+                                    <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                    <div>
+                                        <select id="timeOptions" @bind="gameToAdd.Time">
+                                            <option value="50">50 שניות</option>
+                                            <option value="60">60 שניות</option>
+                                            <option value="90">90 שניות</option>
+                                            <option value="0">ללא הגבלה</option>
+                                        </select>
+                                    </div>
+                                    <br />
+                                    @if (gameToAdd.Game.Length < 3)
                                     {
-                                        @if (ans.AnswerText != "")
-                                        {
-                                            <input type="text" @bind=ans.AnswerText />
-                                        }
-                                        else
-                                        {
-                                            <input type="text" @bind=ans.AnswerImage />
-                                        }
-                                        <input type="radio" checked="@ans.IsCorrect" />
+                                        <input type="submit" value="שמירת הגדרות" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" value="שמירת הגדרות" />
+                                    }
+                                </EditForm>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            שאלות המשחק
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse show" aria-labelledby="headingTwo">
+                        <div class="accordion-body">
+                            @if (gameToAdd.Game != " " && gameToAdd.Time != null)
+                            {
+                                @* <h4>שאלות המשחק</h4> *@
+                                if (full_gameInfo.question_List != null)
+                                {
+                                    @foreach (QuestionDB question in full_gameInfo.question_List)
+                                    {
+                                        <div @onclick="(() =>ShowQuestion(question))" style="border: 2px solid black; border-radius:10px">
+                                            <p>@question.QuestionText</p>
+                                            <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
+                                        </div>
                                     }
                                 }
+                                <input type="button" value="+" @onclick="AddInput">
                             }
                         </div>
                     </div>
-                    @*<input type="button" value="Save" @onclick="SaveQtoList">*@
                 </div>
             </div>
         </div>
-    }
+        @if (isShown == "true")
+        {
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse">
+                            יצירת שאלה
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
+                        <div class="accordion-body">
+                            <p>שאלה</p>
+                            <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                                <DataAnnotationsValidator />
+                                <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
+                                <ValidationMessage For="@(() => toShow.QuestionText)" />
+                                <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
+                                <input type="button" value="Save">
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (isShown == "Edit")
+        {
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button" data-bs-toggle="collapse">
+                            עריכת שאלה
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
+                        <div class="accordion-body">
+                            <p>שאלה</p>
+                            <div>
+                                @if (toShow != null)
+                                {
+                                    <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                                        <DataAnnotationsValidator />
+                                        <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
+                                        <ValidationMessage For="@(() => toShow.QuestionText)" />
+                                        <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
+                                        <input type="button" value="Save">
+                                    </EditForm>
+                                    @if (toShow.Answers != null)
+                                    {
+                                        foreach (AnswerDB ans in toShow.Answers)
+                                        {
+                                            @if (ans.AnswerText != "")
+                                            {
+                                                <input type="text" @bind=ans.AnswerText />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" @bind=ans.AnswerImage />
+                                            }
+                                            <input type="radio" checked="@ans.IsCorrect" />
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                        @*<input type="button" value="Save" @onclick="SaveQtoList">*@
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <p>@msg</p>
 </div>
-
-<p>@msg</p>
-
 @code {
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
