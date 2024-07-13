@@ -435,9 +435,14 @@ namespace template.Server.Controllers
                 {
                     QuestionID = question.ID
                 };
-                string queryDeleteAnswers = "DELETE FROM Answers WHERE Answers.QuestionID=@QuestionID";
-                int isDeleted = await _db.SaveDataAsync(queryDeleteAnswers, paramQ);
-                //??????
+                string queryCount = "SELECT count(*) FROM Answers WHERE Answers.QuestionID=@QuestionID";
+                var record = await _db.GetRecordsAsync<int>(queryCount, paramQ);
+                int CountAns = record.FirstOrDefault();
+                if (CountAns > 0)
+                {
+                    string queryDeleteAnswers = "DELETE FROM Answers WHERE Answers.QuestionID=@QuestionID";
+                    int isDeleted = await _db.SaveDataAsync(queryDeleteAnswers, paramQ);
+                }
                 string queryDeleteQuestion = "DELETE FROM Questions WHERE ID=@QuestionID";
                 int isQDeleted = await _db.SaveDataAsync(queryDeleteQuestion, paramQ);
                 if (isQDeleted == 1)
