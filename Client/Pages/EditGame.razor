@@ -10,7 +10,9 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        הגדרות כלליות
+                        <span class="tabName">
+                            הגדרות כלליות
+                        </span>                        
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
@@ -37,7 +39,7 @@
                         }
                         else
                         {
-                            <p>עריכת משחק</p>
+                            @* <p>עריכת משחק</p> *@
                             <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
                                 <DataAnnotationsValidator />
                                 <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
@@ -77,7 +79,7 @@
                     <div class="accordion-body">
                         @if (gameToAdd.Game != " " && gameToAdd.Time != null)
                         {
-                            <h4>שאלות המשחק</h4>
+                            @* <h4>שאלות המשחק</h4> *@
                             if (full_gameInfo.question_List != null)
                             {
                                 @foreach (QuestionDB question in full_gameInfo.question_List)
@@ -124,7 +126,7 @@
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse">
+                    <button class="accordion-button" data-bs-toggle="collapse">
                         עריכת שאלה
                     </button>
                 </h2>
