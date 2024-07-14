@@ -4924,6 +4924,7 @@ textarea.form-control-lg {
     flex-direction: row;
     gap: 20px;
     margin-top: 100px;
+    align-self: center;
 }
 
 #collapseThree>div{
@@ -4960,6 +4961,79 @@ textarea.form-control-lg {
     .accordion-flush .accordion-item .accordion-button {
         border-radius: 0
     }
+
+
+
+
+.Allbuttons {
+    height: 32px;
+    width: 130px;
+    background-color: #233E46;
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-size: 16px;
+}
+
+.addButton {
+    width: 32px !important;
+}
+
+.questionInList {
+    border: 2px solid black;
+    border-radius: 9px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-bottom: 12px;
+}
+
+    .questionInList:hover {
+        background-color: #FFC97B24 !important;
+        /*color on hover of a question in the list - uses the accordion button color with 14% opacity*/
+    }
+
+    .questionInList p {
+        display: flex;
+        align-items: center;
+        margin: 0px;
+    }
+
+    .questionInList .deleteIcon {
+        display: none;
+    }
+
+    .questionInList:hover .deleteIcon {
+        display: block;
+        cursor: pointer;
+    }
+
+/*    .questionInList .addButton {
+        display: flex;
+    }
+
+#qList {
+    height: auto;
+    width:auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+*/
+
+
+
+
+
+
+
 
 .breadcrumb {
     display: flex;

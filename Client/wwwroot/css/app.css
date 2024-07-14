@@ -108,7 +108,7 @@ h3 {
     display: block; /*?????????????????????????????????*/
 }
 
-#deleteIcon, #editIcon {
+.deleteIcon, #editIcon {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -116,9 +116,11 @@ h3 {
 }
 
 
-#deleteIcon {
+.deleteIcon {
     background-image: url('images/trashicon.svg');
+    background-color: none;
     width: 17px;
+    border: none;
 }
 
 #editIcon {

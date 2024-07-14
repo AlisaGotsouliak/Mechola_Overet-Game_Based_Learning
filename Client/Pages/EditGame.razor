@@ -35,7 +35,7 @@
                                         </select>
                                     </div>
                                     <br />
-                                    <input type="submit" value="שמירת הגדרות" />
+                                    <input type="submit" value="שמירת הגדרות" class="Allbuttons"/>
                                 </EditForm>
                             }
                             else
@@ -55,11 +55,11 @@
                                     <br />
                                     @if (gameToAdd.Game.Length < 3)
                                     {
-                                        <input type="submit" value="שמירת הגדרות" disabled />
+                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled />
                                     }
                                     else
                                     {
-                                        <input type="submit" value="שמירת הגדרות" />
+                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
                                     }
                                 </EditForm>
                             }
@@ -84,13 +84,13 @@
                                 {
                                     @foreach (QuestionDB question in full_gameInfo.question_List)
                                     {
-                                        <div @onclick="(() =>ShowQuestion(question))" style="border: 2px solid black; border-radius:10px">
+                                        <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
                                             <p>@question.QuestionText</p>
-                                            <input type="button" @onclick="() => RemoveInput(question)" value="מחק">
+                                            <div @onclick="() => RemoveInput(question)" class="deleteIcon"></div> @* value="מחק" *@
                                         </div>
                                     }
                                 }
-                                <input type="button" value="+" @onclick="AddInput">
+                                <input type="button" value="+" @onclick="AddInput" class="Allbuttons addButton">
                             }
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                 <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
                                 <ValidationMessage For="@(() => toShow.QuestionText)" />
                                 <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
-                                <input type="submit" value="Save">
+                                <input type="submit" value="Save" class="Allbuttons">
                             </EditForm>
                         </div>
                     </div>
@@ -157,10 +157,10 @@
                                             }
                                             @if (toShow.Answers.Count < 6)
                                             {
-                                                <input type="button" value="+" @onclick="AddAns">
+                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
                                             }
                                         }
-                                        <input type="submit" value="Save">
+                                        <input type="submit" value="Save" class="Allbuttons">
                                     </EditForm>
                                 }
                             </div>
