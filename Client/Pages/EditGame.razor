@@ -24,8 +24,12 @@
                             {
                                 <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
                                     <DataAnnotationsValidator />
+                                    <div>שם משחק:</div>
+                                    <div id="gameNameToolTip">?</div>
                                     <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
                                     <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                    <div>זמן לשאלה:</div>
+                                    <div id="qTimeToolTip">?</div>
                                     <div>
                                         <select id="timeOptions" @bind="gameToAdd.Time">
                                             <option value="50">50 שניות</option>
@@ -42,8 +46,12 @@
                             {
                                 <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
                                     <DataAnnotationsValidator />
+                                    <div>שם משחק:</div>
+                                    <div id="gameNameToolTip">?</div>
                                     <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
                                     <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                    <div>זמן לשאלה:</div>
+                                    <div id="qTimeToolTip">?</div>
                                     <div>
                                         <select id="timeOptions" @bind="gameToAdd.Time">
                                             <option value="50">50 שניות</option>

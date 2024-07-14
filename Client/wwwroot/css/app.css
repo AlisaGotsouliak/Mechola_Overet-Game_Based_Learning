@@ -100,13 +100,13 @@ h3 {
     align-content: center;
 }
 
-#infoContainers {
+/*#infoContainers {
     display: none;
 }
 
 #gamesToolTip:hover + #infoContainers {
-    display: block; /*?????????????????????????????????*/
-}
+    display: block;*/ /*?????????????????????????????????*/
+/*}*/
 
 .deleteIcon, #editIcon {
     background-repeat: no-repeat;
@@ -126,4 +126,68 @@ h3 {
 #editIcon {
     background-image: url('images/pencilicon.svg');
     width: 20px;
+}
+
+
+
+
+
+
+
+#infoContainers {
+    background-image: url('images/infocontainerimg.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 442px;
+    height: 38px;
+    margin-left: 6px;
+}
+
+#infoContent {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 400px;
+    height: auto;
+    font-size: 12px;
+    margin-right: 12px;
+    margin-top: 9px;
+}
+
+    #infoContent>div {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    #toolTipGroup #infoContainers { /*tooltip games page*/
+        display: none;
+    }
+
+#toolTipGroup:hover #infoContainers { /*tooltip games page hover*/
+    display: block;
+    cursor: pointer;
+}
+
+
+.infoContainersImages {
+    height: 20px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-left: 6px;
+}
+
+#greenInfo {
+    background-image: url('images/infogreencontainer.svg');
+}
+
+#yellowInfo {
+    background-image: url('images/infoyellowcontainer.svg');
+}
+
+#redInfo {
+    background-image: url('images/inforedcontainer.svg');
 }

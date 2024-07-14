@@ -6,8 +6,23 @@
 
 <div id="pageTop">
     <h3>המשחקים שלי</h3>
-    <div>
-        <div id="infoContainers">YYYYYYYYYY</div>
+    <div id="toolTipGroup">
+        <div id="infoContainers">
+            <div id="infoContent">
+                <div>
+                    <div id="greenInfo" class="infoContainersImages"></div>
+                    <span>מפורסם</span>
+                </div>
+                <div>
+                    <div id="yellowInfo" class="infoContainersImages"></div>
+                    <span>ניתן לפרסם</span>
+                </div>
+                <div>
+                    <div id="redInfo" class="infoContainersImages"></div>
+                    <span>לא ניתן לפרסם</span>
+                </div>
+            </div>           
+        </div>
         <div id="gamesToolTip" class="toolTip">?</div>
     </div>
 </div>
@@ -20,7 +35,7 @@
         <div id="allGames">
             @foreach (GameToCard game in MyGamesList)
             {
-                <div id="gameContainer" >
+                <div id="gameContainer">
                     <div style="display:flex; justify-content:space-between; align-items: flex-end; padding-right:21px; padding-left:21px">
 
                         <span>@game.Game</span>
@@ -61,7 +76,7 @@
                             else
                             {
                                 <input type="checkbox" checked="@game.IsPublished"
-                           @onchange="(() =>changePublish(game))" />
+                                       @onchange="(() =>changePublish(game))" />
                             }
                             <div class="deleteIcon" @onclick="(() =>DeleteGame(game))"></div>
                         </div>
@@ -74,17 +89,17 @@
             <a href="https://localhost:7022/EditGame/RouteParams/0/@gameToAdd.Game/50">
                 <div id="CreateNewGame"></div>
             </a>
-        </div>     
+        </div>
     }
-    
-    
-    
-@*    <p>@msg</p>*@
 
-@*    @if (msg != "")
+
+
+    @*    <p>@msg</p>*@
+
+    @*    @if (msg != "")
     {
-        <p>@msg</p>
-        <input type="button" value="reload" @onclick=Navigate />
+    <p>@msg</p>
+    <input type="button" value="reload" @onclick=Navigate />
     }*@
 </div>
 

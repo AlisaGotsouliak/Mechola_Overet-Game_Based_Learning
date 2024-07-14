@@ -5028,6 +5028,22 @@ textarea.form-control-lg {
 
 */
 
+#gameNameToolTip, #qTimeToolTip {
+    height: 14px;
+    width: 14px;
+    border-radius: 7px;
+    font-size: 10px;
+    background-color: #233E46;
+    color: white;
+    text-align: center;
+}
+
+
+
+
+
+
+
 
 
 
