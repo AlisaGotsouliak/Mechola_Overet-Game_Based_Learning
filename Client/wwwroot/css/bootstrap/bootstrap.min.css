@@ -4917,6 +4917,13 @@ textarea.form-control-lg {
     width: 526px;
 }
 
+#collapseOne .accordion-body {
+    display: flex !important;
+    justify-content: space-between !important;
+    /*flex-direction: row !important;*/
+    background-color: red;
+}
+
 #allAccordions {
     width: 1120px;
     height: auto;

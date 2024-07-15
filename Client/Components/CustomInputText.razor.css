@@ -20,3 +20,8 @@
     .default-input.danger-input {
         outline: 2px solid red !important;
     }
+
+/*    div{
+        display:flex;
+        direction:row;
+    }*/

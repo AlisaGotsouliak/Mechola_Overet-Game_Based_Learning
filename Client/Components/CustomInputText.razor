@@ -1,7 +1,9 @@
 ﻿@inherits Microsoft.AspNetCore.Components.Forms.InputText
 
+<div>
 <input @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength" />
 <p>@length.ToString()/@maxLength.ToString()</p>
+</div>
 
 @code {
     //  פרמטר לקבלת אורך מחרוזת מינימלי
