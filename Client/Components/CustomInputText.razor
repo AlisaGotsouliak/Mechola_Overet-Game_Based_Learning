@@ -2,7 +2,7 @@
 
 <div>
 <input @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength" />
-<p>@length.ToString()/@maxLength.ToString()</p>
+<p class="numOfChars">@length.ToString()/@maxLength.ToString()</p>
 </div>
 
 @code {
