@@ -220,12 +220,13 @@ namespace template.Server.Controllers
                             Question = id
                         };
                         string queryID = "DELETE FROM Answers WHERE QuestionID=@Question";
-                        int isDeleted = await _db.SaveDataAsync(queryID, paramID);
-                        if (isDeleted == 0)
+                        int isDeletedQ = await _db.SaveDataAsync(queryID, paramID);
+                        if (isDeletedQ == 0)
                             AnsDeleted = false;
                     }
                     if (AnsDeleted)
                     {
+
                         string queryDeleteQuestion = "DELETE FROM Questions WHERE GameID=@GameID";
                         int isDeleted = await _db.SaveDataAsync(queryDeleteQuestion, paramQ);
                         string queryDeleteGame = "DELETE FROM Games WHERE GameCode=@GameCode";
@@ -278,8 +279,8 @@ namespace template.Server.Controllers
                 };
 
                 string query = "INSERT INTO Questions (QuestionText,QuestionImage,GameID) VALUES (@QuestionText,@QuestionImage,@GameID)";
-                int newQuestionID = await _db.InsertReturnIdAsyncQuestions(query, param);
-                if (newQuestionID > 0)
+                question.ID = await _db.InsertReturnIdAsyncQuestions(query, param);
+                if (question.ID > 0)
                 {
                     if (question.Answers != null)
                     {
@@ -291,7 +292,7 @@ namespace template.Server.Controllers
                                 AnswerText = ans.AnswerText,
                                 AnswerImage = ans.AnswerImage,
                                 IsCorrect = ans.IsCorrect,
-                                QuestionID = newQuestionID
+                                QuestionID = question.ID
                             };
                             string query_ans = "INSERT INTO Answers (AnswerText,AnswerImage,IsCorrect,QuestionID) VALUES (@AnswerText,@AnswerImage,@IsCorrect,@QuestionID)";
 
