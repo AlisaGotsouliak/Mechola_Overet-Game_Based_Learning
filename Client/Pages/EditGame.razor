@@ -193,23 +193,31 @@
                                 {
                                     <EditForm Model="toShow" OnValidSubmit="AddQuestion">
                                         <DataAnnotationsValidator />
-                                        <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
-                                        <ValidationMessage For="@(() => toShow.QuestionText)" />
-                                        <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
+                                        <div id="questionArea">
+                                            <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
+                                            <ValidationMessage For="@(() => toShow.QuestionText)" />
+                                            <input type="button" id="insertQuestionImage" />
+                                        </div>
+                                        <p>מסיחים</p>
                                         @if (toShow.Answers != null)
                                         {
-                                            foreach (AnswerDB ans in toShow.Answers)
-                                            {
-                                                @if (ans.AnswerText != "")
+                                            <div id="answersArea">
+                                                @foreach (AnswerDB ans in toShow.Answers)
                                                 {
-                                                    <input type="text" @bind=ans.AnswerText />
+                                                    <div>
+                                                        <input type="radio" checked="@ans.IsCorrect" />
+                                                        @if (ans.AnswerText != "")
+                                                        {
+                                                            <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="text" @bind=ans.AnswerImage />
+                                                        }
+                                                    </div>
                                                 }
-                                                else
-                                                {
-                                                    <input type="text" @bind=ans.AnswerImage />
-                                                }
-                                                <input type="radio" checked="@ans.IsCorrect" />
-                                            }
+                                            </div>
+
                                         }
                                         @if (toShow.Answers != null || toShow.Answers.Count < 6)
                                         {
