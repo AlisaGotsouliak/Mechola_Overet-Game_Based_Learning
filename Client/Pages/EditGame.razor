@@ -137,15 +137,15 @@
                     <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
                         <div class="accordion-body">
                             <p>שאלה</p>
-                            <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                            <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
-                                <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" />
-                                <ValidationMessage For="@(() => toShow.QuestionText)" />
-                                <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
-                                @if (toShow.Answers != null)
+                                <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" />
+                                <ValidationMessage For="@(() => GameToShow.QuestionText)" />
+                                <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=GameToShow.QuestionImage />
+                                @if (GameToShow.Answers != null)
                                 {
                                     bool oneAnsCorrect = false;
-                                    foreach (AnswerDB ans in toShow.Answers)
+                                    foreach (AnswerDB ans in GameToShow.Answers)
                                     {
                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                         @if (ans.IsCorrect)
@@ -159,7 +159,7 @@
                                             <input type="text" @bind=ans.AnswerImage />
                                         }
                                     }
-                                    @if (toShow.Answers.Count >= 2 && oneAnsCorrect)
+                                    @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
                                     {
                                         <input type="submit" value="Save" class="Allbuttons">
                                     }
@@ -167,7 +167,7 @@
                                     {
                                         <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
                                     }
-                                    @if (toShow.Answers.Count < 6)
+                                    @if (GameToShow.Answers.Count < 6)
                                     {
                                         <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
                                     }
@@ -194,20 +194,20 @@
                         <div class="accordion-body">
                             <p>שאלה</p>
                             <div>
-                                @if (toShow != null)
+                                @if (GameToShow != null)
                                 {
-                                    <EditForm Model="toShow" OnValidSubmit="EditQuestion">
+                                    <EditForm Model="GameToShow" OnValidSubmit="EditQuestion">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
-                                            <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
-                                            <ValidationMessage For="@(() => toShow.QuestionText)" />
+                                            <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
+                                            <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                             <input type="button" id="insertQuestionImage" />
                                         </div>
                                         <p>מסיחים</p>
-                                        @if (toShow.Answers != null)
+                                        @if (GameToShow.Answers != null)
                                         {
                                             <div id="answersArea">
-                                                @foreach (AnswerDB ans in toShow.Answers)
+                                                @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     <div>
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
@@ -223,11 +223,11 @@
                                                     </div>
                                                 }
                                             </div>
-                                            @if (toShow.Answers.Count < 6)
+                                            @if (GameToShow.Answers.Count < 6)
                                             {
                                                 <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
                                             }
-                                            @if (toShow.Answers.Count >= 2)
+                                            @if (GameToShow.Answers.Count >= 2)
                                             {
                                                 <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                             }
@@ -252,7 +252,7 @@
     bool CanAddQuestions = false;
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
-    QuestionDB toShow = new QuestionDB();
+    QuestionDB GameToShow = new QuestionDB();
     string isShown = "false";
     string msg = "";
     FullGame full_gameInfo = new FullGame();
@@ -270,7 +270,6 @@
         gameToAdd.Time = GameTime;
         gameToAdd.Game = GameName;
         settingToSend.GameCode = GameCode;
-
         var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
         if (full_game_res.IsSuccessStatusCode)
         {
@@ -282,7 +281,7 @@
 
     private void SelectAnswer(AnswerDB selectedAnswer)
     {
-        foreach (var answer in toShow.Answers)
+        foreach (var answer in GameToShow.Answers)
         {
             answer.IsCorrect = answer == selectedAnswer; //goes through all answers and sets the IsCorrect to true only for the selected answer and false for all others.
         }
@@ -325,54 +324,70 @@
 
     async Task AddQuestion()
     {
-        if (toShow.QuestionImage == null)
-            toShow.QuestionImage = "No Image";
-        foreach (AnswerDB ans in toShow.Answers)
+        if (GameToShow.QuestionImage == null)
+            GameToShow.QuestionImage = "No Image";
+        foreach (AnswerDB ans in GameToShow.Answers)
         {
             if (ans.AnswerImage == null)
                 ans.AnswerImage = "No image";
         }
-        var addQ = await Http.PostAsJsonAsync("api/Games/AddQuestion", toShow);
+        var addQ = await Http.PostAsJsonAsync("api/Games/AddQuestion", GameToShow);
         if (addQ.IsSuccessStatusCode)
         {
-            full_gameInfo.question_List = addQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
-            toShow = new QuestionDB();
-            toShow.QuestionText = "";
-            toShow.GameID = GameCode;
+            //full_gameInfo.question_List = addQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
+            else if (GameName != "")
+                msg = full_game_res.Content.ReadAsStringAsync().Result;
+            GameToShow = new QuestionDB();
+            GameToShow.QuestionText = "";
+            GameToShow.GameID = GameCode;
         }
     }
     async Task EditQuestion()
     {
-        if (toShow.QuestionImage == null)
-            toShow.QuestionImage = "No Image";
-        foreach (AnswerDB ans in toShow.Answers)
+        if (GameToShow.QuestionImage == null)
+            GameToShow.QuestionImage = "No Image";
+        foreach (AnswerDB ans in GameToShow.Answers)
         {
             if (ans.AnswerImage == null)
                 ans.AnswerImage = "No image";
         }
-        var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", toShow);
+        var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", GameToShow);
         if (editQ.IsSuccessStatusCode)
         {
-            full_gameInfo.question_List = editQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
-            toShow = new QuestionDB();
-            toShow.QuestionText = "";
-            toShow.GameID = GameCode;
+            //full_gameInfo.question_List = editQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
+            else if (GameName != "")
+                msg = full_game_res.Content.ReadAsStringAsync().Result;
+            GameToShow = new QuestionDB();
+            GameToShow.Answers = new List<AnswerDB>();
+            GameToShow.QuestionText = "";
+            GameToShow.GameID = GameCode;
+            isShown = "false";
         }
     }
 
     private void AddInput()
     {
-        toShow = new QuestionDB();
-        toShow.QuestionText = "";
-        toShow.GameID = GameCode;
-        toShow.Answers = new List<AnswerDB>();
+        GameToShow = new QuestionDB();
+        GameToShow.QuestionText = "";
+        GameToShow.GameID = GameCode;
+        GameToShow.Answers = new List<AnswerDB>();
         isShown = "true";
         //questionList.Add(toShow);
     }
 
     private void AddAns()
     {
-        toShow.Answers.Add(new AnswerDB());
+        GameToShow.Answers.Add(new AnswerDB());
     }
     private void RemoveInput(QuestionDB input)
     {
@@ -383,7 +398,7 @@
     void ShowQuestion(QuestionDB questionToShow)
     {
         isShown = "Edit";
-        toShow = questionToShow;
+        GameToShow = questionToShow;
     }
 
 

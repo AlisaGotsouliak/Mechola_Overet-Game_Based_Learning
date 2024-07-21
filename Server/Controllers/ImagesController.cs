@@ -23,13 +23,21 @@ namespace template.Server.Controllers
             return Ok(fileName); //returning the name as saved in the folder
         }
 
-/*        [HttpPost("deleteImage")]
-        public async Task<IActionResult> DeleteImages([FromBody] string image) //because we know that the user can upload only one image the function recieves only a string variable
-        {
-            if (_filesManage.DeleteFile(image, "") == false) //we delete the image from the folder, and if the deleting fails we send back a BadRequest
-                return BadRequest("problem with deleting the image");
-            else
-                return Ok("Deleted succesfully"); //if the image was deleted succesfully we send an OK back to blazor.
-        }*/
+        /*        [HttpPost("deleteImage")]
+                public async Task<IActionResult> DeleteImages([FromBody] string image) //because we know that the user can upload only one image the function recieves only a string variable
+                {
+                    if (_filesManage.DeleteFile(image, "") == false) //we delete the image from the folder, and if the deleting fails we send back a BadRequest
+                    {
+                        return BadRequest("problem with deleting the image");
+
+                    }
+                    else
+                    {
+                        return Ok("Deleted succesfully"); //if the image was deleted succesfully we send an OK back to blazor.
+                    }
+                }
+
+            }*/
     }
 }
+    
