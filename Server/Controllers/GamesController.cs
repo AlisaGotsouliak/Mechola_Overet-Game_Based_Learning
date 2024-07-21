@@ -304,10 +304,7 @@ namespace template.Server.Controllers
                         }
                         int diff = question.Answers.Count - addedId.Count;
                         if (diff == 0)
-                        {/*
-                            string query_NewQList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";
-                            var rec = await _db.GetRecordsAsync<QuestionDB>(query_NewQList, param);
-                            List<QuestionDB> newQuestionList = rec.ToList();*/
+                        {
                             return Ok("Added");
                         }
                         else
@@ -371,14 +368,6 @@ namespace template.Server.Controllers
                     int diff = question.Answers.Count - UpdatedAnswers.Count;
                     if (diff == 0)
                     {
-/*                        object paramGameID = new
-                        {
-                            GameID = question.GameID
-                        };
-                        string query_NewQList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";
-                        var rec = await _db.GetRecordsAsync<QuestionDB>(query_NewQList, paramGameID);
-                        List<QuestionDB> newQuestionList = rec.ToList();
-                        string query_NewAList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";*/
                         return Ok("Updated");
                     }
                     else

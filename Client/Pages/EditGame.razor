@@ -139,9 +139,9 @@
                             <p>שאלה</p>
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
-                                <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" />
+                                <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
-                                <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=GameToShow.QuestionImage />
+                                <input type="text" id="insertQuestionImage" />
                                 @if (GameToShow.Answers != null)
                                 {
                                     bool oneAnsCorrect = false;
@@ -152,7 +152,7 @@
                                             oneAnsCorrect = true;
                                         @if (ans.AnswerText != "")
                                         {
-                                            <input type="text" @bind=ans.AnswerText />
+                                            <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
                                         }
                                         else
                                         {
@@ -269,14 +269,23 @@
             GameName = "";
         gameToAdd.Time = GameTime;
         gameToAdd.Game = GameName;
-        settingToSend.GameCode = GameCode;
-        var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
-        if (full_game_res.IsSuccessStatusCode)
+        if (GameCode != 0)
         {
-            full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            settingToSend.GameCode = GameCode;
+            GameToShow.GameID = GameCode;
         }
-        else if (GameName != "")
-            msg = full_game_res.Content.ReadAsStringAsync().Result;
+
+        if (GameName != "")
+        {
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
+            else if (GameName != "")
+                msg = full_game_res.Content.ReadAsStringAsync().Result;
+        }
+
     }
 
     private void SelectAnswer(AnswerDB selectedAnswer)
@@ -299,6 +308,7 @@
             //gameToAdd.Time = newGame.Time;
             full_gameInfo.Game = newGame.Game;
             full_gameInfo.Time = newGame.Time;
+            GameCode = newGame.GameCode;
             CanAddQuestions = true;
         }
         else
@@ -323,7 +333,8 @@
     }
 
     async Task AddQuestion()
-    {
+    {           
+        GameToShow.GameID = GameCode;
         if (GameToShow.QuestionImage == null)
             GameToShow.QuestionImage = "No Image";
         foreach (AnswerDB ans in GameToShow.Answers)
@@ -344,7 +355,6 @@
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
             GameToShow = new QuestionDB();
             GameToShow.QuestionText = "";
-            GameToShow.GameID = GameCode;
         }
     }
     async Task EditQuestion()
@@ -370,7 +380,7 @@
             GameToShow = new QuestionDB();
             GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
-            GameToShow.GameID = GameCode;
+            //GameToShow.GameID = GameCode;
             isShown = "false";
         }
     }
@@ -379,7 +389,7 @@
     {
         GameToShow = new QuestionDB();
         GameToShow.QuestionText = "";
-        GameToShow.GameID = GameCode;
+        //GameToShow.GameID = GameCode;
         GameToShow.Answers = new List<AnswerDB>();
         isShown = "true";
         //questionList.Add(toShow);
@@ -389,10 +399,13 @@
     {
         GameToShow.Answers.Add(new AnswerDB());
     }
-    private void RemoveInput(QuestionDB input)
+    async Task RemoveInput(QuestionDB input)
     {
         isShown = "false";
         full_gameInfo.question_List.Remove(input);
+        var deleteQ = await Http.PostAsJsonAsync("api/Games/DeleteQuestion", input);
+        if (deleteQ.IsSuccessStatusCode)
+            msg = deleteQ.Content.ReadAsStringAsync().Result;
     }
 
     void ShowQuestion(QuestionDB questionToShow)

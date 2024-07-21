@@ -121,6 +121,7 @@ h3 {
     background-color: none;
     width: 17px;
     border: none;
+    cursor: pointer;
 }
 
 #editIcon {
