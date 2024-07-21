@@ -370,7 +370,16 @@ namespace template.Server.Controllers
                     }
                     int diff = question.Answers.Count - UpdatedAnswers.Count;
                     if (diff == 0)
-                        return Ok("Updated");
+                    {
+                        object paramGameID = new
+                        {
+                            GameID = question.GameID
+                        };
+                        string query_NewQList = "SELECT Questions.QuestionText, Questions.QuestionImage, Questions.ID, Questions.GameID FROM Questions WHERE Questions.GameID=@GameID";
+                        var rec = await _db.GetRecordsAsync<QuestionDB>(query_NewQList, paramGameID);
+                        List<QuestionDB> newQuestionList = rec.ToList();
+                        return Ok(newQuestionList);
+                    }
                     else
                         return BadRequest("Not all answers were updated");
                 }

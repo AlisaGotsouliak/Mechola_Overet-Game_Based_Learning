@@ -144,8 +144,12 @@
                                 <input type="text" style="border: solid black; padding: 5px; margin-top: 20px; margin-bottom: 10px; border-radius: 5px;" placeholder="Image" @bind=toShow.QuestionImage />
                                 @if (toShow.Answers != null)
                                 {
+                                    bool oneAnsCorrect = false;
                                     foreach (AnswerDB ans in toShow.Answers)
                                     {
+                                        <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
+                                        @if (ans.IsCorrect)
+                                            oneAnsCorrect = true;
                                         @if (ans.AnswerText != "")
                                         {
                                             <input type="text" @bind=ans.AnswerText />
@@ -154,21 +158,22 @@
                                         {
                                             <input type="text" @bind=ans.AnswerImage />
                                         }
-                                        <input type="radio" checked="@ans.IsCorrect" />
                                     }
-                                    @if (toShow.Answers == null || toShow.Answers.Count < 6)
+                                    @if (toShow.Answers.Count >= 2 && oneAnsCorrect)
+                                    {
+                                        <input type="submit" value="Save" class="Allbuttons">
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
+                                    }
+                                    @if (toShow.Answers.Count < 6)
                                     {
                                         <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
                                     }
                                 }
-                                @if (toShow.Answers.Count >= 2)
-                                {
-                                    <input type="submit" value="Save" class="Allbuttons">
-                                }
-                                else
-                                {
-                                    <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
-                                }
+
+
                             </EditForm>
                         </div>
                     </div>
@@ -191,7 +196,7 @@
                             <div>
                                 @if (toShow != null)
                                 {
-                                    <EditForm Model="toShow" OnValidSubmit="AddQuestion">
+                                    <EditForm Model="toShow" OnValidSubmit="EditQuestion">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
                                             <CustomInputText @bind-Value="toShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
@@ -205,7 +210,8 @@
                                                 @foreach (AnswerDB ans in toShow.Answers)
                                                 {
                                                     <div>
-                                                        <input type="radio" checked="@ans.IsCorrect" />
+                                                        <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
+
                                                         @if (ans.AnswerText != "")
                                                         {
                                                             <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
@@ -217,19 +223,18 @@
                                                     </div>
                                                 }
                                             </div>
-
-                                        }
-                                        @if (toShow.Answers != null || toShow.Answers.Count < 6)
-                                        {
-                                            <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
-                                        }
-                                        @if (toShow.Answers.Count >= 2)
-                                        {
-                                            <input type="submit" value="Save" class="Allbuttons">
-                                        }
-                                        else
-                                        {
-                                            <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
+                                            @if (toShow.Answers.Count < 6)
+                                            {
+                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                            }
+                                            @if (toShow.Answers.Count >= 2)
+                                            {
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                            }
+                                            else
+                                            {
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                            }
                                         }
                                     </EditForm>
                                 }
@@ -273,6 +278,14 @@
         }
         else if (GameName != "")
             msg = full_game_res.Content.ReadAsStringAsync().Result;
+    }
+
+    private void SelectAnswer(AnswerDB selectedAnswer)
+    {
+        foreach (var answer in toShow.Answers)
+        {
+            answer.IsCorrect = answer == selectedAnswer; //goes through all answers and sets the IsCorrect to true only for the selected answer and false for all others.
+        }
     }
 
     async Task CreateGame()
@@ -328,6 +341,24 @@
             toShow.GameID = GameCode;
         }
     }
+    async Task EditQuestion()
+    {
+        if (toShow.QuestionImage == null)
+            toShow.QuestionImage = "No Image";
+        foreach (AnswerDB ans in toShow.Answers)
+        {
+            if (ans.AnswerImage == null)
+                ans.AnswerImage = "No image";
+        }
+        var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", toShow);
+        if (editQ.IsSuccessStatusCode)
+        {
+            full_gameInfo.question_List = editQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
+            toShow = new QuestionDB();
+            toShow.QuestionText = "";
+            toShow.GameID = GameCode;
+        }
+    }
 
     private void AddInput()
     {
@@ -355,15 +386,6 @@
         toShow = questionToShow;
     }
 
-    //void SaveQtoList()
-    //{
-    //    questionList.Add(toShow);
-    //}
-
-    //void EditInQList()
-    //{
-    //    questionList.Add(toShow);
-    //}
 
     void ShowError(string error)
     {

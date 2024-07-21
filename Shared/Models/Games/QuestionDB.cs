@@ -9,9 +9,7 @@ using template.Shared.DTOs;
 namespace template.Shared.Models.Games
 {
     public class QuestionDB
-    {   [Required]
-        [MinLength(3, ErrorMessage = " ")]
-        [StringLength(100, ErrorMessage = " ")]
+    {
         public string QuestionText { get; set; }
         public string QuestionImage { get; set; }
         public int GameID { get; set; }
