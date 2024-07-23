@@ -359,7 +359,23 @@ namespace template.Server.Controllers
                             int isAnsUpdated = await _db.SaveDataAsync(query_ans, param_ans);
                             if (isAnsUpdated == 1)
                             {
-                                UpdatedAnswers.Add(isAnsUpdated);
+                                UpdatedAnswers.Add(ans.ID);
+                            }
+                        }
+                        else if (ans.ID == 0)
+                        {
+                            object param_ans = new
+                            {
+                                AnswerText = ans.AnswerText,
+                                AnswerImage = ans.AnswerImage,
+                                IsCorrect = ans.IsCorrect,
+                                QuestionID = question.ID
+                            };
+                            string query_ans = "INSERT INTO Answers (AnswerText,AnswerImage,IsCorrect,QuestionID) VALUES (@AnswerText,@AnswerImage,@IsCorrect,@QuestionID)";
+                            int newAnsID = await _db.InsertReturnIdAsyncGames(query_ans, param_ans);
+                            if (newAnsID > 0)
+                            {
+                                UpdatedAnswers.Add(newAnsID);
                             }
                         }
                         else
@@ -368,6 +384,33 @@ namespace template.Server.Controllers
                     int diff = question.Answers.Count - UpdatedAnswers.Count;
                     if (diff == 0)
                     {
+                        object paramQid = new
+                        {
+                            QuestionID = question.ID
+                        };
+                        string AnswerQuery = "SELECT Answers.ID FROM Answers WHERE Answers.QuestionID = @QuestionID";
+                        var recordeA = await _db.GetRecordsAsync<int>(AnswerQuery, paramQid);
+                        List<int> oldAnsList = recordeA.ToList();
+                        foreach (int old in oldAnsList)
+                        {
+                            bool toDelete = true;
+                            foreach (int updated in UpdatedAnswers)
+                            {
+                                if (old == updated)
+                                    toDelete= false;
+                            }
+                            if(toDelete==true)
+                            {
+                                object paramToDelete = new
+                                {
+                                    ID = old
+                                };
+                                string queryAnswerToDelete = "DELETE FROM Answers WHERE Answers.ID=@ID";
+                                int isDeleted = await _db.SaveDataAsync(queryAnswerToDelete, paramToDelete);
+                                if (isDeleted != 1)
+                                    return BadRequest("Answer not deleted");
+                            }
+                        }
                         return Ok("Updated");
                     }
                     else
@@ -454,5 +497,25 @@ namespace template.Server.Controllers
                 return BadRequest("user is not authenticated");
         }
 
+
+        [HttpPost("DeleteAnswer")]
+        public async Task<IActionResult> DeleteAnswer(int authUserId, AnswerDB ans)
+        {
+            if (authUserId > 0)
+            {
+                object param = new
+                {
+                    ID = ans.ID
+                };
+                string queryDeleteAnswer = "DELETE FROM Answers WHERE Answers.ID=@ID";
+                int isDeleted = await _db.SaveDataAsync(queryDeleteAnswer, param);
+                if (isDeleted == 1)
+                    return Ok("Deleted");
+                else
+                    return BadRequest("Not deleted");
+            }
+            else
+                return BadRequest("user is not authenticated");
+        }
     }
 }

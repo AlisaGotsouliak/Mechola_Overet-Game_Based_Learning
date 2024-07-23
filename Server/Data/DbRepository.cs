@@ -5,8 +5,8 @@ using Microsoft.Data.Sqlite;
 
 namespace template.Server.Data
 {
-	public class DbRepository
-	{
+    public class DbRepository
+    {
         private IDbConnection _dbConnection;
 
         public DbRepository(IConfiguration config)
@@ -91,9 +91,24 @@ namespace template.Server.Data
 
                 if (results > 0)
                 {
-                    int Id = _dbConnection.Query<int>("SELECT Max(GameCode) FROM Games").FirstOrDefault();
-                    CloseConnection();
-                    return Id;
+                    if (query.Contains("Games"))
+                    {
+                        int Id = _dbConnection.Query<int>("SELECT Max(GameCode) FROM Games").FirstOrDefault();
+                        CloseConnection();
+                        return Id;
+                    }
+                    else if (query.Contains("Questions"))
+                    {
+                        int Id = _dbConnection.Query<int>("SELECT Max(ID) FROM Questions").FirstOrDefault();
+                        CloseConnection();
+                        return Id;
+                    }
+                    else if (query.Contains("Answers"))
+                    {
+                        int Id = _dbConnection.Query<int>("SELECT Max(ID) FROM Answers").FirstOrDefault();
+                        CloseConnection();
+                        return Id;
+                    }
                 }
                 CloseConnection();
                 return 0;

@@ -153,10 +153,13 @@
                                         @if (ans.AnswerText != "")
                                         {
                                             <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
+                                            <div @onclick="(() =>DeleteAns(ans))">-</div>
+
                                         }
                                         else
                                         {
                                             <input type="text" @bind=ans.AnswerImage />
+                                            <div @onclick="(() =>DeleteAns(ans))">-</div>
                                         }
                                     }
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
@@ -172,8 +175,6 @@
                                         <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
                                     }
                                 }
-
-
                             </EditForm>
                         </div>
                     </div>
@@ -215,10 +216,12 @@
                                                         @if (ans.AnswerText != "")
                                                         {
                                                             <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
+                                                            <div @onclick="(() =>DeleteAns(ans))">-</div>
                                                         }
                                                         else
                                                         {
                                                             <input type="text" @bind=ans.AnswerImage />
+                                                            <div @onclick="(() =>DeleteAns(ans))">-</div>
                                                         }
                                                     </div>
                                                 }
@@ -253,6 +256,8 @@
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
     QuestionDB GameToShow = new QuestionDB();
+    QuestionDB Temp = new QuestionDB();
+
     string isShown = "false";
     string msg = "";
     FullGame full_gameInfo = new FullGame();
@@ -333,7 +338,7 @@
     }
 
     async Task AddQuestion()
-    {           
+    {
         GameToShow.GameID = GameCode;
         if (GameToShow.QuestionImage == null)
             GameToShow.QuestionImage = "No Image";
@@ -395,6 +400,35 @@
         //questionList.Add(toShow);
     }
 
+    private void DeleteAns(AnswerDB ansToDelete)
+    {
+        GameToShow.Answers.Remove(ansToDelete);
+        //var deleteA = await Http.PostAsJsonAsync("api/Games/DeleteAnswer", ansToDelete);
+        //if (deleteA.IsSuccessStatusCode)
+        //{
+            
+        //}
+    }
+
+    async Task CancelChanges()
+    {
+        var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", Temp);
+        if (editQ.IsSuccessStatusCode)
+        {
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
+            else if (GameName != "")
+                msg = full_game_res.Content.ReadAsStringAsync().Result;
+            GameToShow = new QuestionDB();
+            GameToShow.Answers = new List<AnswerDB>();
+            GameToShow.QuestionText = "";
+            isShown = "false";
+        }
+    }
+
     private void AddAns()
     {
         GameToShow.Answers.Add(new AnswerDB());
@@ -412,6 +446,7 @@
     {
         isShown = "Edit";
         GameToShow = questionToShow;
+        Temp = GameToShow;
     }
 
 
