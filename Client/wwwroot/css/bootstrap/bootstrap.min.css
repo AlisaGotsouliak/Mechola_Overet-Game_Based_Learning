@@ -4870,7 +4870,7 @@ textarea.form-control-lg {
 
 .accordion-item { /*background inside the accordion*/
     border: none !important;
-    background-color: #F0EFEF !important; /*color of the background image of the page*/
+    background-color: #F0EFEF00 !important; /*color of the background image of the page*/
     width: 550px !important;
     border-radius: 12px !important;
     display: flex;
