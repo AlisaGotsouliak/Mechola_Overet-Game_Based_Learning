@@ -167,7 +167,9 @@
                                         {
                                             @if (GameToShow.Answers.Count < 6)
                                             {
-                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                <div class="addAnsContainer">
+                                                    <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                </div>
                                             }
                                         }
                                     }
@@ -215,7 +217,7 @@
                                             <input type="button" id="insertQuestionImage" />
                                         </div>
                                         <p>מסיחים</p>
-                                        @if (GameToShow.Answers.Count != 0 && GameToShow.Answers!=null)
+                                        @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
                                         {
                                             int i = 0;
                                             <div id="answersArea">
@@ -240,7 +242,9 @@
                                                     {
                                                         @if (GameToShow.Answers.Count < 6)
                                                         {
-                                                            <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                            <div class="addAnsContainer">
+                                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                            </div>
                                                         }
                                                     }
                                                 }
@@ -259,7 +263,9 @@
                                         }
                                         else
                                         {
-                                            <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                            <div class="addAnsContainer">
+                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                            </div>
                                             <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
                                         }
                                     </EditForm>

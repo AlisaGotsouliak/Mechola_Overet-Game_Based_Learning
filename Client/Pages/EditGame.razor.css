@@ -35,3 +35,13 @@
     background-color: lightgreen !important;
     flex-direction: column;
 }
+
+.addAnsContainer {
+    background-color: mediumpurple ;
+    height: 50px ;
+    width: 219px;
+    margin:6px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
