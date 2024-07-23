@@ -498,7 +498,7 @@ namespace template.Server.Controllers
         }
 
 
-        [HttpPost("DeleteAnswer")]
+       /* [HttpPost("DeleteAnswer")]
         public async Task<IActionResult> DeleteAnswer(int authUserId, AnswerDB ans)
         {
             if (authUserId > 0)
@@ -516,6 +516,6 @@ namespace template.Server.Controllers
             }
             else
                 return BadRequest("user is not authenticated");
-        }
+        }*/
     }
 }

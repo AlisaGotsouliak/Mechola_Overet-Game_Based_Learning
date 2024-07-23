@@ -233,10 +233,12 @@
                                             @if (GameToShow.Answers.Count >= 2)
                                             {
                                                 <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                             }
                                             else
                                             {
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                <input type="submit" value="ביטול שינוים" class="Allbuttons" style="opacity:70%" disabled>
+                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                             }
                                         }
                                     </EditForm>
@@ -403,31 +405,9 @@
     private void DeleteAns(AnswerDB ansToDelete)
     {
         GameToShow.Answers.Remove(ansToDelete);
-        //var deleteA = await Http.PostAsJsonAsync("api/Games/DeleteAnswer", ansToDelete);
-        //if (deleteA.IsSuccessStatusCode)
-        //{
-            
-        //}
     }
 
-    async Task CancelChanges()
-    {
-        var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", Temp);
-        if (editQ.IsSuccessStatusCode)
-        {
-            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
-            if (full_game_res.IsSuccessStatusCode)
-            {
-                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
-            }
-            else if (GameName != "")
-                msg = full_game_res.Content.ReadAsStringAsync().Result;
-            GameToShow = new QuestionDB();
-            GameToShow.Answers = new List<AnswerDB>();
-            GameToShow.QuestionText = "";
-            isShown = "false";
-        }
-    }
+
 
     private void AddAns()
     {
@@ -446,7 +426,13 @@
     {
         isShown = "Edit";
         GameToShow = questionToShow;
-        Temp = GameToShow;
+        Temp = questionToShow;
+    }
+
+    private void Cancel()
+    {
+        GameToShow = Temp;
+        isShown = "false";
     }
 
 
