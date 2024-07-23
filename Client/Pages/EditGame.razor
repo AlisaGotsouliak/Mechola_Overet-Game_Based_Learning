@@ -142,11 +142,13 @@
                                 <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                 <input type="text" id="insertQuestionImage" />
-                                @if (GameToShow.Answers != null)
+                                @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
                                 {
+                                    int i = 0;
                                     bool oneAnsCorrect = false;
                                     foreach (AnswerDB ans in GameToShow.Answers)
                                     {
+                                        i++;
                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                         @if (ans.IsCorrect)
                                             oneAnsCorrect = true;
@@ -161,19 +163,27 @@
                                             <input type="text" @bind=ans.AnswerImage />
                                             <div @onclick="(() =>DeleteAns(ans))">-</div>
                                         }
+                                        @if (i == GameToShow.Answers.Count)
+                                        {
+                                            @if (GameToShow.Answers.Count < 6)
+                                            {
+                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                            }
+                                        }
                                     }
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
                                     {
-                                        <input type="submit" value="Save" class="Allbuttons">
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                     }
                                     else
                                     {
-                                        <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                     }
-                                    @if (GameToShow.Answers.Count < 6)
-                                    {
-                                        <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
-                                    }
+                                }
+                                else
+                                {
+                                    <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                    <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
                                 }
                             </EditForm>
                         </div>
@@ -205,11 +215,13 @@
                                             <input type="button" id="insertQuestionImage" />
                                         </div>
                                         <p>מסיחים</p>
-                                        @if (GameToShow.Answers != null)
+                                        @if (GameToShow.Answers.Count != 0 && GameToShow.Answers!=null)
                                         {
+                                            int i = 0;
                                             <div id="answersArea">
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
+                                                    i++;
                                                     <div>
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
 
@@ -224,12 +236,16 @@
                                                             <div @onclick="(() =>DeleteAns(ans))">-</div>
                                                         }
                                                     </div>
+                                                    @if (i == GameToShow.Answers.Count)
+                                                    {
+                                                        @if (GameToShow.Answers.Count < 6)
+                                                        {
+                                                            <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                        }
+                                                    }
                                                 }
                                             </div>
-                                            @if (GameToShow.Answers.Count < 6)
-                                            {
-                                                <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
-                                            }
+
                                             @if (GameToShow.Answers.Count >= 2)
                                             {
                                                 <input type="submit" value="שמירת שאלה" class="Allbuttons">
@@ -240,6 +256,11 @@
                                                 <input type="submit" value="ביטול שינוים" class="Allbuttons" style="opacity:70%" disabled>
                                                 <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                             }
+                                        }
+                                        else
+                                        {
+                                            <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                            <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
                                         }
                                     </EditForm>
                                 }
