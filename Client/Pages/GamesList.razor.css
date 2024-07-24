@@ -8,8 +8,19 @@
     margin-top: 70px;
 }
 
-#gameContainer {
-    background-image: url('css/images/container.svg');
+#canPublish {
+    background-image: url('css/images/yellowgamecontainer.svg');
+}
+
+#canNotPublish {
+    background-image: url('css/images/redgamecontainer.svg');
+}
+
+#published {
+    background-image: url('css/images/greengamecontainer.svg');
+}
+
+.gamesContainers {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

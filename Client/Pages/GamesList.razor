@@ -35,7 +35,19 @@
         <div id="allGames">
             @foreach (GameToCard game in MyGamesList)
             {
-                <div id="gameContainer">
+                @if (game.CanPublish == false)
+                {
+                    gameID = "canNotPublish";
+                }
+                else if (@game.IsPublished == true)
+                {
+                    gameID = "published";
+                }
+                else
+                {
+                    gameID = "canPublish";
+                }
+                <div id="@gameID" class="gamesContainers">
                     <div style="display:flex; justify-content:space-between; align-items: flex-end; padding-right:21px; padding-left:21px">
 
                         <span>@game.Game</span>
@@ -78,6 +90,7 @@
                                 <input type="checkbox" checked="@game.IsPublished"
                                        @onchange="(() =>changePublish(game))" />
                             }
+
                             <div class="deleteIcon" @onclick="(() =>DeleteGame(game))"></div>
                         </div>
                     </div>
@@ -104,6 +117,7 @@
 </div>
 
 @code {
+    public string gameID = "";
 
     [CascadingParameter]
     public int UserId { get; set; }
