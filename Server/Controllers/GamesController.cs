@@ -79,11 +79,15 @@ namespace template.Server.Controllers
                 string gameQuery = "SELECT Games.Game, Games.GameCode, Games.IsPublished, Games.CanPublish, Games.Time, Games.GameCode, count(Questions.ID) AS Num_Questions FROM Games LEFT OUTER JOIN Questions on Games.GameCode = Questions.GameID WHERE Games.UserId =1 GROUP BY Games.GameCode";
                 var gamesRecords = await _db.GetRecordsAsync<GameToCard>(gameQuery, param);
                 List<GameToCard> GamesList = gamesRecords.ToList();
-
-
                 //במידה ויש משחקים - החזרתם
                 if (GamesList.Count > 0)
                 {
+                    foreach (GameToCard ToCheck in GamesList)
+                    {
+                        bool Can=await CanPublishFunc(ToCheck.GameCode);
+                        ToCheck.CanPublish = Can;
+                    }
+
                     return Ok(GamesList);
                 }
                 else
