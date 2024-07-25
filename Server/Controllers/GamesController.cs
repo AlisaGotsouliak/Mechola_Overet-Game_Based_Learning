@@ -20,10 +20,12 @@ namespace template.Server.Controllers
     {
         private readonly DbRepository _db;
 
+
         public GamesController(DbRepository db)
         {
             _db = db;
         }
+
 
         [HttpPost("addGame")]
         public async Task<IActionResult> AddGames(int authUserId, GameToAdd gameToAdd)
@@ -397,9 +399,9 @@ namespace template.Server.Controllers
                             foreach (int updated in UpdatedAnswers)
                             {
                                 if (old == updated)
-                                    toDelete= false;
+                                    toDelete = false;
                             }
-                            if(toDelete==true)
+                            if (toDelete == true)
                             {
                                 object paramToDelete = new
                                 {
@@ -498,24 +500,24 @@ namespace template.Server.Controllers
         }
 
 
-       /* [HttpPost("DeleteAnswer")]
-        public async Task<IActionResult> DeleteAnswer(int authUserId, AnswerDB ans)
-        {
-            if (authUserId > 0)
-            {
-                object param = new
-                {
-                    ID = ans.ID
-                };
-                string queryDeleteAnswer = "DELETE FROM Answers WHERE Answers.ID=@ID";
-                int isDeleted = await _db.SaveDataAsync(queryDeleteAnswer, param);
-                if (isDeleted == 1)
-                    return Ok("Deleted");
-                else
-                    return BadRequest("Not deleted");
-            }
-            else
-                return BadRequest("user is not authenticated");
-        }*/
+        /* [HttpPost("DeleteAnswer")]
+         public async Task<IActionResult> DeleteAnswer(int authUserId, AnswerDB ans)
+         {
+             if (authUserId > 0)
+             {
+                 object param = new
+                 {
+                     ID = ans.ID
+                 };
+                 string queryDeleteAnswer = "DELETE FROM Answers WHERE Answers.ID=@ID";
+                 int isDeleted = await _db.SaveDataAsync(queryDeleteAnswer, param);
+                 if (isDeleted == 1)
+                     return Ok("Deleted");
+                 else
+                     return BadRequest("Not deleted");
+             }
+             else
+                 return BadRequest("user is not authenticated");
+         }*/
     }
 }

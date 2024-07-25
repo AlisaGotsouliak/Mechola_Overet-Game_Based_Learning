@@ -24,17 +24,20 @@ namespace template.Server.Controllers
         }
 
         [HttpPost("deleteImage")]
-        public async Task<IActionResult> DeleteImages([FromBody] string image) //because we know that the user can upload only one image the function recieves only a string variable
+        public async Task<IActionResult> DeleteImages([FromBody] string image)
         {
-            if (_filesManage.DeleteFile(image, "") == false) //we delete the image from the folder, and if the deleting fails we send back a BadRequest
+            var countFalseTry = 0;
+            if (_filesManage.DeleteFile(image, "") == false)
             {
-                return BadRequest("problem with deleting the image");
+                countFalseTry++;
+            }
 
-            }
-            else
+            if (countFalseTry > 0)
             {
-                return Ok("Deleted succesfully"); //if the image was deleted succesfully we send an OK back to blazor.
+                //לעורך, אין גישה לשרת ולא יוכל לתקן דבר. הבדיקה משמשת אותנו לצורך בדיקות
+                return BadRequest("problem with " + countFalseTry.ToString() + " image");
             }
+            return Ok("deleted");
         }
     }
 }

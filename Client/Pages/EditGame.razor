@@ -141,7 +141,10 @@
                                 <DataAnnotationsValidator />
                                 <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
-                                <input type="text" id="insertQuestionImage" />
+                                @*<input type="text" id="insertQuestionImage" />*@
+                                <label for="FileInputID" id="insertQuestionImage"></label>
+                                <InputFile id="FileInputID" OnChange="UploadFile" hidden />
+
                                 @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
                                 {
                                     int i = 0;
@@ -214,7 +217,9 @@
                                         <div id="questionArea">
                                             <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                             <ValidationMessage For="@(() => GameToShow.QuestionText)" />
-                                            <input type="button" id="insertQuestionImage" />
+                                            @*<input type="button" id="insertQuestionImage" />*@
+                                            <label for="FileInputID" id="insertQuestionImage"></label>
+                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden />
                                         </div>
                                         <p>מסיחים</p>
                                         @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
@@ -287,6 +292,8 @@
     QuestionDB GameToShow = new QuestionDB();
     QuestionDB Temp = new QuestionDB();
 
+    long maxFileSize = 4194304;
+    string myFileImage = "";
     string isShown = "false";
     string msg = "";
     FullGame full_gameInfo = new FullGame();
@@ -462,6 +469,28 @@
         isShown = "false";
     }
 
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        foreach (var file in imageFiles)
+        {
+            if (file.Size <= maxFileSize)
+            {
+                var buffer = new byte[file.Size];
+                await file.OpenReadStream(maxFileSize).ReadAsync(buffer);
+                var imageBase64 = Convert.ToBase64String(buffer);
+                var saveResponse = await Http.PostAsJsonAsync("api/Images/upload", imageBase64);
+
+                if (saveResponse.IsSuccessStatusCode == true)
+                {
+                    string resizeUrl = saveResponse.Content.ReadAsStringAsync().Result;
+
+                    myFileImage = "uploadedFiles/" + resizeUrl;
+                }
+            }
+        }
+        GameToShow.QuestionImage = myFileImage;
+    }
 
     void ShowError(string error)
     {

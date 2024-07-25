@@ -30,18 +30,6 @@ namespace template.Server.Helpers
             }
         }
 
-        /*public void DeleteFile(string fileName, string containerName)
-        {
-            string folderPath = Path.Combine(_env.WebRootPath, containerName);
-
-            string savingPath = Path.Combine(folderPath, fileName);
-
-            if (File.Exists(savingPath))
-            {
-                File.Delete(savingPath);
-            }
-        }*/
-
         public async Task<string> SaveFile(string imageBase64, string extension, string containerName)
         {  
             byte[] picture = Convert.FromBase64String(imageBase64);
