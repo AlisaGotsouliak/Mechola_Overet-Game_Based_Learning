@@ -147,49 +147,54 @@ namespace template.Server.Controllers
         [HttpPost("publishGame")]
         public async Task<IActionResult> publishGame(int authUserId, PublishGame game)
         {
-            object param = new
+            if (authUserId > 0)
             {
-                UserId = authUserId,
-                gameID = game.GameCode
-            };
-
-            //שליפת שם המשחק לפי משתמש כדי לוודא שהמשחק המבוקש שייך למשתמש שמחובר
-            string checkQuery = "SELECT Game FROM Games WHERE UserId = @UserId and GameCode=@gameID";
-            var checkRecords = await _db.GetRecordsAsync<string>(checkQuery, param);
-            string gameName = checkRecords.FirstOrDefault();
-            //שליפת שם המשחק כדי לוודא שהמשחק המבוקש שייך למשתמש המחובר
-            if (gameName != null)
-            {
-                //במידה ויש רצון לפרסם את המשחק
-                if (game.IsPublished == true)
+                object param = new
                 {
-                    //נבדוק באמצעות פונקציית עזר שניתן לפרסם אותו
-                    bool canPublish = await CanPublishFunc(game.GameCode);
-                    //במידה ולא ניתן לפרסם	
-                    if (canPublish == false)
-                    {
-                        //נחזיר הודעת שגיאה	
-                        return BadRequest("This game cannot be published");
-                    }
-                }
-
-                //אם ניתן לפרסם את המשחק או שרוצים להסיר אותו מפרסום
-                //נעדכן את בסיס הנתונים
-                object paramUpdate = new
-                {
-                    IsPublished = game.IsPublished,
+                    UserId = authUserId,
                     gameID = game.GameCode
                 };
-                string updateQuery = "UPDATE Games SET IsPublished=@IsPublished WHERE GameCode=@gameID";
-                int isUpdate = await _db.SaveDataAsync(updateQuery, paramUpdate);
 
-                if (isUpdate == 1)
+                //שליפת שם המשחק לפי משתמש כדי לוודא שהמשחק המבוקש שייך למשתמש שמחובר
+                string checkQuery = "SELECT Game FROM Games WHERE UserId = @UserId and GameCode=@gameID";
+                var checkRecords = await _db.GetRecordsAsync<string>(checkQuery, param);
+                string gameName = checkRecords.FirstOrDefault();
+                //שליפת שם המשחק כדי לוודא שהמשחק המבוקש שייך למשתמש המחובר
+                if (gameName != null)
                 {
-                    return Ok();
+                    //במידה ויש רצון לפרסם את המשחק
+                    if (game.IsPublished == true)
+                    {
+                        //נבדוק באמצעות פונקציית עזר שניתן לפרסם אותו
+                        bool canPublish = await CanPublishFunc(game.GameCode);
+                        //במידה ולא ניתן לפרסם	
+                        if (canPublish == false)
+                        {
+                            //נחזיר הודעת שגיאה	
+                            return BadRequest("This game cannot be published");
+                        }
+                    }
+
+                    //אם ניתן לפרסם את המשחק או שרוצים להסיר אותו מפרסום
+                    //נעדכן את בסיס הנתונים
+                    object paramUpdate = new
+                    {
+                        IsPublished = game.IsPublished,
+                        gameID = game.GameCode
+                    };
+                    string updateQuery = "UPDATE Games SET IsPublished=@IsPublished WHERE GameCode=@gameID";
+                    int isUpdate = await _db.SaveDataAsync(updateQuery, paramUpdate);
+
+                    if (isUpdate == 1)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest("Update Failed");
                 }
-                return BadRequest("Update Failed");
+                return BadRequest("You don't have any games");
             }
-            return BadRequest("It's Not Your Game");
+            else
+                return Unauthorized("user is not authenticated");
         }
 
 
@@ -247,7 +252,7 @@ namespace template.Server.Controllers
                 else
                     return BadRequest("It's Not Your Game");
             }
-            return BadRequest("user is not authenticated");
+            return Unauthorized("user is not authenticated");
         }
 
         [HttpPost("Update")]
@@ -269,7 +274,7 @@ namespace template.Server.Controllers
                     return BadRequest("Update failed");
             }
             else
-                return BadRequest("user is not authenticated");
+                return Unauthorized("user is not authenticated");
         }
 
         [HttpPost("AddQuestion")]
@@ -329,7 +334,7 @@ namespace template.Server.Controllers
                 }
                 return BadRequest("Failed to add quesiton");
             }
-            return BadRequest("user is not authenticated");
+            return Unauthorized("user is not authenticated");
         }
 
         [HttpPost("EditQuestion")]
@@ -424,8 +429,7 @@ namespace template.Server.Controllers
                 }
                 return BadRequest("Question not updated");
             }
-            return BadRequest("user is not authenticated");
-
+            return Unauthorized("user is not authenticated");
         }
 
 
@@ -472,7 +476,7 @@ namespace template.Server.Controllers
                     return BadRequest("No such game");
             }
             else
-                return BadRequest("user is not authenticated");
+                return Unauthorized("user is not authenticated");
         }
 
         [HttpPost("DeleteQuestion")]
@@ -500,28 +504,7 @@ namespace template.Server.Controllers
                     return BadRequest("Couldn't delete question");
             }
             else
-                return BadRequest("user is not authenticated");
+                return Unauthorized("user is not authenticated");
         }
-
-
-        /* [HttpPost("DeleteAnswer")]
-         public async Task<IActionResult> DeleteAnswer(int authUserId, AnswerDB ans)
-         {
-             if (authUserId > 0)
-             {
-                 object param = new
-                 {
-                     ID = ans.ID
-                 };
-                 string queryDeleteAnswer = "DELETE FROM Answers WHERE Answers.ID=@ID";
-                 int isDeleted = await _db.SaveDataAsync(queryDeleteAnswer, param);
-                 if (isDeleted == 1)
-                     return Ok("Deleted");
-                 else
-                     return BadRequest("Not deleted");
-             }
-             else
-                 return BadRequest("user is not authenticated");
-         }*/
     }
 }

@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DbRepository>();
+builder.Services.AddScoped<FilesManage>();
 builder.Services.AddScoped<AuthRepository>();
 builder.Services.AddScoped<AuthCheck>();
 builder.Services.AddScoped<TokenService>();

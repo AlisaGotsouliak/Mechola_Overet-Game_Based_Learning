@@ -179,16 +179,19 @@
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
                                     {
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                     }
                                     else
                                     {
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                     }
                                 }
                                 else
                                 {
                                     <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
-                                    <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
+                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                 }
                             </EditForm>
                         </div>
@@ -218,8 +221,15 @@
                                             <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                             <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                             @*<input type="button" id="insertQuestionImage" />*@
-                                            <label for="FileInputID" id="insertQuestionImage"></label>
-                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden />
+                                            @if (GameToShow.QuestionImage == "No Image")
+                                            {
+                                                <label for="FileInputID" id="insertQuestionImage"></label>
+                                                <InputFile id="FileInputID" OnChange="UploadFile" hidden />
+                                            }
+                                            else
+                                            {
+                                                <img src="@myFileImage" height="90" />
+                                            }
                                         </div>
                                         <p>מסיחים</p>
                                         @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
@@ -262,7 +272,7 @@
                                             }
                                             else
                                             {
-                                                <input type="submit" value="ביטול שינוים" class="Allbuttons" style="opacity:70%" disabled>
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                                 <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
                                             }
                                         }
@@ -290,7 +300,7 @@
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
     QuestionDB GameToShow = new QuestionDB();
-    QuestionDB Temp = new QuestionDB();
+    FullGame Temp = new FullGame();
 
     long maxFileSize = 4194304;
     string myFileImage = "";
@@ -326,7 +336,6 @@
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
         }
-
     }
 
     private void SelectAnswer(AnswerDB selectedAnswer)
@@ -400,6 +409,7 @@
     }
     async Task EditQuestion()
     {
+
         if (GameToShow.QuestionImage == null)
             GameToShow.QuestionImage = "No Image";
         foreach (AnswerDB ans in GameToShow.Answers)
@@ -421,6 +431,7 @@
             GameToShow = new QuestionDB();
             GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
+            Temp = full_gameInfo;
             //GameToShow.GameID = GameCode;
             isShown = "false";
         }
@@ -442,11 +453,11 @@
     }
 
 
-
     private void AddAns()
     {
         GameToShow.Answers.Add(new AnswerDB());
     }
+
     async Task RemoveInput(QuestionDB input)
     {
         isShown = "false";
@@ -456,16 +467,37 @@
             msg = deleteQ.Content.ReadAsStringAsync().Result;
     }
 
-    void ShowQuestion(QuestionDB questionToShow)
+    async Task ShowQuestion(QuestionDB questionToShow)
     {
+        if (GameName != "")
+        {
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                Temp = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
+            else if (GameName != "")
+                msg = full_game_res.Content.ReadAsStringAsync().Result;
+        }
         isShown = "Edit";
         GameToShow = questionToShow;
-        Temp = questionToShow;
     }
 
     private void Cancel()
     {
-        GameToShow = Temp;
+        if (Temp != null)
+        {
+            foreach (QuestionDB i in Temp.question_List)
+            {
+                if (i.ID == GameToShow.ID)
+                {
+                    GameToShow = i;
+                    full_gameInfo.question_List = Temp.question_List;
+                    break;
+                }
+            }
+        }
+
         isShown = "false";
     }
 
