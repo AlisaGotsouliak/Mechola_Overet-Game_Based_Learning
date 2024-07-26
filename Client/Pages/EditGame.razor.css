@@ -45,3 +45,43 @@
     justify-content: center; 
     align-items: center;
 }
+
+
+#gameSettingsContainer, #listOfQuestionsContiner, .buttonContainer {
+    width: 494px !important;
+    height: auto !important;
+    display: flex !important;
+}
+#gameSettingsContainer {
+    background-color: orange;
+    justify-content: space-between !important;
+    flex-wrap: wrap;
+}
+
+#listOfQuestionsContiner {
+    flex-direction: column;
+    background-color: orange;
+}
+
+.buttonContainer {
+    background-color: lawngreen;
+    justify-content: center !important;
+}
+
+select, option{
+    cursor: pointer;
+}
+
+
+.newQHeadlines {
+    width: 494px;
+    height:auto;
+    background-color: yellow;
+    display: flex;
+    flex-direction: row;
+}
+
+.newQHeadlines div:nth-child(2){
+    margin-top: 6px;
+    margin-right: 6px;
+}

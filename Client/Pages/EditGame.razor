@@ -25,52 +25,57 @@
                             {
                                 <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
                                     <DataAnnotationsValidator />
-                                    <div>שם משחק:</div>
-                                    <div id="gameNameToolTip">?</div>
-                                    <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
-                                    <ValidationMessage For="@(() => gameToAdd.Game)" />
-                                    <div>זמן לשאלה:</div>
-                                    <div id="qTimeToolTip">?</div>
-                                    <div>
-                                        <select id="timeOptions" @bind="gameToAdd.Time">
-                                            <option value="50">50 שניות</option>
-                                            <option value="60">60 שניות</option>
-                                            <option value="90">90 שניות</option>
-                                            <option value="0">ללא הגבלה</option>
-                                        </select>
+                                    <div id="gameSettingsContainer">
+                                        <div>שם משחק:</div>
+                                        <div id="gameNameToolTip">?</div>
+                                        <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
+                                        <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                        <div>זמן לשאלה:</div>
+                                        <div id="qTimeToolTip">?</div>
+                                        <div>
+                                            <select id="timeOptions" @bind="gameToAdd.Time">
+                                                <option value="50">50 שניות</option>
+                                                <option value="60">60 שניות</option>
+                                                <option value="90">90 שניות</option>
+                                                <option value="0">ללא הגבלה</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <br />
-                                    <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
-
+                                    <div class="buttonContainer">
+                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
+                                    </div>
                                 </EditForm>
                             }
                             else @* ***************************** Edit Game Settings ***************************** *@
                             {
                                 <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
                                     <DataAnnotationsValidator />
-                                    <div>שם משחק:</div>
-                                    <div id="gameNameToolTip">?</div>
-                                    <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
-                                    <ValidationMessage For="@(() => gameToAdd.Game)" />
-                                    <div>זמן לשאלה:</div>
-                                    <div id="qTimeToolTip">?</div>
-                                    <div>
-                                        <select id="timeOptions" @bind="gameToAdd.Time">
-                                            <option value="50">50 שניות</option>
-                                            <option value="60">60 שניות</option>
-                                            <option value="90">90 שניות</option>
-                                            <option value="0">ללא הגבלה</option>
-                                        </select>
+                                    <div id="gameSettingsContainer">
+                                        <div>שם משחק:</div>
+                                        <div id="gameNameToolTip">?</div>
+                                        <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
+                                        <ValidationMessage For="@(() => gameToAdd.Game)" />
+                                        <div>זמן לשאלה:</div>
+                                        <div id="qTimeToolTip">?</div>
+                                        <div>
+                                            <select id="timeOptions" @bind="gameToAdd.Time">
+                                                <option value="50">50 שניות</option>
+                                                <option value="60">60 שניות</option>
+                                                <option value="90">90 שניות</option>
+                                                <option value="0">ללא הגבלה</option>
+                                            </select>
+                                        </div>
                                     </div>
-
-                                    @if (gameToAdd.Game.Length < 3)
-                                    {
-                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled />
-                                    }
-                                    else
-                                    {
-                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
-                                    }
+                                    <div class="buttonContainer">
+                                        @if (gameToAdd.Game.Length < 3)
+                                        {
+                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled />
+                                        }
+                                        else
+                                        {
+                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
+                                        }
+                                    </div>
                                 </EditForm>
                             }
 
@@ -92,17 +97,21 @@
                             <div class="accordion-body">
                                 @if (gameToAdd.Game != " " && gameToAdd.Time != null)
                                 {
-                                    if (full_gameInfo.question_List != null)
-                                    {
-                                        @foreach (QuestionDB question in full_gameInfo.question_List)
+                                    <div id="listOfQuestionsContiner">
+                                        @if (full_gameInfo.question_List != null)
                                         {
-                                            <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
-                                                <p>@question.QuestionText</p>
-                                                <div @onclick="() => RemoveInput(question)" class="deleteIcon"></div> @* value="מחק" *@
-                                            </div>
+                                            @foreach (QuestionDB question in full_gameInfo.question_List)
+                                            {
+                                                <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
+                                                    <p>@question.QuestionText</p>
+                                                    <div @onclick="() => RemoveInput(question)" class="deleteIcon"></div> @* value="מחק" *@
+                                                </div>
+                                            }
                                         }
-                                    }
-                                    <input type="button" value="+" @onclick="AddInput" class="Allbuttons addButton">
+                                    </div>
+                                    <div class="buttonContainer">
+                                        <input type="button" value="+" @onclick="AddInput" class="Allbuttons addButton">
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -136,7 +145,10 @@
                     </h2>
                     <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
                         <div class="accordion-body">
-                            <p>שאלה</p>
+                            <div class="newQHeadlines">
+                                <p>שאלה:</p>
+                                <div id="questionToolTip">?</div>
+                            </div>
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
                                 <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
@@ -211,7 +223,10 @@
                     </h2>
                     <div id="collapseThree" class="accordion-collapse show" aria-labelledby="headingThree">
                         <div class="accordion-body">
-                            <p>שאלה</p>
+                            <div class="newQHeadlines">
+                                <p>שאלה:</p>
+                                <div id="questionToolTip">?</div>
+                            </div>
                             <div>
                                 @if (GameToShow != null)
                                 {
@@ -231,7 +246,10 @@
                                                 <img src="@myFileImage" height="90" />
                                             }
                                         </div>
-                                        <p>מסיחים</p>
+                                        <div class="newQHeadlines">
+                                            <p>מסיחים:</p>
+                                            <div id="answersToolTip">?</div>
+                                        </div>
                                         @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
                                         {
                                             int i = 0;

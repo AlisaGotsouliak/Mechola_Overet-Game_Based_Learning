@@ -4921,11 +4921,9 @@ textarea.form-control-lg {
 }
 
 #collapseOne form {
-    width: 496px;
-    height: auto;
-    display: flex !important;
-    justify-content: space-between !important;
-    flex-wrap: wrap;
+    background-color: lightcoral;
+    width: auto !important;
+    height: auto !important;
 }
 
     #collapseOne form div:first-child, #collapseOne form div:nth-child(4) {
@@ -5049,7 +5047,7 @@ textarea.form-control-lg {
 
 */
 
-#gameNameToolTip, #qTimeToolTip {
+#gameNameToolTip, #qTimeToolTip, #questionToolTip, #answersToolTip{
     height: 14px;
     width: 14px;
     border-radius: 7px;
