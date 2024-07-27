@@ -104,7 +104,7 @@
                                             {
                                                 <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
                                                     <p>@question.QuestionText</p>
-                                                    <div @onclick="() => RemoveInput(question)" class="deleteIcon"></div> @* value="מחק" *@
+                                                    <div @onclick="() => RemoveInput(question)" class="deleteIcon"></div>
                                                 </div>
                                             }
                                         }
@@ -169,7 +169,7 @@
                                             oneAnsCorrect = true;
                                         @if (ans.AnswerText != "")
                                         {
-                                            <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
+                                            @*<input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />*@                           <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
                                             <div @onclick="(() =>DeleteAns(ans))">-</div>
 
                                         }
@@ -243,7 +243,7 @@
                                             }
                                             else
                                             {
-                                                <img src="@myFileImage" height="90" />
+                                                <img src="@myFileImage" height="90" width="90" />
                                             }
                                         </div>
                                         <div class="newQHeadlines">
@@ -262,7 +262,7 @@
 
                                                         @if (ans.AnswerText != "")
                                                         {
-                                                            <input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />
+                                                            <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
                                                             <div @onclick="(() =>DeleteAns(ans))">-</div>
                                                         }
                                                         else

@@ -1,0 +1,45 @@
+﻿@inherits Microsoft.AspNetCore.Components.Forms.InputTextArea
+
+<div>
+    <textarea @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength"></textarea>
+    <p class="numOfChars">@length.ToString()/@maxLength.ToString()</p>
+</div>
+
+@code {
+    // פרמטר לקבלת אורך מחרוזת מינימלי
+    [Parameter]
+    public int minLength { get; set; } = 3;
+
+    // פרמטר לקבלת אורך מחרוזת מקסימלי
+    [Parameter]
+    public int maxLength { get; set; } = 30;
+
+    // משתנה שיכיל את שם המחלקה הרלוונטי במידה ואורך המחרוזת תקין, דורש
+    // אזהרה או לא תקין
+    string inputClass = "";
+
+    // משתנה שיכיל את אורך המחרוזת
+    int length = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        length = CurrentValueAsString.Length;
+    }
+
+    void countChars()
+    {
+        length = CurrentValueAsString.Length;
+        if (length >= minLength && length < maxLength)
+        {
+            inputClass = "good-input";
+        }
+        else if (length == maxLength)
+        {
+            inputClass = "warnning-input";
+        }
+        else
+        {
+            inputClass = "danger-input";
+        }
+    }
+}
