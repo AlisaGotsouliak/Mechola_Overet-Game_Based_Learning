@@ -184,26 +184,29 @@
                                             {
                                                 <div class="addAnsContainer">
                                                     <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                    
                                                 </div>
                                             }
                                         }
                                     }
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
                                     {
-                                        <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                         <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                     }
                                     else
                                     {
-                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                         <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+
                                     }
                                 }
                                 else
                                 {
                                     <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
-                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                    
                                     <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                 }
                             </EditForm>
                         </div>
@@ -277,6 +280,26 @@
                                                         {
                                                             <div class="addAnsContainer">
                                                                 <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                                @* כפתורררררר *@
+                                                                <div id="addAnsButton">
+                                                                    <input type="button" value="+" class="Allbuttons addButton">
+                                                                    <div id="addAnsOptions">
+                                                                        <div id="options">
+                                                                            <button>
+                                                                                <div id="inputIcon"></div>
+                                                                                <div>תיבת טקסט</div>
+                                                                            </button>
+                                                                            
+                                                                            <button>
+                                                                                <div id="imageIcon"></div>
+                                                                                <div>תמונה</div>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="Allbuttons addButton">
+                                                                            +
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         }
                                                     }
@@ -285,19 +308,39 @@
 
                                             @if (GameToShow.Answers.Count >= 2)
                                             {
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                                 <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                             }
                                             else
                                             {
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                                 <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                             }
                                         }
                                         else
                                         {
                                             <div class="addAnsContainer">
                                                 <input type="button" value="+" @onclick="AddAns" class="Allbuttons addButton">
+                                                @* כפתורררררר *@
+                                                <div id="addAnsButton">
+                                                    <input type="button" value="+" class="Allbuttons addButton">
+                                                    <div id="addAnsOptions">
+                                                        <div id="options">
+                                                            <button>
+                                                                <div id="inputIcon"></div>
+                                                                <div>תיבת טקסט</div>
+                                                            </button>
+
+                                                            <button>
+                                                                <div id="imageIcon"></div>
+                                                                <div>תמונה</div>
+                                                            </button>
+                                                        </div>
+                                                        <div class="Allbuttons addButton">
+                                                            +
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <input type="submit" value="Save" class="Allbuttons" style="opacity:70%" disabled>
                                         }

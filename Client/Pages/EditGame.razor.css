@@ -37,12 +37,12 @@
 }
 
 .addAnsContainer {
-    background-color: mediumpurple ;
-    height: 50px ;
+    background-color: mediumpurple;
+    height: 50px;
     width: 219px;
-    margin:6px; 
+    margin: 6px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
 }
 
@@ -52,6 +52,7 @@
     height: auto !important;
     display: flex !important;
 }
+
 #gameSettingsContainer {
     background-color: orange;
     justify-content: space-between !important;
@@ -68,20 +69,106 @@
     justify-content: center !important;
 }
 
-select, option{
+select, option {
     cursor: pointer;
 }
 
 
 .newQHeadlines {
     width: 494px;
-    height:auto;
+    height: auto;
     background-color: yellow;
     display: flex;
     flex-direction: row;
 }
 
-.newQHeadlines div:nth-child(2){
-    margin-top: 6px;
-    margin-right: 6px;
+    .newQHeadlines div:nth-child(2) {
+        margin-top: 6px;
+        margin-right: 6px;
+    }
+
+
+
+
+
+
+
+
+#addAnsButton {
+    position: relative;
+}
+
+#addAnsOptions {
+    display: none;
+    position: absolute;
+    top: -213%;
+    left: -169%;
+}
+
+    #addAnsOptions button {
+        border: none;
+        background-color: white;
+        width: 136px;
+        display: flex;
+        flex-direction: row;
+        margin-top: 4px;
+    }
+
+        #addAnsOptions button:hover {
+            background-color: #E6F9FF;
+        }
+
+    #addAnsOptions button div:nth-child(2) {
+        width: 90px;
+        height: 25px;
+/*        background-color: pink;*/
+        text-align: right;
+        border: none;
+        margin-right: 5px;
+    }
+
+#inputIcon, #imageIcon {
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+    height: 25px;
+    width: 25px;
+    margin-right: 3px;
+}
+
+#inputIcon {
+    background-image: url('css/images/inputansoptionicon.svg');
+}
+
+#imageIcon {
+    background-image: url('css/images/imageansoptionicon.svg');
+}
+
+
+#options {
+    height: 86px;
+    width: 140px;
+    background-color: white;
+    border: 2px solid #233E46;
+    border-radius: 8px;
+}
+
+#options>div{
+    display: flex;
+    flex-direction: row;
+}
+
+
+    #addAnsOptions div.addButton {
+        text-align: center;
+        padding-top: 4px;
+        margin-right: 45px;
+        position: relative;
+        top: -18px;
+        left: -9px;
+/*        background-color: red;*/
+    }
+
+#addAnsButton:hover #addAnsOptions {
+    display: block;
 }
