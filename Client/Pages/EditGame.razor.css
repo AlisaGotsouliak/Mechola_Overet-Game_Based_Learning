@@ -174,3 +174,9 @@ select, option {
 }
 
 
+
+/*#answersArea {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+}*/
