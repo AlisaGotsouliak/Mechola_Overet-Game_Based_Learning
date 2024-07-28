@@ -23,7 +23,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        length = CurrentValueAsString.Length;
+        if (CurrentValueAsString != null)
+            length = CurrentValueAsString.Length;
+        else
+            length = 0;
     }
 
     void countChars()
