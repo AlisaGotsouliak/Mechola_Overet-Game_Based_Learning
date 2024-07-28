@@ -4941,12 +4941,12 @@ textarea.form-control-lg {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    margin-top: 100px;
+    margin-top: 80px;
     align-self: center;
 }
 
 #collapseThree>div{
-    height: 429px;
+    height: 450px;
 }
 
 #settingsAndQList {
@@ -5018,9 +5018,14 @@ textarea.form-control-lg {
     }
 
     .questionInList p {
-        display: flex;
+/*        display: flex;
         align-items: center;
-        margin: 0px;
+        margin: 0px;*/
+        margin-top: 15px;
+        max-width: 430px;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
     .questionInList .deleteIcon {

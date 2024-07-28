@@ -1,6 +1,6 @@
 ﻿@inherits Microsoft.AspNetCore.Components.Forms.InputTextArea
 
-<div>
+<div class="inputAndCharCount">
     <textarea @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength"></textarea>
     <p class="numOfChars">@length.ToString()/@maxLength.ToString()</p>
 </div>

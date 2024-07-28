@@ -151,7 +151,7 @@
                             </div>
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
-                                <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
+                                <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                 @*<input type="text" id="insertQuestionImage" />*@
                                 <label for="FileInputID" id="insertQuestionImage"></label>
@@ -170,13 +170,13 @@
                                         @if (ans.AnswerText != "" || ans.AnswerImage == "No image")
                                         {
                                             @*<input type="text" @bind=ans.AnswerText class="questionAnswersInputs" />*@                           <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                            <button type="button" @onclick="(() =>DeleteAns(ans))">-</button>
+                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
 
                                         }
                                         else
                                         {
                                             <input type="text" @bind=ans.AnswerImage />
-                                            <button type="button" @onclick="(() =>DeleteAns(ans))">-</button>
+                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                         }
                                         @if (i == GameToShow.Answers.Count)
                                         {
@@ -236,7 +236,7 @@
                                     <EditForm Model="GameToShow" OnValidSubmit="EditQuestion">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
-                                            <CustomInputText @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
+                                            <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                             <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                             @*<input type="button" id="insertQuestionImage" />*@
                                             @if (GameToShow.QuestionImage == "No image")
@@ -260,18 +260,18 @@
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     i++;
-                                                    <div>
+                                                    <div class="ansContainer">
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
 
                                                         @if (ans.AnswerText != "" || ans.AnswerImage == "No image")
                                                         {
                                                             <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                                            <button type="button" @onclick="(() =>DeleteAns(ans))">-</button>
+                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                                         }
                                                         else
                                                         {
                                                             <input type="text" @bind=ans.AnswerImage />
-                                                            <button type="button" @onclick="(() =>DeleteAns(ans))">-</button>
+                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                                         }
                                                     </div>
                                                     @if (i == GameToShow.Answers.Count)

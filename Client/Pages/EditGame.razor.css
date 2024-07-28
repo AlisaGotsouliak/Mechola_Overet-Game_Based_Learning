@@ -28,10 +28,11 @@
 }
 
 #answersArea {
-    height: 200px;
+    height: 250px;
     width: 494px;
     display: flex;
     flex-wrap: wrap;
+    gap:6px;
     background-color: lightgreen !important;
     flex-direction: column;
 }
@@ -40,7 +41,6 @@
     background-color: mediumpurple;
     height: 50px;
     width: 219px;
-    margin: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +76,7 @@ select, option {
 
 .newQHeadlines {
     width: 494px;
-    height: auto;
+    height: 30px;
     background-color: yellow;
     display: flex;
     flex-direction: row;
@@ -180,3 +180,26 @@ select, option {
     flex-direction: column !important;
     flex-wrap: wrap !important;
 }*/
+
+.ansContainer {
+    display: flex;
+    align-items: start;
+    flex-direction: row;
+    width: 230px;
+    height: 74px;
+    background-color: fuchsia;
+    gap: 6px;
+}
+
+button.deleteIcon {
+    background-color: none !important;
+
+}
+
+.ansContainer input {
+    margin-top: 20px;
+}
+
+.ansContainer div.deleteIcon {
+    margin-top: 15px;
+}

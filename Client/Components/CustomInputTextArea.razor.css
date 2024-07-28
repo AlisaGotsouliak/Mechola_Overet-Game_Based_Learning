@@ -61,15 +61,28 @@
 
 textarea {
     width: 186px !important;
-    height: 56px !important;
+    height: 50px !important;
     line-height: 1.3;
     background-color: lightblue !important;
     resize: none;
 
-    padding: 5px;
+    padding: 0px !important;
     border: none;
     border-radius: 8px;
     outline: 2px solid black;
     outline-offset: -1px !important;
 }
 
+
+
+
+.inputAndCharCount{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: lightgoldenrodyellow;
+}
+
+#questionArea textarea {
+    width: 385px !important;
+}
