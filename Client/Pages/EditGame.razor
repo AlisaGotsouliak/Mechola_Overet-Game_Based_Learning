@@ -154,7 +154,8 @@
                                 <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
                                 @*<input type="text" id="insertQuestionImage" />*@
-                                <label for="FileInputID" id="insertQuestionImage"></label>
+
+                                <label for="FileInputID" class="insertQuestionImage"></label>
                                 <InputFile id="FileInputID" OnChange="UploadFile" hidden />
 
                                 @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
@@ -241,7 +242,7 @@
                                             @*<input type="button" id="insertQuestionImage" />*@
                                             @if (GameToShow.QuestionImage == "No image")
                                             {
-                                                <label for="FileInputID" id="insertQuestionImage"></label>
+                                                <label for="FileInputID" class="insertQuestionImage"></label>
                                                 <InputFile id="FileInputID" OnChange="UploadFile" hidden />
                                             }
                                             else
@@ -308,13 +309,17 @@
 
                                             @if (GameToShow.Answers.Count >= 2)
                                             {
-                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                                <div class="questionButtonAndSubmitContainer">
+                                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                    <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                                </div>
                                             }
                                             else
                                             {
-                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                <div class="questionButtonAndSubmitContainer">
+                                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                </div>
                                             }
                                         }
                                         else
@@ -341,7 +346,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                            <div class="questionButtonAndSubmitContainer">
+                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                            </div>
                                         }
                                     </EditForm>
                                 }
