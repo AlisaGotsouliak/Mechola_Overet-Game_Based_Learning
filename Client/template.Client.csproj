@@ -16,6 +16,15 @@
     <EmbeddedResource Remove="wwwroot\css\Images\Containers_images\**" />
     <None Remove="wwwroot\css\Images\Containers_images\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Game\Build\Game.data" />
+    <None Include="wwwroot\Game\Build\Game.framework.js" />
+    <None Include="wwwroot\Game\Build\Game.loader.js" />
+    <None Include="wwwroot\Game\Build\Game.wasm" />
+    <None Include="wwwroot\Game\manifest.webmanifest" />
+    <None Include="wwwroot\Game\ServiceWorker.js" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.25" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.25" PrivateAssets="all" />
