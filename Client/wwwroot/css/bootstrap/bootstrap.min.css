@@ -4920,6 +4920,10 @@ textarea.form-control-lg {
     width: 526px;
 }
 
+#collapseTwo .accordion-body{
+    padding-right: 0px !important;
+}
+
 #collapseOne form {
     background-color: lightcoral;
     width: auto !important;
@@ -4998,6 +5002,9 @@ textarea.form-control-lg {
 }
 
 .questionInList {
+
+    margin-right: 4px;
+    direction: rtl;
     border: 2px solid black;
     border-radius: 9px;
     background-color: white;
@@ -5009,7 +5016,7 @@ textarea.form-control-lg {
     padding-right: 12px;
     padding-left: 12px;
     margin-bottom: 12px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
     .questionInList:hover {

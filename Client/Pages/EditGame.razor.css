@@ -58,10 +58,16 @@ form img {
 
 
 #gameSettingsContainer, #listOfQuestionsContiner, .buttonContainer {
-    width: 494px !important;
+    width: 494px;
     height: auto !important;
     display: flex !important;
+    background-color: gray;
+    justify-content: center;
 }
+
+    .buttonContainer input[type="button"] {
+        margin-right: 28px;
+    }
 
 #gameSettingsContainer {
     background-color: orange;
@@ -72,17 +78,28 @@ form img {
 #listOfQuestionsContiner {
     flex-direction: column;
     background-color: orange;
+    max-height: 200px;
+    width: 508px !important;
+    overflow-y: auto !important;
+    direction: ltr;
 }
 
-.buttonContainer {
-    background-color: lawngreen;
-    justify-content: center !important;
-}
+@supports selector(::-webkit-scrollbar) {
 
-select, option {
-    cursor: pointer;
-}
+    #listOfQuestionsContiner::-webkit-scrollbar-thumb {
+        background: #233E46;
+        border-radius: 10px 0px 0px 10px;
+    }
 
+    #listOfQuestionsContiner::-webkit-scrollbar-track {
+        background: var(--scrollbar-color-track);
+    }
+
+    #listOfQuestionsContiner::-webkit-scrollbar {
+        width: 10px;
+        height: 200px;
+    }
+}
 
 .newQHeadlines {
     width: 494px;
@@ -268,7 +285,9 @@ button.deleteIcon {
     }
 
 
-
+.toolTips:hover {
+    cursor: pointer;
+}
 
 
 .ToolTipInfos {
