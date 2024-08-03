@@ -215,18 +215,58 @@ button.deleteIcon {
 }
 
 .ansContainer div.deleteIcon {
+    display: none;
     margin-top: 15px;
 }
 
+    .ansContainer:hover div.deleteIcon{
+        display: block;
+    }
 
 
 
 
-.questionButtonAndSubmitContainer {
-    background-color: rosybrown;
-    height: 40px;
-    width: 494px;
+    .questionButtonAndSubmitContainer {
+        background-color: rosybrown;
+        height: 40px;
+        width: 494px;
+        display: flex;
+        justify-content: center;
+        gap: 32px
+    }
+
+
+#questionImageContainer:hover #editOrDeleteQImage {
+    height: 76px;
+    width: 90px;
+    position: absolute;
     display: flex;
-    justify-content: center;
-    gap: 32px
+    flex-direction: row;
 }
+
+    #questionImageContainer:hover #editOrDeleteQImage div:first-child, #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2) {
+        height: 76px;
+        width: 45px;
+        border: 2px solid black;
+        background-color: white;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 17px 20px;
+    }
+
+        #questionImageContainer:hover #editOrDeleteQImage div:first-child:hover, #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2):hover {
+            background-color: #E6F9FF;
+        }
+
+        #questionImageContainer:hover #editOrDeleteQImage div:first-child {
+            border-radius: 0px 8px 8px 0px;
+            border-left: 0px;
+            background-image: url('css/images/pencilicon.svg');
+        }
+
+    #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2) {
+        border-radius: 8px 0px 0px 8px;
+        border-right: 0px;
+        background-image: url('css/images/trashicon.svg');
+    }
