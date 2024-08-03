@@ -1,5 +1,4 @@
 ﻿
-
 .insertQuestionImage {
     width: 90px;
     height: 76px;
@@ -20,9 +19,6 @@ form img {
     outline-offset: -2px !important;
     border-radius: 8px;
 }
-
-
-
 
 
 #questionArea {
@@ -46,7 +42,7 @@ form img {
     width: 494px;
     display: flex;
     flex-wrap: wrap;
-    gap:6px;
+    gap: 6px;
     background-color: lightgreen !important;
     flex-direction: column;
 }
@@ -132,14 +128,14 @@ select, option {
             background-color: #E6F9FF;
         }
 
-    #addAnsOptions button div:nth-child(2) {
-        width: 90px;
-        height: 25px;
-/*        background-color: pink;*/
-        text-align: right;
-        border: none;
-        margin-right: 5px;
-    }
+        #addAnsOptions button div:nth-child(2) {
+            width: 90px;
+            height: 25px;
+            /*        background-color: pink;*/
+            text-align: right;
+            border: none;
+            margin-right: 5px;
+        }
 
 #inputIcon, #imageIcon {
     background-position: right;
@@ -167,21 +163,22 @@ select, option {
     border-radius: 8px;
 }
 
-#options>div{
-    display: flex;
-    flex-direction: row;
+    #options > div {
+        display: flex;
+        flex-direction: row;
+    }
+
+
+#addAnsOptions div.addButton {
+    text-align: center;
+    padding-top: 4px;
+    margin-right: 45px;
+    position: relative;
+    top: -18px;
+    left: -9px;
+    /*        background-color: red;
+*/
 }
-
-
-    #addAnsOptions div.addButton {
-        text-align: center;
-        padding-top: 4px;
-        margin-right: 45px;
-        position: relative;
-        top: -18px;
-        left: -9px;
-/*        background-color: red;
-*/    }
 
 #addAnsButton:hover #addAnsOptions {
     display: block;
@@ -207,7 +204,6 @@ select, option {
 
 button.deleteIcon {
     background-color: none !important;
-
 }
 
 .ansContainer input {
@@ -219,21 +215,21 @@ button.deleteIcon {
     margin-top: 15px;
 }
 
-    .ansContainer:hover div.deleteIcon{
-        display: block;
-    }
+.ansContainer:hover div.deleteIcon {
+    display: block;
+}
 
 
 
 
-    .questionButtonAndSubmitContainer {
-        background-color: rosybrown;
-        height: 40px;
-        width: 494px;
-        display: flex;
-        justify-content: center;
-        gap: 32px
-    }
+.questionButtonAndSubmitContainer {
+    background-color: rosybrown;
+    height: 40px;
+    width: 494px;
+    display: flex;
+    justify-content: center;
+    gap: 32px
+}
 
 
 #questionImageContainer:hover #editOrDeleteQImage {
@@ -259,14 +255,41 @@ button.deleteIcon {
             background-color: #E6F9FF;
         }
 
-        #questionImageContainer:hover #editOrDeleteQImage div:first-child {
-            border-radius: 0px 8px 8px 0px;
-            border-left: 0px;
-            background-image: url('css/images/pencilicon.svg');
-        }
+    #questionImageContainer:hover #editOrDeleteQImage div:first-child {
+        border-radius: 0px 8px 8px 0px;
+        border-left: 0px;
+        background-image: url('css/images/pencilicon.svg');
+    }
 
     #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2) {
         border-radius: 8px 0px 0px 8px;
         border-right: 0px;
         background-image: url('css/images/trashicon.svg');
     }
+
+
+
+
+
+.ToolTipInfos {
+    height: 32px;
+    width: 170px;
+    border-radius: 6px;
+    background-image: url('css/images/createoreditgamestooltips.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    top: -50px;
+    right: -6px;
+    display: none;
+}
+
+#gameNameToolTip:hover .ToolTipInfos, #qTimeToolTip:hover .ToolTipInfos, #questionToolTip:hover .ToolTipInfos, #answersToolTip:hover .ToolTipInfos {
+    display: block !important;
+}
+
+.ToolTipInfos p {
+    font-size: 14px;
+    padding-top: 1px;
+    color: black;
+}

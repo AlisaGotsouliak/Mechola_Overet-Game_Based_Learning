@@ -27,11 +27,24 @@
                                     <DataAnnotationsValidator />
                                     <div id="gameSettingsContainer">
                                         <div>שם משחק:</div>
-                                        <div id="gameNameToolTip">?</div>
+                                        <div>
+                                            <div id="gameNameToolTip">
+                                                ?
+                                                <div class="ToolTipInfos">
+                                                    <p>נדרשים לפחות 3 תווים</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
                                         <ValidationMessage For="@(() => gameToAdd.Game)" />
                                         <div>זמן לשאלה:</div>
-                                        <div id="qTimeToolTip">?</div>
+                                        <div id="qTimeToolTip">
+                                            ?
+                                            <div class="ToolTipInfos">
+                                                <p>זמן קבוע לכל השאלות</p>
+                                            </div>
+                                        </div>
                                         <div>
                                             <select id="timeOptions" @bind="gameToAdd.Time">
                                                 <option value="50">50 שניות</option>
@@ -52,11 +65,23 @@
                                     <DataAnnotationsValidator />
                                     <div id="gameSettingsContainer">
                                         <div>שם משחק:</div>
-                                        <div id="gameNameToolTip">?</div>
+                                        <div>
+                                            <div id="gameNameToolTip">
+                                                ?
+                                                <div class="ToolTipInfos">
+                                                    <p>נדרשים לפחות 3 תווים</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <CustomInputText @bind-Value="gameToAdd.Game" maxLength="20" minLength="3" />
                                         <ValidationMessage For="@(() => gameToAdd.Game)" />
                                         <div>זמן לשאלה:</div>
-                                        <div id="qTimeToolTip">?</div>
+                                        <div id="qTimeToolTip">
+                                            ?
+                                            <div class="ToolTipInfos">
+                                                <p>זמן קבוע לכל השאלות</p>
+                                            </div>
+                                        </div>
                                         <div>
                                             <select id="timeOptions" @bind="gameToAdd.Time">
                                                 <option value="50">50 שניות</option>
@@ -147,7 +172,12 @@
                         <div class="accordion-body">
                             <div class="newQHeadlines">
                                 <p>שאלה:</p>
-                                <div id="questionToolTip">?</div>
+                                <div id="questionToolTip">
+                                    ?
+                                    <div class="ToolTipInfos">
+                                        <p>נדרשים לפחות 7 תווים</p>
+                                    </div>
+                                </div>
                             </div>
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
@@ -229,7 +259,12 @@
                         <div class="accordion-body">
                             <div class="newQHeadlines">
                                 <p>שאלה:</p>
-                                <div id="questionToolTip">?</div>
+                                <div id="questionToolTip">
+                                    ?
+                                    <div class="ToolTipInfos">
+                                        <p>נדרשים לפחות 7 תווים</p>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 @if (GameToShow != null)
@@ -258,7 +293,12 @@
                                         </div>
                                         <div class="newQHeadlines">
                                             <p>מסיחים:</p>
-                                            <div id="answersToolTip">?</div>
+                                            <div id="answersToolTip">
+                                                ?
+                                                <div class="ToolTipInfos">
+                                                    <p>נדרשים 2-6 מסיחים</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
                                         {
