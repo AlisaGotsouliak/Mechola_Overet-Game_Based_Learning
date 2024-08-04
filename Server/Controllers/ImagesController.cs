@@ -23,23 +23,27 @@ namespace template.Server.Controllers
             return Ok(fileName); //returning the name as saved in the folder
         }
 
-        [HttpPost("deleteImage")]
-        public async Task<IActionResult> DeleteImages([FromBody] string image)
+        [HttpPost("deleteImages")]
+        public async Task<IActionResult> DeleteImages([FromBody] List<string> images)
         {
             var countFalseTry = 0;
-            if (_filesManage.DeleteFile(image, "") == false)
+            foreach (string img in images)
             {
-                countFalseTry++;
+                if (_filesManage.DeleteFile(img, "") == false)
+                {
+                    countFalseTry++;
+                }
             }
 
             if (countFalseTry > 0)
             {
                 //לעורך, אין גישה לשרת ולא יוכל לתקן דבר. הבדיקה משמשת אותנו לצורך בדיקות
-                return BadRequest("problem with " + countFalseTry.ToString() + " image");
+                return BadRequest("problem with " + countFalseTry.ToString() + " images");
             }
             return Ok("deleted");
         }
     }
 }
+
 
     

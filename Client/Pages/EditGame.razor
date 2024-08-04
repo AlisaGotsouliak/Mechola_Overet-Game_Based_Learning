@@ -183,10 +183,9 @@
                                 <DataAnnotationsValidator />
                                 <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
                                 <ValidationMessage For="@(() => GameToShow.QuestionText)" />
-                                @*<input type="text" id="insertQuestionImage" />*@
 
                                 <label for="FileInputID" class="insertQuestionImage"></label>
-                                <InputFile id="FileInputID" OnChange="UploadQuestioImage" hidden />
+                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
 
                                 @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
                                 {
@@ -199,16 +198,16 @@
                                         @if (ans.IsCorrect)
                                             oneAnsCorrect = true;
                                         @*@if (ans.AnswerText != "" || ans.AnswerImage == "No image")
-                                        {
-                                            <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                                        }
-                                        else
-                                        {
-                                            <label for="FileInputID" class="insertQuestionImage"></label>
-                                            <InputFile id="FileInputID" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                                        }*@
+                            {
+                            <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
+                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                            }
+                            else
+                            {
+                            <label for="FileInputID" class="insertQuestionImage"></label>
+                            <InputFile id="FileInputID" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                            }*@
                                         @if (ans.AnswerImage == "No image")
                                         {
                                             <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
@@ -291,14 +290,16 @@
                                             @if (GameToShow.QuestionImage == "No image")
                                             {
                                                 <label for="FileInputID" class="insertQuestionImage"></label>
-                                                <InputFile id="FileInputID" OnChange="UploadQuestioImage" hidden />
+                                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
                                             }
                                             else
                                             {
                                                 <div id="questionImageContainer">
                                                     <div id="editOrDeleteQImage">
-                                                        <div></div>
-                                                        <div></div>
+                                                        <div>
+                                                            <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" style=" height:30px; width:30px; background-color:hotpink" />
+                                                        </div>
+                                                        <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                                     </div>
                                                     <img src="@GameToShow.QuestionImage" height="90" width="90" />
                                                 </div>
@@ -337,6 +338,7 @@
                                                         else
                                                         {
                                                             <img src="@ans.AnswerImage" height="90" width="90" />
+                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                                         }
                                                     </div>
                                                     @if (i == GameToShow.Answers.Count)
@@ -430,6 +432,8 @@
     SettingsUpdate settingToSend = new SettingsUpdate();
     QuestionDB GameToShow = new QuestionDB();
     FullGame Temp = new FullGame();
+    List<string> DeletedImages = new List<string>();
+
 
     long maxFileSize = 4194304;
     string myFileImage = "";
@@ -484,7 +488,6 @@
             msg = "הוספת משחק בוצע";
             //החזרת המשחק והוספתו לרשימת המשחקים כדי שיתווסף לטבלה
             GameToCard newGame = newGameRes.Content.ReadFromJsonAsync<GameToCard>().Result;
-            //gameToAdd.Time = newGame.Time;
             full_gameInfo.Game = newGame.Game;
             full_gameInfo.Time = newGame.Time;
             GameCode = newGame.GameCode;
@@ -524,7 +527,6 @@
         var addQ = await Http.PostAsJsonAsync("api/Games/AddQuestion", GameToShow);
         if (addQ.IsSuccessStatusCode)
         {
-            //full_gameInfo.question_List = addQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
             var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
             if (full_game_res.IsSuccessStatusCode)
             {
@@ -536,9 +538,9 @@
             GameToShow.QuestionText = "";
         }
     }
+
     async Task EditQuestion()
     {
-
         if (GameToShow.QuestionImage == null)
             GameToShow.QuestionImage = "No image";
         foreach (AnswerDB ans in GameToShow.Answers)
@@ -549,11 +551,11 @@
         var editQ = await Http.PostAsJsonAsync("api/Games/EditQuestion", GameToShow);
         if (editQ.IsSuccessStatusCode)
         {
-            //full_gameInfo.question_List = editQ.Content.ReadFromJsonAsync<List<QuestionDB>>().Result;
             var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
             if (full_game_res.IsSuccessStatusCode)
             {
                 full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+                await DeleteImages();
             }
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
@@ -561,7 +563,6 @@
             GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
             Temp = full_gameInfo;
-            //GameToShow.GameID = GameCode;
             isShown = "false";
         }
     }
@@ -570,15 +571,15 @@
     {
         GameToShow = new QuestionDB();
         GameToShow.QuestionText = "";
-        //GameToShow.GameID = GameCode;
         GameToShow.Answers = new List<AnswerDB>();
         isShown = "true";
-        //questionList.Add(toShow);
     }
 
     private void DeleteAns(AnswerDB ansToDelete)
     {
         GameToShow.Answers.Remove(ansToDelete);
+        if (ansToDelete.AnswerImage != "No image")
+            MakeDeleteList(ansToDelete.AnswerImage);
     }
 
     private void AddAnsText()
@@ -632,10 +633,11 @@
                 }
             }
         }
+        DeletedImages.Clear();
         isShown = "false";
     }
 
-    private async Task UploadQuestioImage(InputFileChangeEventArgs e)
+    private async Task UploadQuestioImage(InputFileChangeEventArgs e, string Qimage)
     {
         var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
@@ -654,6 +656,11 @@
                     myFileImage = "uploadedFiles/" + resizeUrl;
                 }
             }
+        }
+        if(Qimage!="No image" || Qimage!=null)
+        {
+            MakeDeleteList(Qimage);
+            GameToShow.QuestionImage = myFileImage;
         }
         GameToShow.QuestionImage = myFileImage;
         myFileImage = "";
@@ -689,6 +696,31 @@
             }
         }
     }
+
+    private void MakeDeleteList(string imageToDelete)
+    {
+        DeletedImages.Add(imageToDelete);
+        if(GameToShow.QuestionImage==imageToDelete)
+        {
+            GameToShow.QuestionImage = "No image";
+        }
+    }
+
+    private async Task DeleteImages()
+    {
+        var saveResponse = await Http.PostAsJsonAsync("api/Images/deleteImages", DeletedImages);
+
+        if (saveResponse.IsSuccessStatusCode == true)
+        {
+            msg = "התמונות נמחקו בהצלחה";
+            DeletedImages.Clear();
+        }
+        else
+        {
+            msg = saveResponse.Content.ReadAsStringAsync().Result;
+        }
+    }
+
 
     void ShowError(string error)
     {
