@@ -5029,7 +5029,7 @@ textarea.form-control-lg {
         align-items: center;
         margin: 0px;*/
         margin-top: 15px;
-        max-width: 430px;
+        max-width: 400px;
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;

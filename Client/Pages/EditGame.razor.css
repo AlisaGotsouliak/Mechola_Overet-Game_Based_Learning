@@ -82,6 +82,7 @@ form img {
     width: 508px !important;
     overflow-y: auto !important;
     direction: ltr;
+    justify-content: flex-start;
 }
 
 @supports selector(::-webkit-scrollbar) {
@@ -272,11 +273,13 @@ button.deleteIcon {
             background-color: #E6F9FF;
         }
 
-    #questionImageContainer:hover #editOrDeleteQImage div:first-child {
-        border-radius: 0px 8px 8px 0px;
-        border-left: 0px;
-        background-image: url('css/images/pencilicon.svg');
-    }
+            
+
+            #questionImageContainer:hover #editOrDeleteQImage div:first-child {
+                border-radius: 0px 8px 8px 0px;
+                border-left: 0px;
+                background-image: url('css/images/pencilicon.svg');
+            }
 
     #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2) {
         border-radius: 8px 0px 0px 8px;
