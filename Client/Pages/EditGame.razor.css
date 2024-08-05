@@ -224,9 +224,9 @@ button.deleteIcon {
     background-color: none !important;
 }
 
-.ansContainer input {
-    margin-top: 20px;
-}
+    .ansContainer input {
+        margin-top: 20px;
+    }
 
 .ansContainer div.deleteIcon {
     display: none;
@@ -338,7 +338,9 @@ button.deleteIcon {
         background-position: center;
     }
 
-
+        .publishCurrentGameStatus:hover{
+            cursor: pointer;
+        }
 
         #canPublishGame {
             background-image: url('css/images/canpublishstatusicon.svg');
@@ -360,3 +362,10 @@ button.deleteIcon {
                 #canNotPublishGame {
                     background-image: url('css/images/cannotpublishstatusicon.svg');
                 }
+
+.cancelChanges {
+    background-color: white;
+    color: #233E46;
+    outline: 2px solid #233E46;
+    outline-offset: -2px;
+}

@@ -283,12 +283,12 @@
                                     }
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect)
                                     {
-                                        <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                     }
                                     else
                                     {
-                                        <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
 
                                     }
@@ -297,7 +297,7 @@
                                 {
                                     <input type="button" value="+" @onclick="AddAnsText" class="Allbuttons addButton">
 
-                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                     <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                 }
                             </EditForm>
@@ -422,14 +422,14 @@
                                             @if (GameToShow.Answers.Count >= 2)
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
-                                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                                     <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
-                                                    <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChangescancelChanges" @onclick="Cancel">
                                                     <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                                 </div>
                                             }
@@ -458,7 +458,7 @@
                                                 </div>
                                             </div>
                                             <div class="questionButtonAndSubmitContainer">
-                                                <input type="button" value="ביטול שינוים" class="Allbuttons" @onclick="Cancel">
+                                                <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                                 <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                             </div>
                                         }

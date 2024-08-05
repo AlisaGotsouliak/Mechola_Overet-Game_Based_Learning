@@ -5017,6 +5017,7 @@ textarea.form-control-lg {
     padding-left: 12px;
     margin-bottom: 12px;
     cursor: pointer;
+    max-width: 494px;
 }
 
     .questionInList:hover {
