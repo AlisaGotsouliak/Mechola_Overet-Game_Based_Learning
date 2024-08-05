@@ -5,7 +5,47 @@
 @inject HttpClient Http;
 
 <div class="page_bg" style="display:flex; justify-content:center; flex-direction:column">
-    <h3>עריכת משחק</h3>
+    <div id="pageTop">
+        <h3>עריכת משחק</h3>
+        <div>
+            @if (full_gameInfo.question_List != null)
+            {
+                if (full_gameInfo.question_List.Count >= 10)
+                {
+                    <div id="canPublishGame" class="publishCurrentGameStatus">
+                        <div class="ToolTipInfos">
+                            <p>ניתן לפרסם את המשחק</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div id="canNotPublishGame" class="publishCurrentGameStatus">
+                        <div class="ToolTipInfos">
+                            <p>
+                                יש ליצור עוד
+                                @if (10 - full_gameInfo.question_List.Count>1){
+                                    @(10 - full_gameInfo.question_List.Count)
+                                    @(" שאלות")
+                                }
+                                else
+                                {
+                                    @("שאלה אחת")
+                                }
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+
+            <p>תנאי פרסום משחק: לפחות 10 שאלות</p>
+            <a href="https://localhost:7022/GamesList">
+                <input type="button" value="למשחקים שלי" class="Allbuttons" />
+            </a>
+            
+            
+        </div>
+    </div>
     <div id="allAccordions">
         <div id="settingsAndQList">
             <div class="accordion" id="accordionExample">
@@ -116,6 +156,10 @@
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 שאלות המשחק
+                                @if (full_gameInfo.question_List != null)
+                                {
+                                    @("(" + full_gameInfo.question_List.Count + ")")
+                                }
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
@@ -150,6 +194,10 @@
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" disabled style="opacity:70%">
                                 שאלות המשחק
+                                @if (full_gameInfo.question_List != null)
+                                {
+                                    @("(" + full_gameInfo.question_List.Count + ")")
+                                }
                             </button>
                         </h2>
                     </div>
@@ -297,7 +345,7 @@
                                                 <div id="questionImageContainer">
                                                     <div id="editOrDeleteQImage">
                                                         <div>
-                                                            <InputFile id="FileInputID"  OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" style=" height:73px; width:45px; border:3px solid black " />
+                                                            <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" style=" height:73px; width:45px; border:3px solid black " />
                                                         </div>
                                                         <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                                     </div>
@@ -657,7 +705,7 @@
                 }
             }
         }
-        if(Qimage!="No image" || Qimage!=null)
+        if (Qimage != "No image" || Qimage != null)
         {
             MakeDeleteList(Qimage);
             GameToShow.QuestionImage = myFileImage;
@@ -700,7 +748,7 @@
     private void MakeDeleteList(string imageToDelete)
     {
         DeletedImages.Add(imageToDelete);
-        if(GameToShow.QuestionImage==imageToDelete)
+        if (GameToShow.QuestionImage == imageToDelete)
         {
             GameToShow.QuestionImage = "No image";
         }

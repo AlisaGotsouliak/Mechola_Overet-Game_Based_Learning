@@ -273,13 +273,13 @@ button.deleteIcon {
             background-color: #E6F9FF;
         }
 
-            
 
-            #questionImageContainer:hover #editOrDeleteQImage div:first-child {
-                border-radius: 0px 8px 8px 0px;
-                border-left: 0px;
-                background-image: url('css/images/pencilicon.svg');
-            }
+
+    #questionImageContainer:hover #editOrDeleteQImage div:first-child {
+        border-radius: 0px 8px 8px 0px;
+        border-left: 0px;
+        background-image: url('css/images/pencilicon.svg');
+    }
 
     #questionImageContainer:hover #editOrDeleteQImage div:nth-child(2) {
         border-radius: 8px 0px 0px 8px;
@@ -315,3 +315,48 @@ button.deleteIcon {
     padding-top: 1px;
     color: black;
 }
+
+
+#pageTop > div {
+    margin-left: 70px;
+    width: 424px;
+    justify-items: center;
+}
+
+    #pageTop > div p {
+        height: 11px;
+    }
+
+    #pageTop > div input[type=button]{
+        margin-right: 12px;
+    }
+
+    .publishCurrentGameStatus {
+        height: 14px;
+        width: 14px;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+
+
+        #canPublishGame {
+            background-image: url('css/images/canpublishstatusicon.svg');
+        }
+
+            #canPublishGame:hover div.ToolTipInfos, #canNotPublishGame:hover div.ToolTipInfos {
+                display: block;
+                transform: scaleY(-1);
+                top: 20px;
+            }
+                #canPublishGame:hover div.ToolTipInfos p, #canNotPublishGame:hover div.ToolTipInfos p {
+                    transform: scaleY(-1);
+                    margin-bottom: 0px !important;
+                    text-align: center;
+                    position: relative;
+                    top: 13px;
+                }
+
+                #canNotPublishGame {
+                    background-image: url('css/images/cannotpublishstatusicon.svg');
+                }
