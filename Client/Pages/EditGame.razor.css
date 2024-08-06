@@ -11,15 +11,68 @@
     cursor: pointer;
 }
 
+.ansImageContainer {
+    width: 186px;
+    height: 70px;
+    outline: 2px solid black;
+    outline-offset: -2px !important;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    background-size: 72px 86px;
+    background-position: center;
+    background-color: white;
+}
+
+    .ansImageContainer img {
+        outline:none;
+        width: 83px;
+        height: 69px;
+    }
+
+.ansContainer .ansImageContainer:hover .editAnsImage{
+    display: block;
+}
+
+.ansContainer .ansImageContainer:hover img {
+    display: none;
+}
+
 form img {
     cursor: pointer;
     width: 90px;
     height: 76px;
     outline: 2px solid black;
     outline-offset: -2px !important;
-    border-radius: 8px;
+    border-radius: 8px;  
 }
 
+.editAnsImage {
+    width: 186px;
+    height: 70px;
+    background-color: #E6F9FF;
+    position: relative;
+    display: none;
+    outline: 2px solid black;
+    outline-offset: -2px !important;
+    border-radius: 8px;
+    background-image: url('css/images/pencilicon.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 17px 20px;
+    cursor: pointer;
+}
+
+    .editAnsImage .insertQuestionImage{
+        background-image: none;
+        outline: 0px;
+        width: 186px;
+        height: 69px
+    }
+
+.deleteImageIcon{
+    margin-top: 25px! important;
+}
 
 #questionArea {
     display: flex;
@@ -42,7 +95,7 @@ form img {
     width: 494px;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 7px;
     background-color: lightgreen !important;
     flex-direction: column;
 }
@@ -368,4 +421,19 @@ button.deleteIcon {
     color: #233E46;
     outline: 2px solid #233E46;
     outline-offset: -2px;
+}
+
+#editOrDeleteQImage label {
+    height: 73px;
+    width: 44px;
+/*    background-color: red;
+*/    position: relative;
+    background-image: none;
+    outline: none;
+    border-radius: 0px;
+    display: none;
+}
+
+#editOrDeleteQImage>div:first-child:hover label{
+    display: block;
 }

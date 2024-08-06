@@ -198,7 +198,10 @@
                                 {
                                     @("(" + full_gameInfo.question_List.Count + ")")
                                 }
-                            </button>
+                                else{
+                                    @("(0)")  
+                                    }
+                                </button>
                         </h2>
                     </div>
                 </div>
@@ -227,6 +230,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
                                 <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
@@ -345,7 +349,8 @@
                                                 <div id="questionImageContainer">
                                                     <div id="editOrDeleteQImage">
                                                         <div>
-                                                            <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" style=" height:73px; width:45px; border:3px solid black " />
+                                                            <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
+                                                            <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
                                                         </div>
                                                         <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                                     </div>
@@ -379,14 +384,20 @@
                                                         }
                                                         else if (ans.AnswerImage == null)
                                                         {
-                                                            <label for="FileAInputID" class="insertQuestionImage"></label>
-                                                            <InputFile id="FileAInputID" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                            <label for="FileAInputIDAns" class="insertQuestionImage ansImageContainer"></label>
+                                                            <InputFile id="FileAInputIDAns" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                                         }
                                                         else
                                                         {
-                                                            <img src="@ans.AnswerImage" height="90" width="90" />
-                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                            <div class="ansImageContainer">
+                                                                <img src="@ans.AnswerImage" height="90" width="90" />
+                                                                <div class="editAnsImage">
+                                                                    <label for="FileAInputIDAnsChange" class="insertQuestionImage"></label>
+                                                                    <InputFile id="FileAInputIDAnsChange" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                                </div>
+                                                            </div>
+                                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
                                                         }
                                                     </div>
                                                     @if (i == GameToShow.Answers.Count)
