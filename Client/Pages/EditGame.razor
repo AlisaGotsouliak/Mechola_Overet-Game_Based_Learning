@@ -6,7 +6,14 @@
 
 <div class="page_bg" style="display:flex; justify-content:center; flex-direction:column">
     <div id="pageTop">
-        <h3>עריכת משחק</h3>
+        @if (GameName != "")
+        {
+            <h3>עריכת משחק</h3>
+        }
+        else
+        {
+            <h3>יצירת משחק</h3>
+        }
         <div>
             @if (full_gameInfo.question_List != null)
             {
@@ -24,7 +31,8 @@
                         <div class="ToolTipInfos">
                             <p>
                                 יש ליצור עוד
-                                @if (10 - full_gameInfo.question_List.Count>1){
+                                @if (10 - full_gameInfo.question_List.Count > 1)
+                                {
                                     @(10 - full_gameInfo.question_List.Count)
                                     @(" שאלות")
                                 }
@@ -37,13 +45,24 @@
                     </div>
                 }
             }
+            else
+            {
+                <div id="canNotPublishGame" class="publishCurrentGameStatus">
+                    <div class="ToolTipInfos">
+                        <p>
+                            יש ליצור עוד 10 שאלות
+
+                        </p>
+                    </div>
+                </div>
+            }
 
             <p>תנאי פרסום משחק: לפחות 10 שאלות</p>
             <a href="https://localhost:7022/GamesList">
                 <input type="button" value="למשחקים שלי" class="Allbuttons" />
             </a>
-            
-            
+
+
         </div>
     </div>
     <div id="allAccordions">
@@ -198,10 +217,11 @@
                                 {
                                     @("(" + full_gameInfo.question_List.Count + ")")
                                 }
-                                else{
-                                    @("(0)")  
-                                    }
-                                </button>
+                                else
+                                {
+                                    @("(0)")
+                                }
+                            </button>
                         </h2>
                     </div>
                 </div>
@@ -233,11 +253,29 @@
 
                             <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
                                 <DataAnnotationsValidator />
-                                <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
-                                <ValidationMessage For="@(() => GameToShow.QuestionText)" />
+                                <div id="questionArea">
+                                    <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
+                                    <ValidationMessage For="@(() => GameToShow.QuestionText)" />
 
-                                <label for="FileInputID" class="insertQuestionImage"></label>
-                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                    @if (GameToShow.QuestionImage == null || GameToShow.QuestionImage == "No image")
+                                    {
+                                        <label for="FileInputID" class="insertQuestionImage"></label>
+                                        <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                    }
+                                    else
+                                    {
+                                        <div id="questionImageContainer">
+                                            <div id="editOrDeleteQImage">
+                                                <div>
+                                                    <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
+                                                    <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                                </div>
+                                                <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
+                                            </div>
+                                            <img src="@GameToShow.QuestionImage" height="90" width="90" />
+                                        </div>
+                                    }
+                                </div>
 
                                 @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
                                 {
