@@ -718,7 +718,7 @@
 
     private void Cancel()
     {
-        if (Temp != null)
+        if (Temp != null && Temp.question_List!=null)
         {
             foreach (QuestionDB i in Temp.question_List)
             {
