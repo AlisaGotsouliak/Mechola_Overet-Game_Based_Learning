@@ -8,48 +8,79 @@
     display: flex;
 }
 
-    nav > div {
+    nav > div , nav > div > a{
         display: inline-block;
         font-size: 12pt;
         width: 100px;
+        height: 44px;
     }
 
-        nav > div:nth-child(3) {
-            width: 150px;
-        }
+div:hover {
+    background-image: url('css/images/shipimage.svg');
+    background-repeat: no-repeat;
+    background-size: 100px 44px;
 
-.btn-nav {
-    background: none;
-    border: none;
-    border-radius: 0;
 }
 
-::deep a, .btn-nav {
+::deep a:hover {
+    color: white;
+}
+
+    div:nth-child(3):hover {
+        background-image: url('css/images/bigshipimage.svg');
+        background-size: 150px 36px;
+        background-position: center;
+    }
+
+
+    nav > div:nth-child(3) {
+        width: 190px;
+    }
+
+            .btn-nav {
+                background: none;
+                border: none;
+                border-radius: 0;
+            }
+
+::deep a {
+    color: #233E46;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    padding-right: 18px;
+    text-decoration: none;
+    height: 44px !important;
+}
+
+
+    /*::deep a, .btn-nav {
     color: #233E46;
     text-align: center;
     display: block;
     padding: 10px;
     text-decoration: none;
+    height: 44px !important;
 }
 
-    ::deep a.active {
+    ::deep a:first-child:hover {
+        background-color: none !important;
+    }
+                    ::deep a.active {
         font-weight: bold;
         background-color: #E6F9FF;
         color: #233E46;
     }
-
-    ::deep a:hover, .btn-nav:hover {
-        font-weight: bold;
-        background-color: #E6F9FF;
+                ::deep a:hover, .btn-nav:hover {
+                    font-weight: bold;
+                    background-color: #E6F9FF;
+                }*/
+    nav div:first-child {
+        margin-left: auto;
+        height: 44px;
+        width: 150px;
+        background-image: url('css/images/gamelogo.svg');
+        background-repeat: no-repeat;
+        background-size: 123px 37px;
+        background-position: center;
     }
-
-nav div:first-child {
-    margin-left: auto;
-    height: 44px;
-    width: 150px;
-    background-image: url('css/images/gamelogo.svg');
-    background-repeat: no-repeat;
-    background-size: 123px 37px;
-    background-position: center;
-
-}
