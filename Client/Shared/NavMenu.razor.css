@@ -14,9 +14,9 @@
         width: 100px;
     }
 
-    nav > div:nth-child(2) {
-        width: 150px;
-    }
+        nav > div:nth-child(3) {
+            width: 150px;
+        }
 
 .btn-nav {
     background: none;
@@ -42,3 +42,14 @@
         font-weight: bold;
         background-color: #E6F9FF;
     }
+
+nav div:first-child {
+    margin-left: auto;
+    height: 44px;
+    width: 150px;
+    background-image: url('css/images/gamelogo.svg');
+    background-repeat: no-repeat;
+    background-size: 123px 37px;
+    background-position: center;
+
+}
