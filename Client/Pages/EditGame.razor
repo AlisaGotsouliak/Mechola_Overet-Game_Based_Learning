@@ -287,17 +287,6 @@
                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                         @if (ans.IsCorrect)
                                             oneAnsCorrect = true;
-                                        @*@if (ans.AnswerText != "" || ans.AnswerImage == "No image")
-                            {
-                            <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                            }
-                            else
-                            {
-                            <label for="FileInputID" class="insertQuestionImage"></label>
-                            <InputFile id="FileInputID" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                            }*@
                                         @if (ans.AnswerImage == "No image")
                                         {
                                             <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
@@ -408,13 +397,14 @@
                                         @if (GameToShow.Answers.Count != 0 && GameToShow.Answers != null)
                                         {
                                             int i = 0;
+                                            bool isChecked=false;
                                             <div id="answersArea">
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     i++;
                                                     <div class="ansContainer">
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
-
+                                                        @if (ans.IsCorrect) isChecked = true;
                                                         @if (ans.AnswerImage == "No image")
                                                         {
                                                             <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
@@ -468,7 +458,7 @@
                                                 }
                                             </div>
 
-                                            @if (GameToShow.Answers.Count >= 2)
+                                            @if (GameToShow.Answers.Count >= 2 && isChecked)
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
                                                     <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
@@ -478,7 +468,7 @@
                                             else
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
-                                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChangescancelChanges" @onclick="Cancel">
+                                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                                     <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
                                                 </div>
                                             }
@@ -785,7 +775,7 @@
         }
         foreach (AnswerDB a in GameToShow.Answers)
         {
-            if (a.ID == ans.ID)
+            if (a.ID == ans.ID && a.AnswerImage==null)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";
