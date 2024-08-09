@@ -169,7 +169,10 @@ form img {
     }
 
 
-
+.questionNumberInList {
+    font-weight: bold;
+    padding-left: 5px;
+}
 
 
 

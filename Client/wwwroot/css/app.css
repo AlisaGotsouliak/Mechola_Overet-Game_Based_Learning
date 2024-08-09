@@ -11,11 +11,19 @@ body {
     text-align: right;
 }
 
-main:has(.page_bg){
-    background-image:url('Images/BG-image.jpeg');
-    background-size:cover;
-    min-height:100vh;
-}
+    body:has(div#pageTop) {
+        overflow: hidden;
+    }
+
+    main:has(.page_bg) {
+        /*    background-image: url('Images/BG-image.jpeg');*/
+        background-image: url('images/mainbackground.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 0px;
+        padding: 0px;
+    }
 
 h1:focus {
     outline: none;

@@ -188,12 +188,14 @@
                                     <div id="listOfQuestionsContiner">
                                         @if (full_gameInfo.question_List != null)
                                         {
+                                            int i = 1;
                                             @foreach (QuestionDB question in full_gameInfo.question_List)
-                                            {
+                                            {   
                                                 <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
-                                                    <p>@question.QuestionText</p>
+                                                    <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
                                                     <div @onclick="() => RemoveQuestion(question)" class="deleteIcon"></div>
                                                 </div>
+                                                i++;
                                             }
                                         }
                                     </div>
