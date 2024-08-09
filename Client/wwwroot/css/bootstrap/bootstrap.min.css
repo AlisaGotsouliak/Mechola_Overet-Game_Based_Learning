@@ -4795,7 +4795,6 @@ textarea.form-control-lg {
     color: black!important;
     font-weight: bold;
     text-align: right;
-    /*    background-color: #fff;*/
     border: 0;
     border-radius: 0;
     overflow-anchor: none;
@@ -4814,9 +4813,7 @@ textarea.form-control-lg {
 }
 
 .accordion-button:not(.collapsed) {
-/*    color: #000 !important;
 */    background-color: #FFC97B !important;
-/*    box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);*/
     border: 2px solid black;
     border-radius:12px !important;
     width: 550px;
@@ -4834,15 +4831,29 @@ textarea.form-control-lg {
         background-position: center !important;
     }
 
-.accordion-button::after { /*acccordion closed*/
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    margin-left: 0px !important;
-    background-image: url('../images/arrow.svg') !important;
-    background-position:center!important;
-    transform: rotate(180deg) !important;
+.accordion-button#quesstionAccordionButton:not(.collapsed)::after {
+    background-image: none !important;
 }
+
+.accordion-button#quesstionAccordionButton:hover {
+    background-color: #ffc97b !important;
+    cursor: default;
+}
+
+    .accordion-button#quesstionAccordionButton:focus{
+        box-shadow: none !important;
+    }
+
+
+    .accordion-button::after { /*acccordion closed*/
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin-left: 0px !important;
+        background-image: url('../images/arrow.svg') !important;
+        background-position: center !important;
+        transform: rotate(180deg) !important;
+    }
 
 @media (prefers-reduced-motion:reduce) {
     .accordion-button::after {
