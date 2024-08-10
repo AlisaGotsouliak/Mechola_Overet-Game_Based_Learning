@@ -116,7 +116,7 @@ h3 {
     display: block;
 }
 
-.deleteIcon, #editIcon {
+.deleteIcon, .editIcon {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -132,26 +132,28 @@ h3 {
     cursor: pointer;
 }
 
-#editIcon {
+.editIcon {
     background-image: url('images/pencilicon.svg');
     width: 20px;
 }
 
+    .deleteIcon:hover, .editIcon:hover{
+        transform: scale(1.3);
+    }
 
 
 
 
 
-
-#infoContainers {
-    background-image: url('images/infocontainerimg.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 442px 38px;
-    width: 442px;
-    height: 38px;
-    margin-left: 6px;
-}
+    #infoContainers {
+        background-image: url('images/infocontainerimg.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 442px 38px;
+        width: 442px;
+        height: 38px;
+        margin-left: 6px;
+    }
 
 #infoContent {
     display: flex;

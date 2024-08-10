@@ -12,8 +12,8 @@
     padding-left: 21px
 }
 
-.gameCode{   
-    color:white
+.gameCode {
+    color: white
 }
 
 .numofquestionsAndTime {
@@ -99,3 +99,7 @@
     height: 138px;
     margin: 12px;
 }
+
+    #CreateNewGame:hover {
+        transform: scale(1.05);
+    }
