@@ -1,4 +1,67 @@
-﻿#allGames {
+﻿
+.page_bg {
+    display: flex;
+    justify-content: center
+}
+
+.gameNameAndCode {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 21px;
+    padding-left: 21px
+}
+
+.gameCode{   
+    color:white
+}
+
+.numofquestionsAndTime {
+    display: flex;
+    justify-content: space-around;
+    padding-right: 21px;
+    padding-left: 21px;
+    margin-top: 10px
+}
+
+.numOfQOrTimeContainer {
+    border: 1px solid black;
+    width: 100px;
+    height: 43px;
+    border-radius: 8px;
+    display: flex;
+    gap: 0px;
+    flex-direction: column
+}
+
+.numOfQOrTimeCount {
+    text-align: center;
+    font-size: 20px;
+    height: 22px
+}
+
+.numOfQ0rTimeText {
+    text-align: center;
+    font-size: 12px;
+    height: 14px
+}
+
+.gameEditorOptions {
+    display: flex;
+    justify-content: space-around;
+    padding-right: 21px;
+    padding-left: 21px;
+    margin-top: 7px
+}
+
+
+
+
+
+
+
+
+#allGames {
     width: 1120px;
     height: auto;
     display: flex;

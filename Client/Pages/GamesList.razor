@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div class="page_bg" style="display:flex; justify-content:center;">
+<div class="page_bg">
     <PageTitle>המשחקים שלי</PageTitle>
 
     @if (MyGamesList != null)
@@ -48,35 +48,35 @@
                     gameID = "canPublish";
                 }
                 <div id="@gameID" class="gamesContainers">
-                    <div style="display:flex; justify-content:space-between; align-items: flex-end; padding-right:21px; padding-left:21px">
+                    <div class ="gameNameAndCode">
 
                         <span>@game.Game</span>
-                        <span style="color:white">@game.GameCode</span>
+                        <span class="gameCode">@game.GameCode</span>
 
                     </div>
                     <div>
-                        <div style="display:flex; justify-content:space-around; padding-right:21px; padding-left:21px; margin-top:10px">
-                            <div style="border:1px solid black; width:100px; height:43px; border-radius:8px; display:flex; gap:0px; flex-direction:column">
-                                <div style="text-align:center; font-size:20px;height:22px">@game.Num_Questions</div>
-                                <div style="text-align:center;font-size:12px; height:14px">שאלות</div>
+                        <div class ="numofquestionsAndTime">
+                            <div class="numOfQOrTimeContainer">
+                                <div class="numOfQOrTimeCount">@game.Num_Questions</div>
+                                <div class="numOfQ0rTimeText">שאלות</div>
                             </div>
                             @if (game.Time == 0)
                             {
-                                <div style="border:1px solid black;height:43px; width:100px; border-radius:8px; display:flex; gap:0px; flex-direction:column">
-                                    <div style="text-align:center;font-size:20px; height:22px">ללא</div>
-                                    <div style="text-align:center;font-size:12px; height:14px">הגבלת זמן</div>
+                                <div class="numOfQOrTimeContainer">
+                                    <div class="numOfQOrTimeCount">ללא</div>
+                                    <div class="numOfQ0rTimeText">הגבלת זמן</div>
                                 </div>
                             }
                             else
                             {
-                                <div style="border:1px solid black;height:43px; width:100px; border-radius:8px; display:flex; gap:0px; flex-direction:column">
-                                    <div style="text-align:center;font-size:20px; height:22px">@game.Time</div>
-                                    <div style="text-align:center;font-size:12px; height:14px">שניות לשאלה</div>
+                                <div class="numOfQOrTimeContainer">
+                                    <div class="numOfQOrTimeCount">@game.Time</div>
+                                    <div class="numOfQ0rTimeText">שניות לשאלה</div>
                                 </div>
                             }
                         </div>
 
-                        <div style="display:flex; justify-content:space-around; padding-right:21px; padding-left:21px; margin-top:7px">
+                        <div class="gameEditorOptions">
                             <a href="https://localhost:7022/EditGame/RouteParams/@game.GameCode/@game.Game/@game.Time">
                                 <div id="editIcon"></div>
                             </a>
