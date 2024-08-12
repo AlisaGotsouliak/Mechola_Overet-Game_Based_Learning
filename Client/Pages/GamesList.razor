@@ -87,7 +87,14 @@
                                 <label class="switch">
                                     <input type="checkbox" disabled>
                                     <span class="slider round"></span>
+
+                                    <div class="togglesToolTips">
+                                        <p>כפתור פרסום משחק</p>
+                                    </div>
                                 </label>
+
+                                    
+
                             }
                             else
                             {
@@ -98,6 +105,9 @@
                                     <input type="checkbox" checked="@game.IsPublished"
                                            @onchange="(() =>changePublish(game))">
                                     <span class="slider round"></span>
+                                    <div class="togglesToolTips">
+                                        <p>כפתור פרסום משחק</p>
+                                    </div>
                                 </label>
                             }
 

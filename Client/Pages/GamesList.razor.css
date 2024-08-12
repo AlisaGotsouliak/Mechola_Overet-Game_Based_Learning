@@ -178,7 +178,7 @@ input:checked + .slider:before {
     transform: scale(1.2)
 }
 
-.switch:has(input:disabled) {
+.switch:has(input:disabled) .slider {
     opacity: 30%;
 }
 
@@ -189,3 +189,41 @@ input:checked + .slider:before {
     .switch:has(input:disabled) .slider {
         cursor: default !important;
     }
+
+
+   /* tooltips*/
+
+.togglesToolTips {
+    height: 32px;
+    width: 170px;
+    border-radius: 6px;
+    background-image: url('css/images/createoreditgamestooltips.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    top: -56px;
+    right: -6px;
+    display: none;
+}
+
+    .togglesToolTips p{
+        text-align: center
+    }
+
+    .switch:hover .togglesToolTips {
+        display: block;
+        opacity: 100%;
+    }
+
+.switch:has(input:not(:disabled)):hover .togglesToolTips {
+    transform: scale(0.8);
+    top: -52px;
+    right: -20px;
+
+
+}
+.switch:has(input:checked):hover .togglesToolTips {
+    transform: scale(0.8);
+    top: -52px;
+    right: -3px;
+}
