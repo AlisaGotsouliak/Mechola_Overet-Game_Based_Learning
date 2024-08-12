@@ -96,6 +96,11 @@
     margin: 12px;
 }
 
+a:has(#CreateNewGame) {
+    width: 256px;
+    height: 138px;
+}
+
 #CreateNewGame {
     background-image: url('css/images/newgamecontainer.svg');
     width: 256px;
