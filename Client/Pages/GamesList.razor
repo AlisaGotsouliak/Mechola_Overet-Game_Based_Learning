@@ -127,18 +127,11 @@
             <a href="https://localhost:7022/EditGame/RouteParams/0/@gameToAdd.Game/50">
                 <div id="CreateNewGame"></div>
             </a>
-            @for (int i = 1; i <= tatalButtons; i ++)
+
+            @foreach(int i in btns)
             {
-                <div>@i</div>
                 <input type="button" value="@i" @onclick="(() =>changeStartEnd(i))" style="height: 50px;width: 50px" />
             }
-            <div>games @MyGamesList.Count</div>
-            <div>buttons @tatalButtons</div>
-            <div>plus1 @plus1Button</div>
-            <div>start @gameToShowStart</div>
-            <div>end @gameToShowEnd</div>
-            <div>current @currentGame</div>
-            <div>class @displayClass</div>
         </div>
         
     }
@@ -147,10 +140,6 @@
         div.hideGame {
             display: none ;
         }
-
-/*             div.gamesContainers:nth-child(n+1):nth-child(-n+11) {
-            display: block;
-        } */
     </style>
 
     @*    <p>@msg</p>*@
@@ -160,13 +149,14 @@
     <p>@msg</p>
     <input type="button" value="reload" @onclick=Navigate />
     }*@
+
 </div>
 
 @code {
     // display of games start
-    public int tatalButtons = 0;
+    public int totalButtons = 0;
     public int plus1Button = 0;
-
+    public List<int> btns = new List<int>();
     public int currentGame = 0;
     public string displayClass = "";
 
@@ -188,13 +178,9 @@
             }
             gameToShowStart = (11 * clickedButton) - 10;
             gameToShowEnd = (11 * clickedButton);
-            tatalButtons = MyGamesList.Count / 11 + plus1Button;
-        } 
+            totalButtons = MyGamesList.Count / 11 + plus1Button;
+        }
     }
-
-    //end
-
-
 
     public string gameID = "";
 
@@ -218,6 +204,10 @@
             // השמת הנתונים במופע שפתחנו
             MyGamesList = gamesRes.Content.ReadFromJsonAsync<List<GameToCard>>().Result;
             changeStartEnd(1);
+            for (int i = 1; i <= totalButtons; i++)
+            {
+                btns.Add(i);
+            }
         }
         else
         {
@@ -233,7 +223,7 @@
                     break;
             }
         }
-        
+
     }
 
     async Task DeleteGame(GameToCard game)
@@ -245,6 +235,12 @@
         {
             msg = "נמחק בהצלחה";
             MyGamesList.Remove(game);
+            btns.Clear();
+            changeStartEnd(1);
+            for (int i = 1; i <= totalButtons; i++)
+            {
+                btns.Add(i);
+            }
         }
         else
             msg = "המחיקה נכשלה";
