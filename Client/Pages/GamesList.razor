@@ -21,7 +21,7 @@
                     <div id="redInfo" class="infoContainersImages"></div>
                     <span>לא ניתן לפרסם</span>
                 </div>
-            </div>           
+            </div>
         </div>
         <div id="gamesToolTip" class="toolTip">?</div>
     </div>
@@ -40,7 +40,7 @@
                 currentGame++;
                 @if (currentGame < gameToShowStart || currentGame > gameToShowEnd)
                 {
-                        displayClass = "hideGame";
+                    displayClass = "hideGame";
                 }
 
                 @if (game.CanPublish == false)
@@ -56,14 +56,14 @@
                     gameID = "canPublish";
                 }
                 <div id="@gameID" class="gamesContainers @displayClass">
-                    <div class ="gameNameAndCode">
+                    <div class="gameNameAndCode">
 
                         <span>@game.Game</span>
                         <span class="gameCode">@game.GameCode</span>
 
                     </div>
                     <div>
-                        <div class ="numofquestionsAndTime">
+                        <div class="numofquestionsAndTime">
                             <div class="numOfQOrTimeContainer">
                                 <div class="numOfQOrTimeCount">@game.Num_Questions</div>
                                 <div class="numOfQ0rTimeText">שאלות</div>
@@ -104,7 +104,7 @@
                             else
                             {
                                 @* <input type="checkbox" checked="@game.IsPublished"
-                                       @onchange="(() =>changePublish(game))" /> *@
+                    @onchange="(() =>changePublish(game))" /> *@
 
                                 <label class="switch">
                                     <input type="checkbox" checked="@game.IsPublished"
@@ -128,17 +128,23 @@
                 <div id="CreateNewGame"></div>
             </a>
 
-            @foreach(int i in btns)
+
+
+        </div>
+        <div id="carouselButttonsContainer">
+            @foreach (int i in btns)
             {
-                <input type="button" value="@i" @onclick="(() =>changeStartEnd(i))" style="height: 50px;width: 50px" />
+                var buttonId = (chosenButton == i.ToString()) ? "chosenBTN" : "";
+                <input type="button" id="@buttonId" class="carouselButttons" value="@i" @onclick="(() => changeStartEnd(i))" />
             }
         </div>
-        
+
+
     }
 
     <style>
         div.hideGame {
-            display: none ;
+            display: none;
         }
     </style>
 
@@ -163,11 +169,15 @@
     public int gameToShowStart = 1;
     public int gameToShowEnd = 11;
 
+    public string chosenButton = "";  
+
     public void changeStartEnd(int clickedButton)
-    { 
+    {
+        
+        chosenButton = clickedButton.ToString();
+
         if (MyGamesList.Count != null)
         {
-
             if (MyGamesList.Count % 11 != 0)
             {
                 plus1Button = 1;
@@ -181,6 +191,8 @@
             totalButtons = MyGamesList.Count / 11 + plus1Button;
         }
     }
+
+
 
     public string gameID = "";
 
