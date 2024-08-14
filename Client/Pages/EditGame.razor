@@ -60,7 +60,7 @@
             <p>תנאי פרסום משחק: לפחות 10 שאלות</p>
             <input type="button" value="למשחקים שלי" class="Allbuttons" @onclick="() => ChangesInSettingOrElse()" />
 
-            @if (ChangesSaved==1)
+            @if (ChangesSaved == 1)
             {
                 Navigation.NavigateTo("https://localhost:7022/GamesList");
             }
@@ -292,86 +292,131 @@
                                         </div>
                                     }
                                 </div>
+                                <div class="newQHeadlines">
+                                    <p>מסיחים:</p>
+                                    <div id="answersToolTip">
+                                        ?
+                                        <div class="ToolTipInfos">
+                                            <p>נדרשים 2-6 מסיחים</p>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 @if (GameToShow.Answers != null && GameToShow.Answers.Count != 0)
                                 {
                                     int i = 0;
                                     bool oneAnsCorrect = false;
                                     bool ImageEmpty = false;
-                                    foreach (AnswerDB ans in GameToShow.Answers)
-                                    {
-                                        i++;
-                                        <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
-                                        @if (ans.IsCorrect) oneAnsCorrect = true;
-                                        @if (ans.AnswerImage == "No image")
+                                    <div class="answersArea">
+                                        @foreach (AnswerDB ans in GameToShow.Answers)
                                         {
-                                            <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                                        }
-                                        else if (ans.AnswerImage == null)
-                                        {
-                                            <label for="FileInputIDAns" class="insertQuestionImage ansImageContainer"></label>
-                                            <InputFile id="FileInputIDAns" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                                            ImageEmpty = true;
-                                        }
-                                        else
-                                        {
-                                            <div class="ansImageContainer">
-                                                <img src="@ans.AnswerImage" height="90" width="90" />
-                                                <div class="editAnsImage">
-                                                    <label for="FileInputIDAnsChange" class="insertQuestionImage ansImageContainer"></label>
-                                                    <InputFile id="FileInputIDAnsChange" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                                </div>
+                                            i++;
+                                            <div class="ansContainer">
+                                                <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
+                                                @if (ans.IsCorrect) oneAnsCorrect = true;
+                                                @if (ans.AnswerImage == "No image")
+                                                {
+                                                    <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
+                                                    <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                }
+                                                else if (ans.AnswerImage == null)
+                                                {
+                                                    <label for="FileInputIDAns" class="insertQuestionImage ansImageContainer"></label>
+                                                    <InputFile id="FileInputIDAns" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                    ImageEmpty = true;
+                                                }
+                                                else
+                                                {
+                                                    <div class="ansImageContainer">
+                                                        <img src="@ans.AnswerImage" height="90" width="90" />
+                                                        <div class="editAnsImage">
+                                                            <label for="FileInputIDAnsChange" class="insertQuestionImage"></label>
+                                                            <InputFile id="FileInputIDAnsChange" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                        </div>
+                                                    </div>
+                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                }
                                             </div>
-                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
-                                        }
-                                        @if (i == GameToShow.Answers.Count)
-                                        {
-                                            @if (GameToShow.Answers.Count < 6)
+                                            @if (i == GameToShow.Answers.Count)
                                             {
-                                                <div class="addAnsContainer">
-                                                    <div id="addAnsButton">
-                                                        <input type="button" value="+" class="Allbuttons addButton">
-                                                        <div id="addAnsOptions">
-                                                            <div id="options">
-                                                                <button type="button" @onclick="AddAnsText">
-                                                                    <div id="inputIcon"></div>
-                                                                    <div>תיבת טקסט</div>
-                                                                </button>
+                                                @if (GameToShow.Answers.Count < 6)
+                                                {
+                                                    <div class="addAnsContainer">
+                                                        <div id="addAnsButton">
+                                                            <input type="button" value="+" class="Allbuttons addButton">
+                                                            <div id="addAnsOptions">
+                                                                <div id="options">
+                                                                    <button type="button" @onclick="AddAnsText">
+                                                                        <div id="inputIcon"></div>
+                                                                        <div>תיבת טקסט</div>
+                                                                    </button>
 
-                                                                <button type="button" @onclick="AddAnsImage">
-                                                                    <div id="imageIcon"></div>
-                                                                    <div>תמונה</div>
-                                                                </button>
-                                                            </div>
-                                                            <div class="Allbuttons addButton">
-                                                                +
+                                                                    <button type="button" @onclick="AddAnsImage">
+                                                                        <div id="imageIcon"></div>
+                                                                        <div>תמונה</div>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="Allbuttons addButton">
+                                                                    +
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
                                             }
+
                                         }
-                                    }
+                                    </div>
+
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Length >= 7 && !ImageEmpty)
                                     {
-                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                        <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                        <div class="questionButtonAndSubmitContainer">
+                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                            <input type="submit" value="שמירת שאלה" class="Allbuttons">
+                                        </div>
                                     }
                                     else
                                     {
-                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                        <div class="questionButtonAndSubmitContainer">
+                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                            <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                        </div>
 
                                     }
                                 }
                                 else
                                 {
-                                    <input type="button" value="+" @onclick="AddAnsText" class="Allbuttons addButton">
+                                    <div class="answersArea">
+                                        <div class="addAnsContainer">
+                                            <div id="addAnsButton">
+                                                <input type="button" value="+" class="Allbuttons addButton">
+                                                <div id="addAnsOptions">
+                                                    <div id="options">
+                                                        <button type="button" @onclick="AddAnsText">
+                                                            <div id="inputIcon"></div>
+                                                            <div>תיבת טקסט</div>
+                                                        </button>
 
-                                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                        <button type="button" @onclick="AddAnsImage">
+                                                            <div id="imageIcon"></div>
+                                                            <div>תמונה</div>
+                                                        </button>
+                                                    </div>
+                                                    <div class="Allbuttons addButton">
+                                                        +
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*                                     <input type="button" value="+" @onclick="AddAnsText" class="Allbuttons addButton">
+                            *@
+
+                                    <div class="questionButtonAndSubmitContainer">
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                    </div>
                                 }
                             </EditForm>
                         </div>
@@ -441,7 +486,7 @@
                                             int i = 0;
                                             bool isChecked = false;
                                             bool ImageEmpty = false;
-                                            <div id="answersArea">
+                                            <div class="answersArea">
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     i++;
@@ -519,6 +564,7 @@
                                         }
                                         else
                                         {
+
                                             <div class="addAnsContainer">
                                                 <div id="addAnsButton">
                                                     <input type="button" value="+" class="Allbuttons addButton">
@@ -561,10 +607,20 @@
         switch (PopMsg)
         {
             case "Cancel":
-                <div>
-                    cancel
-                    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
+                <div class="popUpsContainer">
+                    <div class="managerAndBubble">
+                        <div class="manager">
+                        </div>
+                        <div class="bubble">
+                            cancel
+                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
+                        </div>
+                    </div>   
                 </div>
+                @*                 <div>
+    cancel
+    <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
+    </div> *@
                 break;
             case "DeleteAns":
                 <div>delete</div>
@@ -708,7 +764,7 @@
                     ShowPopUp = false;
                 }
             }
-            else if(ChangesSaved==2)
+            else if (ChangesSaved == 2)
             {
                 ChangesSaved = 1;
                 ShowPopUp = false;
