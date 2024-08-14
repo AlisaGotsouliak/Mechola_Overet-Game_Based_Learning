@@ -594,7 +594,7 @@
     FullGame Temp = new FullGame();
     List<string> DeletedImages = new List<string>();
 
-    int ChangesSaved=-1;
+    int ChangesSaved = -1;
     bool ShowPopUp = false;
     long maxFileSize = 4194304;
     string myFileImage = "";
@@ -659,7 +659,7 @@
                     ShowPopUp = true;
                     PopMsg = "Go Back Without Saving Question Or Answer";
                 }
-                if (question1.Answers != null && question2.Answers != null)
+                else if (question1.Answers != null && question2.Answers != null)
                 {
                     // Compare the Answers list
                     if (question1.Answers.Count != question2.Answers.Count)
@@ -668,7 +668,7 @@
                         ShowPopUp = true;
                         PopMsg = "Go Back Without Saving Question Or Answer";
                     }
-                    if (ChangesSaved==-1 ||ChangesSaved!=0)
+                    if (ChangesSaved == -1 || ChangesSaved != 0)
                     {
                         for (int j = 0; j < question1.Answers.Count; j++)
                         {
@@ -691,21 +691,30 @@
                     }
                 }
             }
-            //if (full_gameInfo.Game != Temp.Game || full_gameInfo.Time != Temp.Time)
-            //{
-            //    ChangesSaved = false;
-            //    ShowPopUp = true;
-            //    PopMsg = "Go Back Without Saving Settings";
-            //}
         }
-        if (ChangesSaved ==-1 || ChangesSaved!=0)
+        else
         {
-            ChangesSaved = 1;
-            ShowPopUp = false;
+            if (ChangesSaved == -1)
+            {
+                if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
+                {
+                    ChangesSaved = 0;
+                    ShowPopUp = true;
+                    PopMsg = "Go Back Without Saving Settings";
+                }
+                else
+                {
+                    ChangesSaved = 1;
+                    ShowPopUp = false;
+                }
+            }
+            else if(ChangesSaved==2)
+            {
+                ChangesSaved = 1;
+                ShowPopUp = false;
+            }
         }
     }
-
-
 
 
     void showPopup(string msgForPop)
@@ -760,7 +769,10 @@
         if (error != "Updated")
             CanAddQuestions = false;
         else
+        {
             CanAddQuestions = true;
+            ChangesSaved = 2;
+        }
         ShowError(error);
     }
 
@@ -818,7 +830,7 @@
             Temp = full_gameInfo;
             isShown = "false";
         }
-        ChangesSaved = -1;
+        ChangesSaved = 2;
     }
 
     private void AddInput()
@@ -890,7 +902,7 @@
             }
         }
         ShowPopUp = !ShowPopUp;
-        ChangesSaved = -1;
+        ChangesSaved = 2;
         DeletedImages.Clear();
         isShown = "false";
     }
