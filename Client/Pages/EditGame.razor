@@ -88,7 +88,7 @@
 
                             @if (GameName == "")
                             {
-                                <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
+                                <EditForm Model="gameToAdd" OnValidSubmit="CreateGameInDB">
                                     <DataAnnotationsValidator />
                                     <div id="gameSettingsContainer">
                                         <div>שם משחק:</div>
@@ -199,7 +199,7 @@
                                             {
                                                 <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
                                                     <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
-                                                    <div @onclick="() => RemoveQuestion(question)" class="deleteIcon"></div>
+                                                    <div @onclick="() => RemoveQuestionFromDB(question)" class="deleteIcon"></div>
                                                 </div>
                                                 i++;
                                             }
@@ -208,13 +208,19 @@
                                     @if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count < 30)
                                     {
                                         <div class="buttonContainer">
-                                            <input type="button" value="+" @onclick="AddInput" class="Allbuttons addButton">
+                                            <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
                                         </div>
                                     }
-                                    else
+                                    else if(full_gameInfo.question_List != null && full_gameInfo.question_List.Count == 30)
                                     {
                                         <div>הגעת למספר המקסימאלי של שאלות</div>
                                         //יעללללללללללללללללללללללללללל צריך לבדוק עיצובייייייייייייייייייייייי מה עושים? :)
+                                    }
+                                    else
+                                    {
+                                        <div class="buttonContainer">
+                                            <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
+                                        </div>
                                     }
                                 }
                             </div>
@@ -267,7 +273,7 @@
                                 </div>
                             </div>
 
-                            <EditForm Model="GameToShow" OnValidSubmit="AddQuestion">
+                            <EditForm Model="GameToShow" OnValidSubmit="AddNewQuestionInDB">
                                 <DataAnnotationsValidator />
                                 <div id="questionArea">
                                     <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
@@ -276,7 +282,7 @@
                                     @if (GameToShow.QuestionImage == null || GameToShow.QuestionImage == "No image")
                                     {
                                         <label for="FileInputID" class="insertQuestionImage"></label>
-                                        <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                        <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
                                     }
                                     else
                                     {
@@ -284,7 +290,7 @@
                                             <div id="editOrDeleteQImage">
                                                 <div>
                                                     <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
-                                                    <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                                    <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
                                                 </div>
                                                 <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                             </div>
@@ -317,13 +323,13 @@
                                                 @if (ans.AnswerImage == "No image")
                                                 {
                                                     <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                                    <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                    <div class="deleteIcon" @onclick="(() =>RemoveAnsFromList(ans))"></div>
                                                 }
                                                 else if (ans.AnswerImage == null)
                                                 {
                                                     <label for="FileInputIDAns" class="insertQuestionImage ansImageContainer"></label>
-                                                    <InputFile id="FileInputIDAns" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                    <InputFile id="FileInputIDAns" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ans))"></div>
                                                     ImageEmpty = true;
                                                 }
                                                 else
@@ -332,10 +338,10 @@
                                                         <img src="@ans.AnswerImage" height="90" width="90" />
                                                         <div class="editAnsImage">
                                                             <label for="FileInputIDAnsChange" class="insertQuestionImage"></label>
-                                                            <InputFile id="FileInputIDAnsChange" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                            <InputFile id="FileInputIDAnsChange" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                         </div>
                                                     </div>
-                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                    <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ans))"></div>
                                                 }
                                             </div>
                                             @if (i == GameToShow.Answers.Count)
@@ -347,12 +353,12 @@
                                                             <input type="button" value="+" class="Allbuttons addButton">
                                                             <div id="addAnsOptions">
                                                                 <div id="options">
-                                                                    <button type="button" @onclick="AddAnsText">
+                                                                    <button type="button" @onclick="AddAnsTextToList">
                                                                         <div id="inputIcon"></div>
                                                                         <div>תיבת טקסט</div>
                                                                     </button>
 
-                                                                    <button type="button" @onclick="AddAnsImage">
+                                                                    <button type="button" @onclick="AddAnsImageToList">
                                                                         <div id="imageIcon"></div>
                                                                         <div>תמונה</div>
                                                                     </button>
@@ -393,12 +399,12 @@
                                                 <input type="button" value="+" class="Allbuttons addButton">
                                                 <div id="addAnsOptions">
                                                     <div id="options">
-                                                        <button type="button" @onclick="AddAnsText">
+                                                        <button type="button" @onclick="AddAnsTextToList">
                                                             <div id="inputIcon"></div>
                                                             <div>תיבת טקסט</div>
                                                         </button>
 
-                                                        <button type="button" @onclick="AddAnsImage">
+                                                        <button type="button" @onclick="AddAnsImageToList">
                                                             <div id="imageIcon"></div>
                                                             <div>תמונה</div>
                                                         </button>
@@ -448,7 +454,7 @@
                             <div>
                                 @if (GameToShow != null)
                                 {
-                                    <EditForm Model="GameToShow" OnValidSubmit="EditQuestion">
+                                    <EditForm Model="GameToShow" OnValidSubmit="UpdateQuestionInDB">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
                                             <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
@@ -456,7 +462,7 @@
                                             @if (GameToShow.QuestionImage == "No image")
                                             {
                                                 <label for="FileInputID" class="insertQuestionImage"></label>
-                                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
                                             }
                                             else
                                             {
@@ -464,7 +470,7 @@
                                                     <div id="editOrDeleteQImage">
                                                         <div>
                                                             <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
-                                                            <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImage(e, GameToShow.QuestionImage))" hidden />
+                                                            <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
                                                         </div>
                                                         <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                                     </div>
@@ -496,13 +502,14 @@
                                                         @if (ans.AnswerImage == "No image")
                                                         {
                                                             <CustomInputTextArea @bind-Value="ans.AnswerText" maxLength="30" minLength="0"></CustomInputTextArea>
-                                                            <div class="deleteIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                            <div class="deleteIcon" @onclick="(() =>RemoveAnsFromList(ans))"></div>
                                                         }
                                                         else if (ans.AnswerImage == null)
                                                         {
                                                             <label for="FileAInputIDAns" class="insertQuestionImage ansImageContainer"></label>
-                                                            <InputFile id="FileAInputIDAns" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
-                                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                            <InputFile id="FileAInputIDAns" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                            @*<div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>*@
+                                                            <div class="deleteIcon deleteImageIcon" @onclick='() => showPopup("DeleteAns")'></div>
                                                             ImageEmpty = true;
                                                         }
                                                         else
@@ -511,10 +518,10 @@
                                                                 <img src="@ans.AnswerImage" height="90" width="90" />
                                                                 <div class="editAnsImage">
                                                                     <label for="FileAInputIDAnsChange" class="insertQuestionImage"></label>
-                                                                    <InputFile id="FileAInputIDAnsChange" OnChange="(e => UploadAnswerImage(e, ans))" hidden />
+                                                                    <InputFile id="FileAInputIDAnsChange" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                                 </div>
                                                             </div>
-                                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>
+                                                            <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ans))"></div>
                                                         }
                                                     </div>
                                                     @if (i == GameToShow.Answers.Count)
@@ -526,12 +533,12 @@
                                                                     <input type="button" value="+" class="Allbuttons addButton">
                                                                     <div id="addAnsOptions">
                                                                         <div id="options">
-                                                                            <button type="button" @onclick="AddAnsText">
+                                                                            <button type="button" @onclick="AddAnsTextToList">
                                                                                 <div id="inputIcon"></div>
                                                                                 <div>תיבת טקסט</div>
                                                                             </button>
 
-                                                                            <button type="button" @onclick="AddAnsImage">
+                                                                            <button type="button" @onclick="AddAnsImageToList">
                                                                                 <div id="imageIcon"></div>
                                                                                 <div>תמונה</div>
                                                                             </button>
@@ -570,12 +577,12 @@
                                                     <input type="button" value="+" class="Allbuttons addButton">
                                                     <div id="addAnsOptions">
                                                         <div id="options">
-                                                            <button type="button" @onclick="AddAnsText">
+                                                            <button type="button" @onclick="AddAnsTextToList">
                                                                 <div id="inputIcon"></div>
                                                                 <div>תיבת טקסט</div>
                                                             </button>
 
-                                                            <button type="button" @onclick="AddAnsImage">
+                                                            <button type="button" @onclick="AddAnsImageToList">
                                                                 <div id="imageIcon"></div>
                                                                 <div>תמונה</div>
                                                             </button>
@@ -624,6 +631,7 @@
                 break;
             case "DeleteAns":
                 <div>delete</div>
+                @*<div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>*@
                 break;
             case "DeleteQuestion":
                 <div>Deleting question</div>
@@ -634,9 +642,9 @@
             case "Go Back Without Saving Settings":
                 <div>game setting not saved</div>
                 break;
-            case "DeleteGame":
+@*            case "DeleteGame":
                 <div>going back to main page</div>
-                break;
+                break;*@
         }
     }
 </div>
@@ -650,7 +658,12 @@
     FullGame Temp = new FullGame();
     List<string> DeletedImages = new List<string>();
 
-    int ChangesSaved = -1;
+    int ChangesSaved = -1; 
+    // ChangesSaved = -1 - null
+    // ChangesSaved = 0 - changes were made, but not saved
+    // ChangesSaved = 1 - there were no changes made
+    // ChangesSaved = 2 - changes were made and saved
+
     bool ShowPopUp = false;
     long maxFileSize = 4194304;
     string myFileImage = "";
@@ -703,8 +716,10 @@
                     question2 = q;
                 }
             }
+
             if (question1 != null && question2 != null)
             {
+                ChangesSaved = 1;
                 // Compare the Question properties
                 if (question1.QuestionText != question2.QuestionText ||
                     question1.QuestionImage != question2.QuestionImage ||
@@ -724,7 +739,7 @@
                         ShowPopUp = true;
                         PopMsg = "Go Back Without Saving Question Or Answer";
                     }
-                    if (ChangesSaved == -1 || ChangesSaved != 0)
+                    if (ChangesSaved != 0)
                     {
                         for (int j = 0; j < question1.Answers.Count; j++)
                         {
@@ -782,7 +797,7 @@
         //Message = "my games without saving question changes"
         //Message = "delete answer"
         //Message = "delete question"
-        //Message = "delete game"
+        //Message = "delete game" not relevant
     }
 
     private void SelectAnswer(AnswerDB selectedAnswer)
@@ -793,7 +808,7 @@
         }
     }
 
-    async Task CreateGame()
+    async Task CreateGameInDB()
     {
         //שליחת המשחק החדש לקונטרולר
         var newGameRes = await Http.PostAsJsonAsync("api/Games/addGame", gameToAdd);
@@ -832,7 +847,7 @@
         ShowError(error);
     }
 
-    async Task AddQuestion()
+    async Task AddNewQuestionInDB()
     {
         GameToShow.GameID = GameCode;
         if (GameToShow.QuestionImage == null)
@@ -858,7 +873,12 @@
         }
     }
 
-    async Task EditQuestion()
+    void DeleteQuestionPopUp(QuestionDB question, string PopupMsg)
+    {
+        
+    }
+
+    async Task UpdateQuestionInDB()
     {
         if (GameToShow.QuestionImage == null)
             GameToShow.QuestionImage = "No image";
@@ -875,7 +895,7 @@
             {
                 full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>
                     ().Result;
-                await DeleteImages();
+                await DeleteImagesFromDB();
             }
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
@@ -889,7 +909,7 @@
         ChangesSaved = 2;
     }
 
-    private void AddInput()
+    private void AddQuestionToList()
     {
         GameToShow = new QuestionDB();
         GameToShow.QuestionText = "";
@@ -898,26 +918,26 @@
         isShown = "true";
     }
 
-    private void DeleteAns(AnswerDB ansToDelete)
+    private void RemoveAnsFromList(AnswerDB ansToDelete)
     {
         GameToShow.Answers.Remove(ansToDelete);
         if (ansToDelete.AnswerImage != "No image")
             MakeDeleteList(ansToDelete.AnswerImage);
     }
 
-    private void AddAnsText()
+    private void AddAnsTextToList()
     {
         GameToShow.Answers.Add(new AnswerDB());
         GameToShow.Answers[GameToShow.Answers.Count - 1].AnswerImage = "No image";
     }
 
-    private void AddAnsImage()
+    private void AddAnsImageToList()
     {
         GameToShow.Answers.Add(new AnswerDB());
         GameToShow.Answers[GameToShow.Answers.Count - 1].AnswerText = "";
     }
 
-    async Task RemoveQuestion(QuestionDB input)
+    async Task RemoveQuestionFromDB(QuestionDB input)
     {
         isShown = "false";
         full_gameInfo.question_List.Remove(input);
@@ -963,7 +983,7 @@
         isShown = "false";
     }
 
-    private async Task UploadQuestioImage(InputFileChangeEventArgs e, string Qimage)
+    private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)
     {
         var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
@@ -992,7 +1012,7 @@
         myFileImage = "";
     }
 
-    private async Task UploadAnswerImage(InputFileChangeEventArgs e, AnswerDB ans)
+    private async Task UploadAnswerImageInDB(InputFileChangeEventArgs e, AnswerDB ans)
     {
         var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
@@ -1032,7 +1052,7 @@
         }
     }
 
-    private async Task DeleteImages()
+    private async Task DeleteImagesFromDB()
     {
         var saveResponse = await Http.PostAsJsonAsync("api/Images/deleteImages", DeletedImages);
 
