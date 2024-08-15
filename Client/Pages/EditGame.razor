@@ -185,6 +185,10 @@
                                 {
                                     @("(" + full_gameInfo.question_List.Count + ")")
                                 }
+                                else
+                                {
+                                    @("(0)")
+                                }
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
@@ -610,46 +614,77 @@
 
     @if (ShowPopUp == true)
     {
-        switch (PopMsg)
-        {
-            case "Cancel":
-                <div class="popUpsContainer">
-                    <div class="managerAndBubble">
-                        <div class="manager">
-                        </div>
-                        <div class="bubble">
-                            cancel
-                            <input type="button" value="כן, בטל שינויים" class="Allbuttons cancelChanges" @onclick="Cancel">
-                            <input type="button" value="לא, המשך עריכה" class="Allbuttons cancelChanges" @onclick='() =>showPopup("")'>
-                        </div>
-                    </div>
+        <div class="popUpsContainer">
+            <div class="managerAndBubble">
+                <div class="manager">
                 </div>
-                break;
-            case "DeleteAns":
-                <div>delete</div>
-                <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ansToDelete))"></div>
-                <input type="button" value="לא, המשך עריכה" class="Allbuttons cancelChanges" @onclick='() =>showPopup("")'>
-                break;
-            case "DeleteQuestion":
-                <div>Deleting question</div>
-                <div @onclick="() => RemoveQuestionFromDB(questionToDelete)" class="deleteIcon"></div>
-                <input type="button" value="לא, המשך עריכה" class="Allbuttons cancelChanges" @onclick='() =>showPopup("")'>
-                break;
-            case "Go Back Without Saving Question Or Answer":
-                <div>question or answer not saved</div>
-                <a href="https://localhost:7022/GamesList">
-                    <input type="button" value="למשחקים שלי" class="Allbuttons" />
-                </a>
-                <input type="button" value="לא, המשך עריכה" class="Allbuttons cancelChanges" @onclick='() =>showPopup("")'>
-                break;
-            case "Go Back Without Saving Settings":
-                <div>game setting not saved</div>
-                <a href="https://localhost:7022/GamesList">
-                    <input type="button" value="למשחקים שלי" class="Allbuttons" />
-                </a>
-                <input type="button" value="לא, המשך עריכה" class="Allbuttons cancelChanges" @onclick='() =>showPopup("")'>
-                break;
-        }
+                <div class="bubble">
+                    @switch (PopMsg)
+                    {
+                        case "Cancel":
+                            <div>
+                                <h4>חלק מההגדרות לא ישמרו!</h4>
+                                <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
+                            </div>
+                            <div>
+                                <input type="button" value="כן, בטל שינויים" class="Allbuttons cancelChanges" @onclick="Cancel">
+                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                            </div>
+                            break;
+
+                        case "DeleteAns":
+                            <div>
+                                <h4>תוכן המסיח ימחק!</h4>
+                                <p>האם למחוק את המסיח?</p>
+                            </div>
+                            <div>
+                                @* <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ansToDelete))"></div> *@
+                                <input type="button" value="כן, מחק מסיח" class="Allbuttons cancelChanges" @onclick="(() =>RemoveAnsFromList(ansToDelete))" />
+                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                            </div>
+                            break;
+
+                        case "DeleteQuestion":
+                            <div>
+                                <h4>השאלה ופרטיה ימחקו!</h4>
+                                <p>האם למחוק את השאלה?</p>
+                            </div>
+                            <div>
+                                @* <div @onclick="() => RemoveQuestionFromDB(questionToDelete)" class="deleteIcon"></div> *@
+                                <input type="button" value="כן, מחק שאלה" class="Allbuttons cancelChanges" @onclick="() => RemoveQuestionFromDB(questionToDelete)">
+                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                            </div>                           
+                            break;
+
+                        case "Go Back Without Saving Question Or Answer":
+                            <div>
+                                <h4>חלק מפרטי השאלה לא ישמרו!</h4>
+                                <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
+                            </div>
+                            <div>
+                                <a href="https://localhost:7022/GamesList">
+                                    <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                                </a>
+                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                            </div>                          
+                            break;
+
+                        case "Go Back Without Saving Settings":
+                            <div>
+                                <h4>חלק מההגדרות לא ישמרו!</h4>
+                                <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
+                            </div>
+                            <div>
+                                <a href="https://localhost:7022/GamesList">
+                                    <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                                </a>
+                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                            </div>
+                            break;
+                    }
+                </div>
+            </div>
+        </div>
     }
 </div>
 

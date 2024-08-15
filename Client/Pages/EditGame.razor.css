@@ -476,18 +476,37 @@ popups*/
     height: 270px;
     width: 523px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     right: -130px;
+    padding-right: 36px;
+    gap: 25px;
 }
 
 .managerAndBubble {
     height: 560px;
     width: 900px;
     position: absolute;
-/*    background-color: mediumpurple;
-*/    right: 260px;
+    /*    background-color: mediumpurple;
+*/ right: 260px;
     display: flex;
     flex-direction: row;
     align-self: flex-end;
 }
+
+.bubble div {
+    height: 70px;
+    width: 450px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    .bubble div:nth-child(2) {
+        flex-direction: row;
+        height: 32px;
+        gap: 30px;
+        
+    }

@@ -132,7 +132,7 @@
             @foreach (int i in btns)
             {
                 var buttonId = (chosenButton == i.ToString()) ? "chosenBTN" : "";
-                <input type="button" id="@buttonId" class="carouselButttons" value="@i" @onclick="(() => changeStartEnd(i))" />
+                <input type="button" id="@buttonId" class="carouselButttons" @onclick="(() => changeStartEnd(i))" />
             }
         </div>
 
