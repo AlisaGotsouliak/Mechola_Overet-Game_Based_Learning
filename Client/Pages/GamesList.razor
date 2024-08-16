@@ -108,7 +108,7 @@
 
                                 <label class="switch">
                                     <input type="checkbox" checked="@game.IsPublished"
-                                           @onchange="(() =>changePublish(game))">
+                               @onchange="(() =>changePublish(game))">
                                     <span class="slider round"></span>
                                     <div class="togglesToolTips">
                                         <p>כפתור פרסום משחק</p>
@@ -153,8 +153,24 @@
     <input type="button" value="reload" @onclick=Navigate />
     }*@
 
-    <div>
 
+    <div class="popUpsContainer">
+        <div class="managerAndBubble">
+            <div class="manager">
+            </div>
+            <div class="bubble">
+                <div>
+                    <h4>המשחק ימחק!</h4>
+                    <p>האם למחוק את המשחק “ביולוגיה - התא”?</p>
+                </div>
+                <div>
+                    <a href="https://localhost:7022/GamesList">
+                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                    </a>
+                    <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -178,7 +194,7 @@
 
     public void changeStartEnd(int clickedButton)
     {
-        
+
         chosenButton = clickedButton.ToString();
 
         if (MyGamesList.Count != null)
