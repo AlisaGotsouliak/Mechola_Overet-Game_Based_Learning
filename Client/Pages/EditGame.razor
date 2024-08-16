@@ -638,7 +638,6 @@
                                 <p>האם למחוק את המסיח?</p>
                             </div>
                             <div>
-                                @* <div class="deleteIcon deleteImageIcon" @onclick="(() =>RemoveAnsFromList(ansToDelete))"></div> *@
                                 <input type="button" value="כן, מחק מסיח" class="Allbuttons cancelChanges" @onclick="(() =>RemoveAnsFromList(ansToDelete))" />
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                             </div>
@@ -650,7 +649,6 @@
                                 <p>האם למחוק את השאלה?</p>
                             </div>
                             <div>
-                                @* <div @onclick="() => RemoveQuestionFromDB(questionToDelete)" class="deleteIcon"></div> *@
                                 <input type="button" value="כן, מחק שאלה" class="Allbuttons cancelChanges" @onclick="() => RemoveQuestionFromDB(questionToDelete)">
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                             </div>
@@ -974,6 +972,7 @@
         GameToShow.Answers.Remove(ansToDelete);
         if (ansToDelete.AnswerImage != "No image")
             MakeDeleteList(ansToDelete.AnswerImage);
+        ShowPopUp = false;
     }
 
     private void AddAnsTextToList()
@@ -996,6 +995,7 @@
         if (deleteQ.IsSuccessStatusCode)
             msg = deleteQ.Content.ReadAsStringAsync().Result;
         questionToDelete = new QuestionDB();
+        ShowPopUp = false;
     }
 
     async Task ShowQuestion(QuestionDB questionToShow)
