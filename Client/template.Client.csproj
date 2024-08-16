@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\Popups.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Game\Build\Game.data" />
     <None Include="wwwroot\Game\Build\Game.framework.js" />
     <None Include="wwwroot\Game\Build\Game.loader.js" />
