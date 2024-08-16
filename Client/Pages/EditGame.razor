@@ -653,7 +653,7 @@
                                 @* <div @onclick="() => RemoveQuestionFromDB(questionToDelete)" class="deleteIcon"></div> *@
                                 <input type="button" value="כן, מחק שאלה" class="Allbuttons cancelChanges" @onclick="() => RemoveQuestionFromDB(questionToDelete)">
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
-                            </div>                           
+                            </div>
                             break;
 
                         case "Go Back Without Saving Question Or Answer":
@@ -666,7 +666,7 @@
                                     <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
                                 </a>
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
-                            </div>                          
+                            </div>
                             break;
 
                         case "Go Back Without Saving Settings":
@@ -922,6 +922,8 @@
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
             GameToShow = new QuestionDB();
+            GameToShow.GameID = GameCode;
+            GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
         }
     }
@@ -949,8 +951,8 @@
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
             GameToShow = new QuestionDB();
-            GameToShow.Answers = new List<AnswerDB>
-                ();
+            GameToShow.GameID = GameCode;
+            GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
             Temp = full_gameInfo;
             isShown = "false";

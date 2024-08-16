@@ -153,6 +153,10 @@
     <input type="button" value="reload" @onclick=Navigate />
     }*@
 
+    <div>
+
+    </div>
+
 </div>
 
 @code {
@@ -162,11 +166,15 @@
     public List<int> btns = new List<int>();
     public int currentGame = 0;
     public string displayClass = "";
-
     public int gameToShowStart = 1;
     public int gameToShowEnd = 11;
+    public string chosenButton = "";
+    bool ShowPopUp = false;
 
-    public string chosenButton = "";  
+    void showPopup(string msgForPop)
+    {
+        ShowPopUp = !ShowPopUp;
+    }
 
     public void changeStartEnd(int clickedButton)
     {
