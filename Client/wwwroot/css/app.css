@@ -274,3 +274,10 @@ popups*/
         height: 32px;
         gap: 30px;
     }
+
+.cancelChanges {
+    background-color: white;
+    color: #233E46;
+    outline: 2px solid #233E46;
+    outline-offset: -2px;
+}
