@@ -153,9 +153,10 @@
     <input type="button" value="reload" @onclick=Navigate />
     }*@
 
-
-    <div class="popUpsContainer">
-        <div class="managerAndBubble">
+    @if (ShowPopUp)
+    {
+        <div class="popUpsContainer">
+            <div class="managerAndBubble">
             <div class="manager">
             </div>
             <div class="bubble">
@@ -172,7 +173,7 @@
             </div>
         </div>
     </div>
-
+    }
 </div>
 
 @code {
