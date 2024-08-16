@@ -103,9 +103,6 @@
                             }
                             else
                             {
-                                @* <input type="checkbox" checked="@game.IsPublished"
-                    @onchange="(() =>changePublish(game))" /> *@
-
                                 <label class="switch">
                                     <input type="checkbox" checked="@game.IsPublished"
                                @onchange="(() =>changePublish(game))">
@@ -116,7 +113,7 @@
                                 </label>
                             }
 
-                            <div class="deleteIcon" @onclick="(() =>DeleteGame(game))"></div>
+                            <div class="deleteIcon" @onclick="(() =>showPopup(game))"></div>
                         </div>
                     </div>
                 </div>
@@ -124,8 +121,6 @@
             <a href="https://localhost:7022/EditGame/RouteParams/0/@gameToAdd.Game/50">
                 <div id="CreateNewGame"></div>
             </a>
-
-
 
         </div>
         <div id="carouselButttonsContainer">
@@ -135,8 +130,6 @@
                 <input type="button" id="@buttonId" class="carouselButttons" @onclick="(() => changeStartEnd(i))" />
             }
         </div>
-
-
     }
 
     <style>
@@ -145,34 +138,24 @@
         }
     </style>
 
-    @*    <p>@msg</p>*@
-
-    @*    @if (msg != "")
-    {
-    <p>@msg</p>
-    <input type="button" value="reload" @onclick=Navigate />
-    }*@
-
     @if (ShowPopUp)
     {
         <div class="popUpsContainer">
             <div class="managerAndBubble">
-            <div class="manager">
-            </div>
-            <div class="bubble">
-                <div>
-                    <h4>המשחק ימחק!</h4>
-                    <p>האם למחוק את המשחק “ביולוגיה - התא”?</p>
+                <div class="manager">
                 </div>
-                <div>
-                    <a href="https://localhost:7022/GamesList">
-                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
-                    </a>
-                    <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                <div class="bubble">
+                    <div>
+                        <h4>המשחק ימחק!</h4>
+                        <p>האם למחוק את המשחק “ביולוגיה - התא”?</p>
+                    </div>
+                    <div>
+                        <input type="button" value="כן, מחק" class="Allbuttons cancelChanges" @onclick="(() =>DeleteGame(gameToDelete))">
+                        <input type="button" value="לא, בטל מחיקה" class="Allbuttons" @onclick='() =>showPopup(null)'>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 </div>
 
@@ -187,9 +170,11 @@
     public int gameToShowEnd = 11;
     public string chosenButton = "";
     bool ShowPopUp = false;
+    GameToCard gameToDelete = new GameToCard();
 
-    void showPopup(string msgForPop)
+    void showPopup(GameToCard gameDelete)
     {
+        gameToDelete = gameDelete;
         ShowPopUp = !ShowPopUp;
     }
 
@@ -270,7 +255,7 @@
             msg = "נמחק בהצלחה";
             MyGamesList.Remove(game);
             btns.Clear();
-            changeStartEnd(1);
+            changeStartEnd(int.Parse(chosenButton));
             for (int i = 1; i <= totalButtons; i++)
             {
                 btns.Add(i);
@@ -278,6 +263,8 @@
         }
         else
             msg = "המחיקה נכשלה";
+        gameToDelete = new GameToCard();
+        ShowPopUp = false;
     }
 
 
