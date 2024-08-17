@@ -8,29 +8,65 @@
         </NavLink>
     </div>
     <div id="navHTP" class="navBarTabs" @onclick="OnOffHowToPlayPop">
-        <NavLink href="">
+        איך משחקים
+        @* <NavLink href="">
             איך משחקים
-        </NavLink>
+        </NavLink> *@
     </div>
     <div id="navEditor" class="navBarTabs">
+        
         <NavLink href="GamesList">
             עורך
         </NavLink>
     </div>
     <div id="navAbout" class="navBarTabs" @onclick="OnOffAboutPop">
-        <NavLink href="">
+        אודות
+        @* <NavLink href="">
             אודות
-        </NavLink>
+        </NavLink> *@
     </div>
 </nav>
 
 @if (HowToPlayPop)
 {
-    <input type="button" @onclick="OnOffHowToPlayPop"> // כפתור לסגירה
+    <input type="button" @onclick="OnOffHowToPlayPop">
 }
 else if (About)
 {
-    <input type="button" @onclick="OnOffAboutPop"> // כפתור לסגירה
+
+    <div class="navPopUps">
+        <div class="popUpContainer">
+            <div>
+                <input type="button" @onclick="OnOffAboutPop">
+            </div>
+            <h4>אודות</h4>
+            <h5>"מכולה עוברת"</h5>
+            <div>
+                <p><span>אפיון ופיתוח: </span>יעל צורן, אליסה גוצוליאק ,עמית ירושלמי</p>
+                
+                <p><span>אופיין ופותח במסגרת פרויקט בקורסים:</span></p>
+                <ul>                    
+                    <li>סביבות לימוד אינטראקטיביות 1-2</li>
+                    <li>תכנות אינראקציה ואנימציה 1-2</li>
+                    <li>תכנות 1-2</li>
+                </ul>
+                <span>תשפ"ד"</span>
+
+                <ul>
+                    <li>
+                        נעשה שימוש בתמונות מאתר
+                        <a href="https://www.freepik.com/">Freepik</a>
+                    </li>
+                </ul>
+                <div>
+                    <a href="https://www.hit.ac.il/academic/instructional-technologies/">הפקולטה לטכנולוגיות למידה</a>
+                </div>
+            </div>     
+            
+        </div>
+    </div>
+
+
 }
 
 @code {
