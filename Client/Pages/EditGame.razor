@@ -211,7 +211,8 @@
                                     </div>
                                     @if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count < 30)
                                     {
-                                        if (isShown == "true")
+                                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        if (isShown == "true" && ChangesMadeInEditing)
                                         {
                                             <div class="buttonContainer">
                                                 <input type="button" value="+" class="Allbuttons addButton" disabled>
@@ -477,7 +478,7 @@
                             <div>
                                 @if (GameToShow != null)
                                 {
-                                    ChangesInEditing();
+                                   ChangesInEditing();
                                     <EditForm Model="GameToShow" OnValidSubmit="UpdateQuestionInDB">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
@@ -817,39 +818,73 @@
                                 break;
                             }
                         }
+                        if (ChangesSaved != 0)
+                        {
+                            ChangesInSettings();
+                        }
                     }
                 }
             }
         }
         else
         {
-            if (ChangesSaved == -1)
+            ChangesInSettings();
+            //if (ChangesSaved == -1)
+            //{
+            //    if (full_gameInfo.Game != null && gameToAdd.Time != null)
+            //    {
+            //        if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
+            //        {
+            //            ChangesSaved = 0;
+            //            ShowPopUp = true;
+            //            PopMsg = "Go Back Without Saving Settings";
+            //        }
+            //        else
+            //        {
+            //            ChangesSaved = 1;
+            //            ShowPopUp = false;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ChangesSaved = 1;
+            //    }
+            //}
+            //else if (ChangesSaved == 2)
+            //{
+            //    ChangesSaved = 1;
+            //    ShowPopUp = false;
+            //}
+        }
+    }
+
+    void ChangesInSettings()
+    {
+        if (ChangesSaved == -1 || ChangesSaved==1)
+        {
+            if (full_gameInfo.Game != null && gameToAdd.Time != null)
             {
-                if (full_gameInfo.Game != null && gameToAdd.Time != null)
+                if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
                 {
-                    if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
-                    {
-                        ChangesSaved = 0;
-                        ShowPopUp = true;
-                        PopMsg = "Go Back Without Saving Settings";
-                    }
-                    else
-                    {
-                        ChangesSaved = 1;
-                        ShowPopUp = false;
-                    }
+                    ChangesSaved = 0;
+                    ShowPopUp = true;
+                    PopMsg = "Go Back Without Saving Settings";
                 }
                 else
                 {
                     ChangesSaved = 1;
+                    ShowPopUp = false;
                 }
             }
-            else if (ChangesSaved == 2)
+            else
             {
                 ChangesSaved = 1;
-                ShowPopUp = false;
             }
-
+        }
+        else if (ChangesSaved == 2)
+        {
+            ChangesSaved = 1;
+            ShowPopUp = false;
         }
     }
 
