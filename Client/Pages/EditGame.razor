@@ -211,22 +211,43 @@
                                     </div>
                                     @if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count < 30)
                                     {
-                                        <div class="buttonContainer">
-                                            <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
-                                        </div>
+                                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        if (isShown == "true" && ChangesMadeInEditing)
+                                        {
+                                            <div class="buttonContainer">
+                                                <input type="button" value="+" class="Allbuttons addButton" disabled>
+                                            </div>
+                                            //Disables button need a class for opacity and maybe without hover - YAELLLL
+                                        }
+                                        else
+                                        {
+                                            <div class="buttonContainer">
+                                                <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
+                                            </div>
+                                        }
                                     }
                                     else if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count == 30)
                                     {
                                         <div class="buttonContainer">
                                             <div>הגעת למספר השאלות המקסימאלי למשחק</div>
                                         </div>
-                                        //יעללללללללללללללללללללללללללל צריך לבדוק עיצובייייייייייייייייייייייי מה עושים? :)
                                     }
                                     else
                                     {
-                                        <div class="buttonContainer">
-                                            <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
-                                        </div>
+                                        if (isShown == "true")
+                                        {
+                                            <div class="buttonContainer">
+                                                <input type="button" value="+" class="Allbuttons addButton" disabled>
+                                            </div>
+                                            //Disables button need a class for opacity and maybe without hover - YAELLLL
+                                        }
+                                        else
+                                        {
+                                            <div class="buttonContainer">
+                                                <input type="button" value="+" @onclick="AddQuestionToList" class="Allbuttons addButton">
+                                            </div>
+                                        }
+
                                     }
                                 }
                             </div>
@@ -422,9 +443,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @*                                     <input type="button" value="+" @onclick="AddAnsText" class="Allbuttons addButton">
-                            *@
-
                                     <div class="questionButtonAndSubmitContainer">
                                         <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
@@ -460,6 +478,7 @@
                             <div>
                                 @if (GameToShow != null)
                                 {
+                                   ChangesInEditing();
                                     <EditForm Model="GameToShow" OnValidSubmit="UpdateQuestionInDB">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
@@ -514,7 +533,6 @@
                                                         {
                                                             <label for="FileAInputIDAns" class="insertQuestionImage ansImageContainer"></label>
                                                             <InputFile id="FileAInputIDAns" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
-                                                            @*<div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAns(ans))"></div>*@
                                                             <div class="deleteIcon deleteImageIcon" @onclick='() => showPopup("DeleteAns")'></div>
                                                             ImageEmpty = true;
                                                         }
@@ -559,8 +577,8 @@
                                                     }
                                                 }
                                             </div>
-
-                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Length >= 7 && !ImageEmpty)
+                                            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && ChangesMadeInEditing)
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
                                                     <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
@@ -577,7 +595,6 @@
                                         }
                                         else
                                         {
-
                                             <div class="addAnsContainer">
                                                 <div id="addAnsButton">
                                                     <input type="button" value="+" class="Allbuttons addButton">
@@ -625,8 +642,8 @@
                     {
                         case "Cancel":
                             <div>
-                                <h4>חלק מההגדרות לא ישמרו!</h4>
-                                <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
+                                <h4>חלק מפרטי השאלה לא ישמרו!</h4>
+                                <p>האם לבטל שינויים, ללא שמירת השינויים?</p>
                             </div>
                             <div>
                                 <input type="button" value="כן, בטל שינויים" class="Allbuttons cancelChanges" @onclick="Cancel">
@@ -705,6 +722,7 @@
     // ChangesSaved = 2 - changes were made and saved
     bool CanAddQuestions = false;
     bool ShowPopUp = false;
+    bool ChangesMadeInEditing = false;
     long maxFileSize = 4194304;
     string myFileImage = "";
     string isShown = "false";
@@ -800,47 +818,144 @@
                                 break;
                             }
                         }
+                        if (ChangesSaved != 0)
+                        {
+                            ChangesInSettings();
+                        }
                     }
                 }
             }
         }
         else
         {
-            if (ChangesSaved == -1)
+            ChangesInSettings();
+            //if (ChangesSaved == -1)
+            //{
+            //    if (full_gameInfo.Game != null && gameToAdd.Time != null)
+            //    {
+            //        if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
+            //        {
+            //            ChangesSaved = 0;
+            //            ShowPopUp = true;
+            //            PopMsg = "Go Back Without Saving Settings";
+            //        }
+            //        else
+            //        {
+            //            ChangesSaved = 1;
+            //            ShowPopUp = false;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ChangesSaved = 1;
+            //    }
+            //}
+            //else if (ChangesSaved == 2)
+            //{
+            //    ChangesSaved = 1;
+            //    ShowPopUp = false;
+            //}
+        }
+    }
+
+    void ChangesInSettings()
+    {
+        if (ChangesSaved == -1 || ChangesSaved==1)
+        {
+            if (full_gameInfo.Game != null && gameToAdd.Time != null)
             {
-                if (full_gameInfo.Game != null && gameToAdd.Time!=null)
+                if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
                 {
-                    if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
-                    {
-                        ChangesSaved = 0;
-                        ShowPopUp = true;
-                        PopMsg = "Go Back Without Saving Settings";
-                    }
-                    else
-                    {
-                        ChangesSaved = 1;
-                        ShowPopUp = false;
-                    }
+                    ChangesSaved = 0;
+                    ShowPopUp = true;
+                    PopMsg = "Go Back Without Saving Settings";
                 }
                 else
                 {
                     ChangesSaved = 1;
+                    ShowPopUp = false;
                 }
             }
-            else if (ChangesSaved == 2)
+            else
             {
                 ChangesSaved = 1;
-                ShowPopUp = false;
             }
-
+        }
+        else if (ChangesSaved == 2)
+        {
+            ChangesSaved = 1;
+            ShowPopUp = false;
         }
     }
 
+    void ChangesInEditing()
+    {
+        if (Temp.question_List != null && GameToShow.ID != 0)
+        {
+            QuestionDB question1 = GameToShow;
+            QuestionDB question2 = new QuestionDB();
+
+            foreach (QuestionDB q in Temp.question_List)
+            {
+                if (q.ID == GameToShow.ID)
+                {
+                    question2 = q;
+                }
+            }
+
+            if (question1 != null && question2 != null)
+            {
+                // Compare the Question properties
+                if (question1.QuestionText != question2.QuestionText ||
+                    question1.QuestionImage != question2.QuestionImage ||
+                    question1.GameID != question2.GameID ||
+                    question1.ID != question2.ID)
+                {
+                    ChangesMadeInEditing = true;
+                }
+                else if (question1.Answers != null && question2.Answers != null)
+                {
+                    // Compare the Answers list
+                    if (question1.Answers.Count != question2.Answers.Count)
+                    {
+                        ChangesMadeInEditing = true;
+                    }
+                    if (!ChangesMadeInEditing)
+                    {
+                        for (int j = 0; j < question1.Answers.Count; j++)
+                        {
+                            var answer1 = question1.Answers[j];
+                            var answer2 = question2.Answers[j];
+
+                            // Compare the Answer properties
+                            if (answer1.AnswerText != answer2.AnswerText ||
+                                answer1.AnswerImage != answer2.AnswerImage ||
+                                answer1.IsCorrect != answer2.IsCorrect ||
+                                answer1.QuestionID != answer2.QuestionID ||
+                                answer1.ID != answer2.ID)
+                            {
+                                ChangesMadeInEditing = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     void showPopup(string msgForPop)
     {
-        ShowPopUp = !ShowPopUp;
         PopMsg = msgForPop;
+        if (PopMsg == "Cancel" && !ChangesMadeInEditing)
+        {
+            ShowPopUp = false;
+            Cancel();
+        }
+        else
+        {
+                 ShowPopUp = !ShowPopUp;   
+        }
         //Message = "cancel changes"
         //Message = "my games without saving game settings"
         //Message = "my games without saving question changes"
@@ -966,6 +1081,7 @@
             isShown = "false";
         }
         ChangesSaved = 2;
+        ChangesMadeInEditing = false;
     }
 
     private void AddQuestionToList()
@@ -1021,6 +1137,7 @@
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
         }
+        ChangesInEditing();
         isShown = "Edit";
         GameToShow = questionToShow;
     }
@@ -1039,8 +1156,9 @@
                 }
             }
         }
-        ShowPopUp = !ShowPopUp;
+        ShowPopUp = false;
         ChangesSaved = 2;
+        ChangesMadeInEditing = false;
         DeletedImages.Clear();
         isShown = "false";
     }
