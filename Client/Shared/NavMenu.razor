@@ -28,13 +28,36 @@
 </nav>
 
 @if (HowToPlayPop)
-{
-    <input type="button" @onclick="OnOffHowToPlayPop">
+{ 
+    <div class="navPopUps">
+        <div class="popUpContainer">
+            <div>
+                <input type="button" @onclick="OnOffHowToPlayPop">
+            </div>
+            <h4>איך משחקים?</h4>
+            <div id="howToPlayInfo">
+                כדי לענות על כל שאלה במשחק, יש להזיז את המכולות שעל המגרש,
+                <br/>
+                כך שניתן יהיה להוציא את המכולה עם התשובה הנכונה מהמגרש.
+            </div>
+            <div id="HTPGuide">
+                <div class="guideSteps">
+                    <div>1</div>
+                    <div>בחירת מכולה:</div>
+                    <div></div>
+                </div>
+                <div class="guideSteps">
+                    <div>2</div>
+                    <div>הזזת מכולה:</div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else if (About)
 {
-
-    <div class="navPopUps">
+    <div id="aboutPopUp" class="navPopUps">
         <div class="popUpContainer">
             <div>
                 <input type="button" @onclick="OnOffAboutPop">
@@ -47,7 +70,7 @@ else if (About)
                 <p><span>אופיין ופותח במסגרת פרויקט בקורסים:</span></p>
                 <ul>                    
                     <li>סביבות לימוד אינטראקטיביות 1-2</li>
-                    <li>תכנות אינראקציה ואנימציה 1-2</li>
+                    <li>תכנות אינטראקציה ואנימציה 1-2</li>
                     <li>תכנות 1-2</li>
                 </ul>
                 <span>תשפ"ד"</span>
@@ -65,8 +88,6 @@ else if (About)
             
         </div>
     </div>
-
-
 }
 
 @code {
