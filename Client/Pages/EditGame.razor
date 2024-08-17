@@ -808,16 +808,23 @@
         {
             if (ChangesSaved == -1)
             {
-                if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
+                if (full_gameInfo.Game != null && gameToAdd.Time!=null)
                 {
-                    ChangesSaved = 0;
-                    ShowPopUp = true;
-                    PopMsg = "Go Back Without Saving Settings";
+                    if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
+                    {
+                        ChangesSaved = 0;
+                        ShowPopUp = true;
+                        PopMsg = "Go Back Without Saving Settings";
+                    }
+                    else
+                    {
+                        ChangesSaved = 1;
+                        ShowPopUp = false;
+                    }
                 }
                 else
                 {
                     ChangesSaved = 1;
-                    ShowPopUp = false;
                 }
             }
             else if (ChangesSaved == 2)
@@ -825,6 +832,7 @@
                 ChangesSaved = 1;
                 ShowPopUp = false;
             }
+
         }
     }
 

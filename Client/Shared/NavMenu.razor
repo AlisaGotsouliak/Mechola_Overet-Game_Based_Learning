@@ -7,7 +7,7 @@
             משחק
         </NavLink>
     </div>
-    <div id="navHTP" class="navBarTabs">
+    <div id="navHTP" class="navBarTabs" @onclick="OnOffHowToPlayPop">
         <NavLink href="">
             איך משחקים
         </NavLink>
@@ -17,13 +17,35 @@
             עורך
         </NavLink>
     </div>
-    <div id="navAbout" class="navBarTabs">
+    <div id="navAbout" class="navBarTabs" @onclick="OnOffAboutPop">
         <NavLink href="">
             אודות
         </NavLink>
     </div>
 </nav>
 
-@code {
+@if (HowToPlayPop)
+{
+    <input type="button" @onclick="OnOffHowToPlayPop">
+}
+else if (About)
+{
+    <input type="button" @onclick="OnOffAboutPop">
+}
 
+@code {
+    bool HowToPlayPop;
+    bool About;
+
+    void OnOffHowToPlayPop()
+    {
+        HowToPlayPop = !HowToPlayPop;
+        About = false;
+    }
+
+    void OnOffAboutPop()
+    {
+        About = !About;
+        HowToPlayPop = false;
+    }
 }
