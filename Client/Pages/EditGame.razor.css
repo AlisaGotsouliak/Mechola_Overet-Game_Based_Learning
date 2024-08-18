@@ -184,10 +184,13 @@ form img {
     opacity: 30% !important
 }
 
+    #disabledPlusButton:hover{
+        transform: scale(1) !important;
+    }
 
-#addAnsButton {
-    position: relative;
-}
+    #addAnsButton {
+        position: relative;
+    }
 
 #addAnsOptions {
     display: none;
@@ -442,3 +445,10 @@ button.deleteIcon {
     display: block;
 }
 
+.disabledButton {
+    opacity:30%;
+}
+
+.disabledButton:hover{
+    transform: scale(1) !important
+}

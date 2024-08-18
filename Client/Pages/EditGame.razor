@@ -5,7 +5,7 @@
 @inject HttpClient Http;
 @inject NavigationManager Navigation
 
-<div class="page_bg" style="display:flex; justify-content:center; flex-direction:column">
+<div class="page_bg">
     <div id="pageTop">
         @if (GameName != "")
         {
@@ -156,7 +156,7 @@
                                     <div class="buttonContainer">
                                         @if (gameToAdd.Game.Length < 3 || !changesMadeInSetting)
                                         {
-                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled style="opacity:30%" />
+                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons disabledButton" disabled  />
                                         }
                                         else
                                         {
@@ -255,7 +255,7 @@
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" disabled style="opacity:70%">
+                            <button class="accordion-button collapsed disabledButton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" disabled>
                                 שאלות המשחק
                                 @if (full_gameInfo.question_List != null)
                                 {
@@ -408,7 +408,7 @@
                                     {
                                         <div class="questionButtonAndSubmitContainer">
                                             <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                            <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                            <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton" disabled>
                                         </div>
 
                                     }
@@ -440,7 +440,7 @@
                                     </div>
                                     <div class="questionButtonAndSubmitContainer">
                                         <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                        <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                        <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton" disabled>
                                     </div>
                                 }
                             </EditForm>
@@ -583,7 +583,7 @@
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
                                                     <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                                    <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                    <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton disabledButton" disabled>
                                                 </div>
                                             }
                                         }
@@ -612,7 +612,7 @@
                                             </div>
                                             <div class="questionButtonAndSubmitContainer">
                                                 <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
-                                                <input type="submit" value="שמירת שאלה" class="Allbuttons" style="opacity:70%" disabled>
+                                                <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton" disabled>
                                             </div>
                                         }
                                     </EditForm>
