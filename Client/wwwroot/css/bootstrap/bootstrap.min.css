@@ -4788,9 +4788,7 @@ textarea.form-control-lg {
 .accordion-button {
     display: flex;
     justify-content: space-between !important;
-    /*align-items: center;*/
     width: 100%;
-    /*    padding: 1rem;*/
     font-size: 16px;
     color: black!important;
     font-weight: bold;
@@ -4821,7 +4819,6 @@ textarea.form-control-lg {
 
     .accordion-button:not(.collapsed)::after {
         background-image: none !important;
-
     }
 
     .accordion-button:not(.collapsed)::after {
@@ -4844,16 +4841,15 @@ textarea.form-control-lg {
         box-shadow: none !important;
     }
 
-
-    .accordion-button::after { /*acccordion closed*/
-        flex-shrink: 0;
-        width: 20px;
-        height: 20px;
-        margin-left: 0px !important;
-        background-image: url('../images/arrow.svg') !important;
-        background-position: center !important;
-        transform: rotate(180deg) !important;
-    }
+.accordion-button::after { /*acccordion closed*/
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-left: 0px !important;
+    background-image: url('../images/arrow.svg') !important;
+    background-position: center !important;
+    transform: rotate(180deg) !important;
+}
 
 @media (prefers-reduced-motion:reduce) {
     .accordion-button::after {
@@ -5038,10 +5034,11 @@ textarea.form-control-lg {
         max-width: 494px;
     }
 
-    .questionInList:hover {
-        background-color: #FFC97B24 !important;
-        /*color on hover of a question in the list - uses the accordion button color with 14% opacity*/
-    }
+        .questionInList:hover {
+/*            background-color: #FFC97B24 !important;
+*/            background-color: #E6F9FF !important;
+            /*color on hover of a question in the list - uses the accordion button color with 14% opacity*/
+        }
 
     .questionInList p {
 /*        display: flex;

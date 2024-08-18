@@ -110,6 +110,11 @@ form img {
 }
 
 
+
+#collapseTwo .buttonContainer div {
+    font-weight: bold
+}
+
 #gameSettingsContainer, #listOfQuestionsContiner, .buttonContainer {
     width: 494px;
     height: auto !important;
@@ -130,7 +135,7 @@ form img {
 
 #listOfQuestionsContiner {
     flex-direction: column;
-    background-color: orange;
+    background-color: red;
     max-height: 200px;
     width: 508px !important;
     overflow-y: auto !important;
@@ -175,7 +180,9 @@ form img {
 }
 
 
-
+#disabledPlusButton {
+    opacity: 30% !important
+}
 
 
 #addAnsButton {
