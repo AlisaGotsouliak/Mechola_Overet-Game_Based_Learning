@@ -708,6 +708,7 @@
     QuestionDB questionToDelete = new QuestionDB();
     AnswerDB ansToDelete = new AnswerDB();
 
+
     int ChangesSaved = -1;
     // ChangesSaved = -1 - null
     // ChangesSaved = 0 - changes were made, but not saved
@@ -1158,6 +1159,10 @@
 
     private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)
     {
+        if(Qimage!="No image")
+        {
+            MakeDeleteList(Qimage);
+        }
         var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
         {
@@ -1187,6 +1192,10 @@
 
     private async Task UploadAnswerImageInDB(InputFileChangeEventArgs e, AnswerDB ans)
     {
+        if (ans.AnswerImage!=null)
+        {
+            MakeDeleteList(ans.AnswerImage);
+        }
         var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
         {
