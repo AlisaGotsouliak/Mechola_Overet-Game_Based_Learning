@@ -62,12 +62,8 @@
 
             @if (ChangesSaved == 1)
             {
-                Navigation.NavigateTo("https://localhost:7022/GamesList");
+                Navigation.NavigateTo("GamesList");
             }
-            @*            <a href="https://localhost:7022/GamesList">
-            <input type="button" value="למשחקים שלי" class="Allbuttons" />
-            </a>*@
-
 
         </div>
     </div>
@@ -211,8 +207,9 @@
                                     </div>
                                     @if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count < 30)
                                     {
+                                        ChangesInEditing();
                                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                        if (isShown == "true" && ChangesMadeInEditing)
+                                        if (isShown == "true" || ChangesMadeInEditing)
                                         {
                                             <div class="buttonContainer">
                                                 <input id="disabledPlusButton" type="button" value="+" class="Allbuttons addButton" disabled>
@@ -234,7 +231,7 @@
                                     }
                                     else
                                     {
-                                        if (isShown == "true")
+                                        if (isShown == "true" || ChangesMadeInEditing)
                                         {
                                             <div class="buttonContainer">
                                                 <input id="disabledPlusButton" type="button" value="+" class="Allbuttons addButton" disabled>
@@ -478,13 +475,12 @@
                             <div>
                                 @if (GameToShow != null)
                                 {
-                                   ChangesInEditing();
+                                    ChangesInEditing();
                                     <EditForm Model="GameToShow" OnValidSubmit="UpdateQuestionInDB">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
                                             <CustomInputTextArea @bind-Value="GameToShow.QuestionText" maxLength="100" minLength="7" id="questionInput" />
-                                            <ValidationMessage For="@(() => GameToShow.QuestionText)" />
-                                            @if (GameToShow.QuestionImage == "No image")
+                                            <ValidationMessage For="@(() => GameToShow.QuestionText)" />                                            @if (GameToShow.QuestionImage == "No image")
                                             {
                                                 <label for="FileInputID" class="insertQuestionImage"></label>
                                                 <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
@@ -860,7 +856,7 @@
 
     void ChangesInSettings()
     {
-        if (ChangesSaved == -1 || ChangesSaved==1)
+        if (ChangesSaved == -1 || ChangesSaved == 1)
         {
             if (full_gameInfo.Game != null && gameToAdd.Time != null)
             {
@@ -954,7 +950,7 @@
         }
         else
         {
-                 ShowPopUp = !ShowPopUp;   
+            ShowPopUp = !ShowPopUp;
         }
         //Message = "cancel changes"
         //Message = "my games without saving game settings"
