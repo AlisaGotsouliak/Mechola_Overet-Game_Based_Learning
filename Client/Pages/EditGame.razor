@@ -156,7 +156,7 @@
                                     <div class="buttonContainer">
                                         @if (gameToAdd.Game.Length < 3 || !changesMadeInSetting)
                                         {
-                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled style="opacity:30%"/>
+                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons" disabled style="opacity:30%" />
                                         }
                                         else
                                         {
@@ -920,32 +920,20 @@
 
     void SettingsChangesForBtns()
     {
-        if (ChangesSaved == -1 || ChangesSaved == 1)
+        if (full_gameInfo.Game != null && gameToAdd.Time != null)
         {
-            if (full_gameInfo.Game != null && gameToAdd.Time != null)
+            if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
             {
-                if (gameToAdd.Game != full_gameInfo.Game || full_gameInfo.Time != gameToAdd.Time)
-                {
-                    ChangesSaved = 0;
-                    changesMadeInSetting = true;
-                }
-                else
-                {
-                    changesMadeInSetting = false;
-                }
+                changesMadeInSetting = true;
             }
             else
             {
                 changesMadeInSetting = false;
             }
         }
-        else if (ChangesSaved == 2)
-        {
-            changesMadeInSetting = false;
-        }
         else
         {
-            changesMadeInSetting = true;
+            changesMadeInSetting = false;
         }
     }
 
@@ -1018,14 +1006,22 @@
         settingToSend.Game = gameToAdd.Game;
         var newGameRes = await Http.PostAsJsonAsync("api/Games/Update", settingToSend);
         string error = newGameRes.Content.ReadAsStringAsync().Result;
-        if (error != "Updated")
+        if (error != "Updated")        
             CanAddQuestions = false;
+
         else
         {
+            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+            if (full_game_res.IsSuccessStatusCode)
+            {
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+            }
             CanAddQuestions = true;
             ChangesSaved = 2;
         }
+
         ShowError(error);
+        changesMadeInSetting = false;
     }
 
     async Task AddNewQuestionInDB()
@@ -1072,8 +1068,7 @@
             var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
             if (full_game_res.IsSuccessStatusCode)
             {
-                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>
-                    ().Result;
+                full_gameInfo = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
                 await DeleteImagesFromDB();
             }
             else if (GameName != "")
