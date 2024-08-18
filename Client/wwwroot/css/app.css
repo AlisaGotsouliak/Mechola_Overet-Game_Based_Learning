@@ -95,6 +95,9 @@ h3 {
     align-items: center;
 }
 
+#toolTipGroup{
+    margin: 0px
+}
 
 
 .toolTip {
@@ -113,7 +116,7 @@ h3 {
 }
 
 #gamesToolTip:hover + #infoContainers {
-    display: block;
+    display: block !important;
 }
 
 .deleteIcon, .editIcon {
