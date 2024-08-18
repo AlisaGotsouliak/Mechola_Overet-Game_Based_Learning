@@ -122,8 +122,8 @@
                             }
                             else @* ***************************** Edit Game Settings ***************************** *@
                             {
-                                SettingsChangesForBtns();
-                                <EditForm Model="gameToAdd" OnValidSubmit="UpdateGame">
+                                ChangesInSettingsForBtns();
+                                <EditForm Model="gameToAdd" OnValidSubmit="UpdateSettingsGame">
                                     <DataAnnotationsValidator />
                                     <div id="gameSettingsContainer">
                                         <div>שם משחק:</div>
@@ -208,7 +208,7 @@
                                     </div>
                                     @if (full_gameInfo.question_List != null && full_gameInfo.question_List.Count < 30)
                                     {
-                                        ChangesInEditingForBtns();
+                                        ChangesInQuestionForBtns();
                                         if (isShown == "true" || ChangesMadeInEditing)
                                         {
                                             <div class="buttonContainer">
@@ -473,7 +473,7 @@
                             <div>
                                 @if (GameToShow != null)
                                 {
-                                    ChangesInEditingForBtns();
+                                    ChangesInQuestionForBtns();
                                     <EditForm Model="GameToShow" OnValidSubmit="UpdateQuestionInDB">
                                         <DataAnnotationsValidator />
                                         <div id="questionArea">
@@ -862,7 +862,7 @@
         }
     }
 
-    void ChangesInEditingForBtns()
+    void ChangesInQuestionForBtns()
     {
         if (Temp.question_List != null && GameToShow.ID != 0)
         {
@@ -918,7 +918,7 @@
         }
     }
 
-    void SettingsChangesForBtns()
+    void ChangesInSettingsForBtns()
     {
         if (full_gameInfo.Game != null && gameToAdd.Time != null)
         {
@@ -1000,7 +1000,7 @@
         }
     }
 
-    async Task UpdateGame()
+    async Task UpdateSettingsGame()
     {
         settingToSend.Time = gameToAdd.Time;
         settingToSend.Game = gameToAdd.Game;
@@ -1088,8 +1088,7 @@
     {
         GameToShow = new QuestionDB();
         GameToShow.QuestionText = "";
-        GameToShow.Answers = new List<AnswerDB>
-            ();
+        GameToShow.Answers = new List<AnswerDB>();
         isShown = "true";
     }
 
@@ -1131,13 +1130,12 @@
             var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
             if (full_game_res.IsSuccessStatusCode)
             {
-                Temp = full_game_res.Content.ReadFromJsonAsync<FullGame>
-                    ().Result;
+                Temp = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
             }
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
         }
-        ChangesInEditingForBtns();
+        ChangesInQuestionForBtns();
         isShown = "Edit";
         GameToShow = questionToShow;
     }
