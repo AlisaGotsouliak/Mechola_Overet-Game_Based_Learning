@@ -196,12 +196,23 @@
                                         @if (full_gameInfo.question_List != null)
                                         {
                                             int i = 1;
+                                            
                                             @foreach (QuestionDB question in full_gameInfo.question_List)
                                             {
-                                                <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
-                                                    <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
-                                                    <div @onclick='() => DeleteQuestionPopUp(question)' class="deleteIcon"></div>
-                                                </div>
+                                                if(question.ID == idOfQ)
+                                                {
+                                                    <div id="selectedQuestion" @onclick="(() =>ShowQuestion(question))" class="questionInList">
+                                                        <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
+                                                        <div @onclick='() => DeleteQuestionPopUp(question)' class="deleteIcon"></div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div @onclick="(() =>ShowQuestion(question))" class="questionInList">
+                                                        <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
+                                                        <div @onclick='() => DeleteQuestionPopUp(question)' class="deleteIcon"></div>
+                                                    </div>
+                                                }
                                                 i++;
                                             }
                                         }
@@ -713,6 +724,7 @@
     QuestionDB questionToDelete = new QuestionDB();
     AnswerDB ansToDelete = new AnswerDB();
 
+    public int idOfQ;
 
     int ChangesSaved = -1;
     // ChangesSaved = -1 - null
@@ -1056,6 +1068,7 @@
             GameToShow.QuestionText = "";
         }
         isShown = "false";
+        idOfQ = -1;
     }
 
 
@@ -1085,6 +1098,7 @@
             GameToShow.QuestionText = "";
             Temp = full_gameInfo;
             isShown = "false";
+            idOfQ = -1;
         }
         ChangesSaved = 2;
         ChangesMadeInEditing = false;
@@ -1121,6 +1135,7 @@
     async Task RemoveQuestionFromDB(QuestionDB input)
     {
         isShown = "false";
+        idOfQ = -1;
         full_gameInfo.question_List.Remove(input);
         var deleteQ = await Http.PostAsJsonAsync("api/Games/DeleteQuestion", input);
         if (deleteQ.IsSuccessStatusCode)
@@ -1144,6 +1159,7 @@
         ChangesInQuestionForBtns();
         isShown = "Edit";
         GameToShow = questionToShow;
+        idOfQ = questionToShow.ID;
     }
 
     private void Cancel()
@@ -1165,6 +1181,7 @@
         ChangesMadeInEditing = false;
         DeletedImages.Clear();
         isShown = "false";
+        idOfQ = -1;
     }
 
     private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)

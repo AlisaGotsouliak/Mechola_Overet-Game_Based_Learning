@@ -461,17 +461,21 @@ button.deleteIcon {
 }
 
     .questionInList:hover {
-        *           background-color: #E6F9FF !important;
+        background-color: #E6F9FF !important;
         /*color on hover of a question in the list - uses the accordion button color with 14% opacity*/
     }
 
-    .questionInList p {
-        margin-top: 15px;
-        max-width: 400px;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-    }
+#selectedQuestion {
+    background-color: #B3EDFF;
+}
+
+.questionInList p {
+    margin-top: 15px;
+    max-width: 400px;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
 
     .questionInList .deleteIcon {
         display: none;
