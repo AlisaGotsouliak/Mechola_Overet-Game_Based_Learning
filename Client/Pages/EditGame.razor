@@ -339,8 +339,8 @@
                                         @foreach (AnswerDB ans in GameToShow.Answers)
                                         {
                                             i++;
-                                            string ChangeImage = "FileChangeAns" + @i.ToString();
-                                            string UploadImage = "FileUploadAns" + @i.ToString();
+                                            string ChangeImage = "FileChangeAns" + @i;
+                                            string UploadImage = "FileUploadAns" + @i;
                                             <div class="ansContainer">
                                                 <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                                 @if (ans.IsCorrect) oneAnsCorrect = true;
@@ -517,8 +517,8 @@
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     i++;
-                                                    string ChangeImageID = "FileChangeIDAns" + @i.ToString();
-                                                    string UploadImageID = "FileUploadIDAns" + @i.ToString();
+                                                    string ChangeImageID = "FileChangeIDAns" + @i;
+                                                    string UploadImageID = "FileUploadIDAns" + @i;
                                                     <div class="ansContainer">
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                                         @if (ans.IsCorrect) isChecked = true;
@@ -1226,7 +1226,13 @@
         }
         foreach (AnswerDB a in GameToShow.Answers)
         {
-            if (a.ID == ans.ID && a.AnswerImage==null)
+            if (a.ID == ans.ID && a.ID!=0)
+            {
+                a.AnswerImage = myFileImage;
+                myFileImage = "";
+                break;
+            }
+            else if(a.AnswerImage==null)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";
