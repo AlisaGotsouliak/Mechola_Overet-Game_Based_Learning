@@ -998,6 +998,7 @@
             string error = newGameRes.Content.ReadAsStringAsync().Result;
             ShowError(error);
         }
+
     }
 
     async Task UpdateSettingsGame()
@@ -1050,6 +1051,7 @@
             GameToShow.Answers = new List<AnswerDB>();
             GameToShow.QuestionText = "";
         }
+        isShown = "false";
     }
 
 
