@@ -5,7 +5,7 @@
 @inject HttpClient Http;
 @inject NavigationManager Navigation
 
-<div class="page_bg">
+<div id="editPage" class="page_bg" >
     <div id="pageTop">
         @if (GameName != "")
         {
@@ -230,7 +230,7 @@
                                     }
                                     else
                                     {
-                                        if (isShown == "true" || ChangesMadeInEditing)
+                                        if (isShown == "true" )
                                         {
                                             <div class="buttonContainer">
                                                 <input id="disabledPlusButton" type="button" value="+" class="Allbuttons addButton" disabled>

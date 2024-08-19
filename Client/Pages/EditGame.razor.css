@@ -251,7 +251,11 @@ form img {
         display: flex;
         flex-direction: row;
     }
-
+#editPage {
+    display:flex;
+    justify-content:center;
+    flex-direction:column
+}
 
 #addAnsOptions div.addButton {
     text-align: center;

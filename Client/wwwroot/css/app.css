@@ -15,6 +15,7 @@ body {
         overflow: hidden;
     }
 
+
 main:has(.page_bg) {
     background-image: url('images/mainbackground.svg');
     background-position: center;
@@ -22,9 +23,6 @@ main:has(.page_bg) {
     background-size: 100% 100%;
     margin: 0px;
     padding: 0px;
-    display:flex;
-    justify-content:center;
-    flex-direction:column
 }
 
 h1:focus {
