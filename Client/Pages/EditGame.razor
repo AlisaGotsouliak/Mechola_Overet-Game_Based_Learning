@@ -339,6 +339,8 @@
                                         @foreach (AnswerDB ans in GameToShow.Answers)
                                         {
                                             i++;
+                                            string ChangeImage = "FileChangeAns" + @i.ToString();
+                                            string UploadImage = "FileUploadAns" + @i.ToString();
                                             <div class="ansContainer">
                                                 <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                                 @if (ans.IsCorrect) oneAnsCorrect = true;
@@ -349,8 +351,8 @@
                                                 }
                                                 else if (ans.AnswerImage == null)
                                                 {
-                                                    <label for="FileInputIDAns" class="insertQuestionImage ansImageContainer"></label>
-                                                    <InputFile id="FileInputIDAns" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                    <label for="@UploadImage" class="insertQuestionImage ansImageContainer"></label>
+                                                    <InputFile id="@UploadImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                     <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
                                                     ImageEmpty = true;
                                                 }
@@ -359,8 +361,8 @@
                                                     <div class="ansImageContainer">
                                                         <img src="@ans.AnswerImage" height="90" width="90" />
                                                         <div class="editAnsImage">
-                                                            <label for="FileInputIDAnsChange" class="insertQuestionImage"></label>
-                                                            <InputFile id="FileInputIDAnsChange" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                            <label for="@ChangeImage" class="insertQuestionImage"></label>
+                                                            <InputFile id="@ChangeImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                         </div>
                                                     </div>
                                                     <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
@@ -515,6 +517,8 @@
                                                 @foreach (AnswerDB ans in GameToShow.Answers)
                                                 {
                                                     i++;
+                                                    string ChangeImageID = "FileChangeIDAns" + @i.ToString();
+                                                    string UploadImageID = "FileUploadIDAns" + @i.ToString();
                                                     <div class="ansContainer">
                                                         <input type="radio" name="answersGroup" checked="@ans.IsCorrect" @onchange="() => SelectAnswer(ans)" />
                                                         @if (ans.IsCorrect) isChecked = true;
@@ -525,8 +529,8 @@
                                                         }
                                                         else if (ans.AnswerImage == null)
                                                         {
-                                                            <label for="FileAInputIDAns" class="insertQuestionImage ansImageContainer"></label>
-                                                            <InputFile id="FileAInputIDAns" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                            <label for="@UploadImageID" class="insertQuestionImage ansImageContainer"></label>
+                                                            <InputFile id="@UploadImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                             <div class="deleteIcon deleteImageIcon" @onclick='() => showPopup("DeleteAns")'></div>
                                                             ImageEmpty = true;
                                                         }
@@ -535,8 +539,8 @@
                                                             <div class="ansImageContainer">
                                                                 <img src="@ans.AnswerImage" height="90" width="90" />
                                                                 <div class="editAnsImage">
-                                                                    <label for="FileAInputIDAnsChange" class="insertQuestionImage"></label>
-                                                                    <InputFile id="FileAInputIDAnsChange" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                                    <label for="@ChangeImageID" class="insertQuestionImage"></label>
+                                                                    <InputFile id="@ChangeImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
                                                                 </div>
                                                             </div>
                                                             <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
@@ -1222,7 +1226,7 @@
         }
         foreach (AnswerDB a in GameToShow.Answers)
         {
-            if (a.ID == ans.ID && a.AnswerImage == null)
+            if (a.ID == ans.ID && a.AnswerImage==null)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";

@@ -8,7 +8,7 @@ namespace template.Shared.Models.Games
 {
     public class AnswerDB
     {
-        public string AnswerText { get;     set; }
+        public string AnswerText { get; set; }
         public string AnswerImage { get; set; }
         public bool IsCorrect { get; set; }
         public int QuestionID { get; set; }
