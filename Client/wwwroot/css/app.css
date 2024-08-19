@@ -21,6 +21,7 @@ main:has(.page_bg) {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    overflow-x: hidden!important;
     margin: 0px;
     padding: 0px;
 }
@@ -33,23 +34,11 @@ a, .btn-link {
     color: #0071c1;
 }
 
-/*.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}*/
 
 .content {
     padding-top: 1.1rem;
 }
 
-/*.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
-}*/
-
-/*.invalid {
-    outline: 2px solid red;
-}*/
 
 .validation-message {
     color: red;
@@ -95,30 +84,6 @@ h3 {
     align-items: center;
 }
 
-#toolTipGroup{
-    margin: 0px
-}
-
-
-.toolTip {
-    height: 30px;
-    width: 30px;
-    margin-left: 70px;
-    background-color: #233E46;
-    border-radius: 15px;
-    color: white;
-    text-align: center;
-    align-content: center;
-}
-
-#infoContainers {
-    display: none;
-}
-
-#gamesToolTip:hover + #infoContainers {
-    display: block !important;
-}
-
 .deleteIcon, .editIcon {
     background-repeat: no-repeat;
     background-position: center;
@@ -145,72 +110,6 @@ h3 {
     }
 
 
-
-
-
-    #infoContainers {
-        background-image: url('images/infocontainerimg.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 442px 38px;
-        width: 442px;
-        height: 38px;
-        margin-left: 6px;
-    }
-
-#infoContent {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 400px;
-    height: auto;
-    font-size: 12px;
-    margin-right: 12px;
-    margin-top: 9px;
-}
-
-    #infoContent>div {
-        width: auto;
-        display: flex;
-        flex-direction: row;
-    }
-
-    #toolTipGroup #infoContainers {
-        display: none;
-    }
-
-#toolTipGroup:hover #infoContainers { 
-    display: block;
-    cursor: pointer;
-}
-
-
-.infoContainersImages {
-    height: 20px;
-    width: 40px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    margin-left: 6px;
-}
-
-#greenInfo {
-    background-image: url('images/infogreencontainer.svg');
-}
-
-#yellowInfo {
-    background-image: url('images/infoyellowcontainer.svg');
-}
-
-#redInfo {
-    background-image: url('images/inforedcontainer.svg');
-}
-
-
-/*
-popups*/
-
-
 .popUpsContainer {
     height: 100vh;
     width: 100vw;
@@ -224,22 +123,18 @@ popups*/
 
 
 .manager {
-/*    background-image: url('css/images/manager.svg');*/
     background-image: url('images/manager.svg');
     height: 442px;
     width: 360px;
-    /*    background-color: lightblue;
-*/ background-repeat: no-repeat;
+ background-repeat: no-repeat;
     display: flex;
     align-self: flex-end;
 }
 
 
 .bubble {
-    /*    background-image: url('css/images/managerbubble.svg');*/
     background-image: url('images/managerbubble.svg');
-    /*    background-color: lightblue;
-*/ background-repeat: no-repeat;
+ background-repeat: no-repeat;
     position: relative;
     height: 270px;
     width: 523px;
@@ -284,3 +179,5 @@ popups*/
     outline: 2px solid #233E46;
     outline-offset: -2px;
 }
+
+

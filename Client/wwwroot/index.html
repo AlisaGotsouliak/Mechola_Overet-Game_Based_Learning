@@ -23,7 +23,6 @@
         
     <style>
         #app:has(div#board) {
-            /*            background-color: #5BC9E5;*/
             background-image: url('css/images/loadingbg.svg');
             background-size: 100vw 100vh;
             background-repeat: no-repeat;
@@ -48,8 +47,8 @@
 
             #board div:first-child {
                 position: absolute;
-                height: 20px; /* 120px / 6 */
-                width: 40px; /* 2 * 20px */
+                height: 20px; 
+                width: 40px; 
                 animation: move 4s infinite;
                 margin: 5px;
                 background-image: url('css/images/containerloadinganimation.svg');
@@ -68,12 +67,12 @@
                 top: 0;
                 left: 80px;
             }
-            /* 120px - 40px */
+            
             40% {
                 top: 100px;
                 left: 80px;
             }
-            /* 120px - 20px */
+            
             60% {
                 top: 100px;
                 left: 0;
@@ -88,7 +87,6 @@
                 top: 60px;
                 left: 120px;
             }
-            /* Moves out of the board */
         }
 
     </style>

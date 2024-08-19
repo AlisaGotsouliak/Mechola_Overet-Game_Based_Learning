@@ -58,8 +58,87 @@
 
 
 
+#toolTipGroup {
+    margin: 0px
+}
 
 
+.toolTip {
+    height: 30px;
+    width: 30px;
+    margin-left: 70px;
+    background-color: #233E46;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    align-content: center;
+}
+
+#infoContainers {
+    display: none;
+}
+
+#gamesToolTip:hover + #infoContainers {
+    display: block !important;
+}
+
+#infoContainers {
+    background-image: url('css/images/infocontainerimg.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 442px 38px;
+    width: 442px;
+    height: 38px;
+    margin-left: 6px;
+}
+
+#infoContent {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 400px;
+    height: auto;
+    font-size: 12px;
+    margin-right: 12px;
+    margin-top: 9px;
+}
+
+    #infoContent > div {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+#toolTipGroup #infoContainers {
+    display: none;
+}
+
+#toolTipGroup:hover #infoContainers {
+    display: block;
+    cursor: pointer;
+}
+
+
+.infoContainersImages {
+    height: 20px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-left: 6px;
+}
+
+#greenInfo {
+    background-image: url('css/images/infogreencontainer.svg');
+}
+
+#yellowInfo {
+    background-image: url('css/images/infoyellowcontainer.svg');
+}
+
+#redInfo {
+    background-image: url('css/images/inforedcontainer.svg');
+}
 
 
 
@@ -71,7 +150,6 @@
     justify-content: flex-start;
     flex-direction: row;
     margin-top: 70px;
-    background-color: pink;
     align-content: flex-start;
 }
 
@@ -238,7 +316,6 @@ input:checked + .slider:before {
     height: 20px;
     width: 1120px;
     margin-top: 20px;
-    background-color: lightgreen;
     display: flex;
     justify-content: center;
     gap: 16px;
