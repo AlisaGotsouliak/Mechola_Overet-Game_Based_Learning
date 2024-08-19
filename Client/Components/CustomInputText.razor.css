@@ -1,12 +1,9 @@
 ﻿.default-input {
     padding: 5px;
     border: none;
-/*    margin-top: 20px;*/
-/*    margin-bottom: 10px;*/
     border-radius: 8px;
     outline: 2px solid black;
     outline-offset: -1px!important;
-/*    transition: all ease-in-out .2s;*/
     width: 180px;
     height: 24px;
 }
@@ -25,11 +22,6 @@
         outline: 2px solid red !important;
         width: 180px !important;
     }
-
-/*    div{
-        display:flex;
-        direction:row;
-    }*/
 
 .numOfChars{
     text-align: left;
@@ -59,28 +51,3 @@
         outline: 2px solid red !important;
         width: 400px !important;
     }
-
-
-
-
-/*.questionAnswersInputs {
-    width: 200px !important;
-    height: 56px;
-    background-color: lightblue!important;
-    border-radius: 8px!important;
-}
-
-    .questionAnswersInputs .good-input:focus {
-        outline: 2px solid green !important;
-        width: 200px !important;
-    }
-
-    .questionAnswersInputs .warnning-input:focus {
-        outline: 2px solid orange !important;
-        width: 200px !important;
-    }
-
-    .questionAnswersInputs .danger-input {
-        outline: 2px solid red !important;
-        width: 200px !important;
-    }*/
