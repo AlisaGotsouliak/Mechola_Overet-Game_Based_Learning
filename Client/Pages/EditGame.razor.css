@@ -456,3 +456,10 @@ button.deleteIcon {
 .disabledButton:hover{
     transform: scale(1) !important
 }
+
+
+
+
+#allAccordions:has(button.accordion-button.collapsed) #listOfQuestionsContiner{
+    max-height: 315px !important
+}
