@@ -5,7 +5,7 @@
 @inject HttpClient Http;
 @inject NavigationManager Navigation
 
-<div id="editPage" class="page_bg" >
+<div id="editPage" class="page_bg">
     <div id="pageTop">
         @if (GameName != "")
         {
@@ -82,7 +82,7 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
                         <div class="accordion-body">
 
-                            @if (GameName == "")
+                            @if (GameCode == 0)
                             {
                                 <EditForm Model="gameToAdd" OnValidSubmit="CreateGameInDB">
                                     <DataAnnotationsValidator />
@@ -116,11 +116,12 @@
                                         </div>
                                     </div>
                                     <div class="buttonContainer">
-                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons" />
+                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons @(gameToAdd.Game.Length>3?btnDisabled="":btnDisabled="disabledButton")" disabled=@(gameToAdd.Game.Length>3?false:true) />
                                     </div>
                                 </EditForm>
                             }
-                            else @* ***************************** Edit Game Settings ***************************** *@
+                            else
+                            @* ***************************** Edit Game Settings ***************************** *@
                             {
                                 ChangesInSettingsForBtns();
                                 <EditForm Model="gameToAdd" OnValidSubmit="UpdateSettingsGame">
@@ -156,7 +157,7 @@
                                     <div class="buttonContainer">
                                         @if (gameToAdd.Game.Length < 3 || !changesMadeInSetting)
                                         {
-                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons disabledButton" disabled  />
+                                            <input type="submit" value="שמירת הגדרות" class="Allbuttons disabledButton" disabled />
                                         }
                                         else
                                         {
@@ -196,10 +197,10 @@
                                         @if (full_gameInfo.question_List != null)
                                         {
                                             int i = 1;
-                                            
+
                                             @foreach (QuestionDB question in full_gameInfo.question_List)
                                             {
-                                                if(question.ID == idOfQ)
+                                                if (question.ID == idOfQ)
                                                 {
                                                     <div id="selectedQuestion" @onclick="(() =>ShowQuestion(question))" class="questionInList">
                                                         <p><span class="questionNumberInList">@i</span> @question.QuestionText</p>
@@ -241,7 +242,7 @@
                                     }
                                     else
                                     {
-                                        if (isShown == "true" )
+                                        if (isShown == "true")
                                         {
                                             <div class="buttonContainer">
                                                 <input id="disabledPlusButton" type="button" value="+" class="Allbuttons addButton" disabled>
@@ -410,7 +411,7 @@
                                         }
                                     </div>
 
-                                    @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Length >= 7 && !ImageEmpty)
+                                    @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && CheckEmptyAnswerText())
                                     {
                                         <div class="questionButtonAndSubmitContainer">
                                             <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
@@ -587,7 +588,7 @@
                                                 }
                                             </div>
                                             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && ChangesMadeInEditing)
+                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && ChangesMadeInEditing && CheckEmptyAnswerText())
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
                                                     <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
@@ -747,6 +748,7 @@
     public string GameName { get; set; }
     [Parameter]
     public int GameTime { get; set; }
+    string btnDisabled = "disabledButton";
 
     protected override async Task OnInitializedAsync()
     {
@@ -1005,6 +1007,7 @@
     ().Result;
             full_gameInfo.Game = newGame.Game;
             full_gameInfo.Time = newGame.Time;
+            full_gameInfo.GameCode = newGame.GameCode;
             GameCode = newGame.GameCode;
             CanAddQuestions = true;
         }
@@ -1021,9 +1024,10 @@
     {
         settingToSend.Time = gameToAdd.Time;
         settingToSend.Game = gameToAdd.Game;
+        settingToSend.GameCode = GameCode;
         var newGameRes = await Http.PostAsJsonAsync("api/Games/Update", settingToSend);
         string error = newGameRes.Content.ReadAsStringAsync().Result;
-        if (error != "Updated")        
+        if (error != "Updated")
             CanAddQuestions = false;
 
         else
@@ -1146,6 +1150,7 @@
 
     async Task ShowQuestion(QuestionDB questionToShow)
     {
+        PopUpManager();
         if (GameName != "")
         {
             var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
@@ -1243,19 +1248,35 @@
         }
         foreach (AnswerDB a in GameToShow.Answers)
         {
-            if (a.ID == ans.ID && a.ID!=0)
+            if (a.ID == ans.ID && a.ID != 0)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";
                 break;
             }
-            else if(a.AnswerImage==null)
+            else if (a.AnswerImage == null)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";
                 break;
             }
         }
+    }
+
+    public bool CheckEmptyAnswerText()
+    {
+        bool isText = true;
+        foreach (AnswerDB ans in GameToShow.Answers)
+        {
+            if(string.IsNullOrEmpty(ans.AnswerImage) || ans.AnswerImage.ToLower()=="no image")
+            {
+                if (string.IsNullOrEmpty(ans.AnswerText))
+                {
+                    isText=false;
+                }
+            }
+        }
+        return isText;
     }
 
     private void MakeDeleteList(string imageToDelete)

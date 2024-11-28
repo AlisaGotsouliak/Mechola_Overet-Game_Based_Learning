@@ -49,7 +49,7 @@ namespace template.Server.Controllers
                     {
                         GameCode = newGameId
                     };
-                    string gameQuery = "SELECT Games.Game, Games.GameCode, Games.IsPublished, Games.CanPublish, Games.Time, Games.GameCode, count(Questions.ID) AS Num_Questions FROM Games LEFT OUTER JOIN Questions on Games.GameCode = Questions.GameID WHERE Games.GameCode = @GameCode GROUP BY Games.GameCode";
+                    string gameQuery = "SELECT Games.Game, Games.GameCode, Games.IsPublished, Games.CanPublish, Games.Time, count(Questions.ID) AS Num_Questions FROM Games LEFT OUTER JOIN Questions on Games.GameCode = Questions.GameID WHERE Games.GameCode = @GameCode GROUP BY Games.GameCode";
                     var gameRecord = await _db.GetRecordsAsync<GameToCard>(gameQuery, param);
                     GameToCard newGame = gameRecord.FirstOrDefault();
                     return Ok(newGame);
