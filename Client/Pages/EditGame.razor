@@ -58,12 +58,7 @@
                 </div>
             }
             <p>תנאי פרסום משחק: לפחות 10 שאלות</p>
-            <input type="button" value="למשחקים שלי" class="Allbuttons" @onclick="() => PopUpManager()" />
-
-            @if (ChangesSaved == 1)
-            {
-                Navigation.NavigateTo("GamesList");
-            }
+            <input type="button" value="למשחקים שלי" class="Allbuttons" @onclick="() => BackToGames()" />
 
         </div>
     </div>
@@ -877,6 +872,15 @@
         {
             ShowPopUp = true;
             PopMsg = "Go Back Without Saving Settings";
+        }
+    }
+
+    void BackToGames()
+    {
+        PopUpManager();
+        if (ChangesSaved == 1)
+        {
+            Navigation.NavigateTo("GamesList");
         }
     }
 
