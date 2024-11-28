@@ -648,7 +648,7 @@
                         case "Cancel":
                             <div>
                                 <h4>חלק מפרטי השאלה לא ישמרו!</h4>
-                                <p>האם לבטל שינויים, ללא שמירת השינויים?</p>
+                                <p>האם לבטל שינויים?</p>
                             </div>
                             <div>
                                 <input type="button" value="כן, בטל שינויים" class="Allbuttons cancelChanges" @onclick="Cancel">
@@ -679,16 +679,30 @@
                             break;
 
                         case "Go Back Without Saving Question Or Answer":
-                            <div>
-                                <h4>חלק מפרטי השאלה לא ישמרו!</h4>
-                                <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
-                            </div>
-                            <div>
-                                <a href="https://localhost:7022/GamesList">
-                                    <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
-                                </a>
-                                <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
-                            </div>
+                            @if (!isQuestionChanged)
+                            {
+                                <div>
+                                    <h4>חלק מפרטי השאלה לא ישמרו!</h4>
+                                    <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
+                                </div>
+                                <div>
+                                    <a href="https://localhost:7022/GamesList">
+                                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                                    </a>
+                                    <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <h4>חלק מפרטי השאלה לא ישמרו!</h4>
+                                    <p>האם לעבור, ללא שמירת השינויים?</p>
+                                </div>
+                                <div>
+                                        <input type="button" value="בטל שינויים" @onclick ="Cancel" class="Allbuttons cancelChanges" />
+                                    <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
+                                </div>
+                            }
                             break;
 
                         case "Go Back Without Saving Settings":
@@ -744,6 +758,7 @@
     [Parameter]
     public int GameTime { get; set; }
     string btnDisabled = "disabledButton";
+    bool isQuestionChanged = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -881,6 +896,15 @@
         if (ChangesSaved == 1)
         {
             Navigation.NavigateTo("GamesList");
+        }
+    }
+
+    void ChangeQuestionPopUp()
+    {
+        PopUpManager();
+        if (ChangesSaved == 0)
+        {
+            isQuestionChanged = true;
         }
     }
 
@@ -1154,21 +1178,24 @@
 
     async Task ShowQuestion(QuestionDB questionToShow)
     {
-        PopUpManager();
-        if (GameName != "")
+        ChangeQuestionPopUp();
+        if (!isQuestionChanged)
         {
-            var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
-            if (full_game_res.IsSuccessStatusCode)
+            if (GameName != "")
             {
-                Temp = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+                var full_game_res = await Http.GetAsync("api/Games/GetFullGame/" + GameCode);
+                if (full_game_res.IsSuccessStatusCode)
+                {
+                    Temp = full_game_res.Content.ReadFromJsonAsync<FullGame>().Result;
+                }
+                else if (GameName != "")
+                    msg = full_game_res.Content.ReadAsStringAsync().Result;
             }
-            else if (GameName != "")
-                msg = full_game_res.Content.ReadAsStringAsync().Result;
+            ChangesInQuestionForBtns();
+            isShown = "Edit";
+            GameToShow = questionToShow;
+            idOfQ = questionToShow.ID;
         }
-        ChangesInQuestionForBtns();
-        isShown = "Edit";
-        GameToShow = questionToShow;
-        idOfQ = questionToShow.ID;
     }
 
     private void Cancel()
@@ -1191,6 +1218,7 @@
         DeletedImages.Clear();
         isShown = "false";
         idOfQ = -1;
+        isQuestionChanged=false;
     }
 
     private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)
@@ -1272,11 +1300,11 @@
         bool isText = true;
         foreach (AnswerDB ans in GameToShow.Answers)
         {
-            if(string.IsNullOrEmpty(ans.AnswerImage) || ans.AnswerImage.ToLower()=="no image")
+            if (string.IsNullOrEmpty(ans.AnswerImage) || ans.AnswerImage.ToLower() == "no image")
             {
                 if (string.IsNullOrEmpty(ans.AnswerText))
                 {
-                    isText=false;
+                    isText = false;
                 }
             }
         }
