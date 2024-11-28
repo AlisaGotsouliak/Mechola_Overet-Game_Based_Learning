@@ -45,6 +45,7 @@ form img {
     outline: 2px solid black;
     outline-offset: -2px !important;
     border-radius: 8px;
+    object-fit:contain;
 }
 
 .editAnsImage {
