@@ -686,7 +686,7 @@
                                     <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
                                 </div>
                                 <div>
-                                    <a href="https://localhost:7022/GamesList">
+                                    <a href="GamesList">
                                         <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
                                     </a>
                                     <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
@@ -699,7 +699,7 @@
                                     <p>האם לעבור, ללא שמירת השינויים?</p>
                                 </div>
                                 <div>
-                                        <input type="button" value="בטל שינויים" @onclick ="Cancel" class="Allbuttons cancelChanges" />
+                                    <input type="button" value="בטל שינויים" @onclick="cancelAndShowNewQuestion" class="Allbuttons cancelChanges" />
                                     <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                                 </div>
                             }
@@ -711,7 +711,7 @@
                                 <p>האם לעבור ל-”משחקים שלי”, ללא שמירת השינויים?</p>
                             </div>
                             <div>
-                                <a href="https://localhost:7022/GamesList">
+                                <a href="GamesList">
                                     <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
                                 </a>
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
@@ -729,6 +729,7 @@
     GameToAdd gameToAdd = new GameToAdd();
     SettingsUpdate settingToSend = new SettingsUpdate();
     QuestionDB GameToShow = new QuestionDB();
+    QuestionDB NewQuestionToShow = new QuestionDB();
     FullGame Temp = new FullGame();
     List<string> DeletedImages = new List<string>();
     QuestionDB questionToDelete = new QuestionDB();
@@ -989,6 +990,7 @@
         if (PopMsg == "Cancel" && !ChangesMadeInEditing)
         {
             ShowPopUp = false;
+            NewQuestionToShow = GameToShow;
             Cancel();
         }
         else
@@ -1101,6 +1103,7 @@
         }
         isShown = "false";
         idOfQ = -1;
+        isQuestionChanged = false;
     }
 
 
@@ -1134,6 +1137,7 @@
         }
         ChangesSaved = 2;
         ChangesMadeInEditing = false;
+        isQuestionChanged = false;
     }
 
     private void AddQuestionToList()
@@ -1178,6 +1182,7 @@
 
     async Task ShowQuestion(QuestionDB questionToShow)
     {
+        NewQuestionToShow = questionToShow;
         ChangeQuestionPopUp();
         if (!isQuestionChanged)
         {
@@ -1218,7 +1223,13 @@
         DeletedImages.Clear();
         isShown = "false";
         idOfQ = -1;
-        isQuestionChanged=false;
+        isQuestionChanged = false;
+    }
+
+    public async Task cancelAndShowNewQuestion()
+    {
+        Cancel();
+        await ShowQuestion(NewQuestionToShow);
     }
 
     private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)
