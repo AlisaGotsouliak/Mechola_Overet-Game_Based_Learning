@@ -513,22 +513,32 @@ button.deleteIcon {
 
 
 #GameCode {
-    background: white url('css/images/gamecode.svg');
+    background: url('css/images/gamecode.svg');
     background-repeat: no-repeat;
-    background-size: 100%;
-    height:30px;
-    width:70px;
+    background-size: contain;
+    background-position: right;
+    height: 42px;
+    width: 350px !important;
+    
 }
 
+    #GameCode span{
+        padding-right:6px;
+        width: 88px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold
+    }
 
-/*    toggle*/
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 32px;
-    height: 16px;
-    margin-top: 4px;
-}
+
+        /*    toggle*/
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 32px;
+            height: 16px;
+            margin-top: 4px;
+        }
 
     /* Hide default HTML checkbox */
     .switch input {

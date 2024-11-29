@@ -8,10 +8,14 @@
 <div id="editPage" class="page_bg">
     <div id="pageTop">
         @if (GameName != "")
-        {
+        {         
             <h3>עריכת משחק</h3>
             <div id="GameCode">
-                @GameCode.ToString()
+                <span>
+                    קוד משחק:
+                    <br/>
+                    @GameCode.ToString()
+                </span>
             </div>
         }
         else
@@ -83,7 +87,7 @@
                     </div>
                 </label>
             }
-            
+
             <input type="button" value="למשחקים שלי" class="Allbuttons" @onclick="() => BackToGames()" />
 
         </div>
@@ -817,7 +821,8 @@
             currentGameStatus.CanPublish = full_gameInfo.CanPublish;
             currentGameStatus.GameCode = full_gameInfo.GameCode;
         }
-        else if(GameCode==0){
+        else if (GameCode == 0)
+        {
             currentGameStatus.CanPublish = false;
             currentGameStatus.GameCode = 0;
         }
