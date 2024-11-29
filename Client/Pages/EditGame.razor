@@ -1,4 +1,4 @@
-﻿@page "/EditGame/RouteParams/{GameCode:int}/{GameName}/{GameTime:int}"
+﻿@page "/EditGame/RouteParams/{GameCode:int}/{GameName}/{GameTime:int}/{IsPublished:bool}"
 @using template.Shared.Games;
 @using template.Shared.Models.Games;
 @using template.Client.Components;
@@ -10,6 +10,9 @@
         @if (GameName != "")
         {
             <h3>עריכת משחק</h3>
+            <div id="GameCode">
+                @GameCode.ToString()
+            </div>
         }
         else
         {
@@ -58,6 +61,29 @@
                 </div>
             }
             <p>תנאי פרסום משחק: לפחות 10 שאלות</p>
+            @if (currentGameStatus.CanPublish == false)
+            {
+                <label class="switch">
+                    <input type="checkbox" disabled>
+                    <span class="slider round"></span>
+
+                    <div class="togglesToolTips">
+                        <p>כפתור פרסום משחק</p>
+                    </div>
+                </label>
+            }
+            else
+            {
+                <label class="switch">
+                    <input type="checkbox" checked="@currentGameStatus.IsPublished"
+                           @onchange="(() =>changePublish(currentGameStatus))">
+                    <span class="slider round"></span>
+                    <div class="togglesToolTips">
+                        <p>כפתור פרסום משחק</p>
+                    </div>
+                </label>
+            }
+            
             <input type="button" value="למשחקים שלי" class="Allbuttons" @onclick="() => BackToGames()" />
 
         </div>
@@ -734,6 +760,7 @@
     List<string> DeletedImages = new List<string>();
     QuestionDB questionToDelete = new QuestionDB();
     AnswerDB ansToDelete = new AnswerDB();
+    GameToCard currentGameStatus = new GameToCard();
 
     public int idOfQ;
 
@@ -758,6 +785,9 @@
     public string GameName { get; set; }
     [Parameter]
     public int GameTime { get; set; }
+    [Parameter]
+    public bool IsPublished { get; set; }
+
     string btnDisabled = "disabledButton";
     bool isQuestionChanged = false;
 
@@ -767,6 +797,7 @@
             GameName = "";
         gameToAdd.Time = GameTime;
         gameToAdd.Game = GameName;
+        currentGameStatus.IsPublished = IsPublished;
         if (GameCode != 0)
         {
             settingToSend.GameCode = GameCode;
@@ -782,6 +813,13 @@
             }
             else if (GameName != "")
                 msg = full_game_res.Content.ReadAsStringAsync().Result;
+
+            currentGameStatus.CanPublish = full_gameInfo.CanPublish;
+            currentGameStatus.GameCode = full_gameInfo.GameCode;
+        }
+        else if(GameCode==0){
+            currentGameStatus.CanPublish = false;
+            currentGameStatus.GameCode = 0;
         }
     }
 
@@ -1320,6 +1358,40 @@
             }
         }
         return isText;
+    }
+
+    protected async Task changePublish(GameToCard game)
+    {
+        // בעת לחיצה על פרסום ניצור מופע של מחלקה עם מזהה המשחק ומצב הפרסום
+        PublishGame gameToSend = new PublishGame();
+        gameToSend.GameCode = game.GameCode;
+        // נגדיר שמצב הפרסום הפוך למצב הנוכחי. כלומר, אם לא היה מפורסם - כעת יהיה ולהיפך
+        gameToSend.IsPublished = !game.IsPublished;
+        // נשלח את המידע לקונטרולר
+        var userRes = await Http.PostAsJsonAsync("api/games/publishGame", gameToSend);
+        // אם הכל תקין - נציג את מצב הפרסום העדכני
+        if (userRes.IsSuccessStatusCode == true)
+        {
+            game.IsPublished = !game.IsPublished;
+        }
+        else
+        {
+            string error = userRes.Content.ReadAsStringAsync().Result;
+            // אם נמצא בקונטרולר שמסיבה כלשהי טעינו ובעצם לא ניתן לפרסם את המשחק
+            if (error == "This game cannot be published")
+            {
+                // נשנה את מצב הפרסום ולא נאפשר לפרסם
+                game.IsPublished = false;
+                game.CanPublish = false;
+                // נסביר למשתמש מה קרה
+                msg = "המשחק אינו מאושר לפרסום";
+            }
+            else
+            {
+                // אחרת נקרא לפונקציית הודעות השגיאה אליה נוסיף את האופציות החדשות
+                ShowError(error);
+            }
+        }
     }
 
     private void MakeDeleteList(string imageToDelete)

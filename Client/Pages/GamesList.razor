@@ -85,13 +85,12 @@
                         </div>
 
                         <div class="gameEditorOptions">
-                            <a href="EditGame/RouteParams/@game.GameCode/@game.Game/@game.Time">
+                            <a href="EditGame/RouteParams/@game.GameCode/@game.Game/@game.Time/@game.IsPublished">
                                 <div class="editIcon"></div>
                             </a>
 
                             @if (game.CanPublish == false)
                             {
-                                @* <input type="checkbox" disabled /> *@
                                 <label class="switch">
                                     <input type="checkbox" disabled>
                                     <span class="slider round"></span>
