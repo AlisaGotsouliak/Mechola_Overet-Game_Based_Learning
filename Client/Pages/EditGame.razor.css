@@ -513,13 +513,10 @@ button.deleteIcon {
 
 
 #GameCode {
-    background: url('css/images/gamecode.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: right;
     height: 42px;
-    width: 350px !important;
-    
+    width: 250px !important;
+    color: white;
+    padding-right: 132px  
 }
 
     #GameCode span{
