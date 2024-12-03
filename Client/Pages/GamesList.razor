@@ -117,7 +117,7 @@
                     </div>
                 </div>
             }
-            <a href="EditGame/RouteParams/0/@gameToAdd.Game/50">
+            <a href="EditGame/RouteParams/0/@gameToAdd.Game/50/False">
                 <div id="CreateNewGame"></div>
             </a>
 
@@ -182,7 +182,7 @@
 
         chosenButton = clickedButton.ToString();
 
-        if (MyGamesList.Count != null)
+        if (MyGamesList.Count != 0)
         {
             if (MyGamesList.Count % 11 != 0)
             {
@@ -220,7 +220,7 @@
         if (gamesRes.IsSuccessStatusCode == true)
         {
             // השמת הנתונים במופע שפתחנו
-            MyGamesList = gamesRes.Content.ReadFromJsonAsync<List<GameToCard>>().Result;
+            MyGamesList = await gamesRes.Content.ReadFromJsonAsync<List<GameToCard>>();
             changeStartEnd(1);
             for (int i = 1; i <= totalButtons; i++)
             {
