@@ -293,6 +293,7 @@ namespace template.Server.Controllers
                 question.ID = await _db.InsertReturnIdAsyncQuestions(query, param);
                 if (question.ID > 0)
                 {
+
                     if (question.Answers != null)
                     {
                         List<int> addedId = new List<int>();

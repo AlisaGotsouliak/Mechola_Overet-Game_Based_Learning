@@ -31,7 +31,8 @@
 
     void countChars()
     {
-        length = CurrentValueAsString.Length;
+        if (CurrentValueAsString != null)
+            length = CurrentValueAsString.Length;
         if (length >= minLength && length < maxLength)
         {
             inputClass = "good-input";
