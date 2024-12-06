@@ -512,7 +512,7 @@ button.deleteIcon {
     }
 
 
-#GameCode {
+#GameCode { /**/
     height: 42px;
     width: 250px !important;
     color: white;
