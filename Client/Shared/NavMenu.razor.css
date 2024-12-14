@@ -199,82 +199,98 @@ nav div:first-child {
     margin-top: 10px;
 }
 
-#HTPGuide{
+#howToPlayInfo span{
+    font-weight: bold
+}
+
+#HTPGuide {
     width: 100%;
-    height: 150px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
+    height: 125px;
+    margin-top: 10px;
     padding-right: 70px;
+    display: flex;
+    flex-direction: row
+}
+
+
+#steps {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
 }
 
 .guideSteps {
-    padding: 0px !important;
-    font-weight: bold;
     display: flex;
-    justify-content: flex-start
+    width: 50%;
+    height: 90px;
 }
 
-    .guideSteps:first-child {
-        height: 150px !important;
-        width: 285px !important;
-    }
-
-    .guideSteps:nth-child(2) {
-        height: 150px !important;
-        width: 315px !important;
-    }
-
-    .guideSteps:first-of-type div:first-child, .guideSteps:first-of-type div:nth-child(2) {
-        margin-top: 15px !important;
-    }
-
-    .guideSteps:nth-of-type(2) div:first-child, .guideSteps:nth-of-type(2) div:nth-child(2) {
-        margin-top: 75px !important;
+    .guideSteps:nth-of-type(2) {
+        align-items: center !important;
+        position: relative;
+        top: -15px;
+        right: 45%;
     }
 
 
-    .guideSteps:first-of-type div:nth-child(3) {
-        height: 80px;
-        width: 120px;
-    }
+.guideSteps div:first-child {
+    background-color: #233E46;
+    color: #F9F6DA;
+    padding-top: 3px;
+    height: 30px !important;
+    width: 30px !important;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold
+}
 
-    .guideSteps div:first-child {
-        height: 30px !important;
-        width: 30px !important;
-        padding: 0px !important;
-        margin: 0px !important;
-        margin-left: 6px !important;
-        margin-top: 10px;
-        border-radius: 15px;
-        background-color: #233E46;
-        text-align: center !important;
-        justify-content: center;
-        color: #F9F6DA;
-        font-size: 18px !important;
-        font-weight: bold !important;
-    }
-
-    .guideSteps:first-of-type div:nth-child(3), .guideSteps:nth-of-type(2) div:nth-child(3) {    
-        background-repeat: no-repeat;
-        background-position: center;
+    .guideSteps div:nth-child(2) {
         margin-right: 10px;
+        color: #233E46;
+        font-weight: bold
     }
 
-
-    .guideSteps:first-of-type div:nth-child(3) {
-        background-image: url('css/images/choosecontainerguide.svg');
-        background-size: 120px 120px;
-        height: 120px;
-        width: 120px;
+    .guideSteps div:nth-child(3) {
+        height: 100%;
+        flex:1;
+        background-repeat: no-repeat;
     }
 
-    .guideSteps:nth-of-type(2) div:nth-child(3) {
-        margin-top: 35px;
+        .guideSteps div:nth-child(3):hover {
+            transform: scale(1.5);
+        }
+
+        .guideSteps:nth-child(1) div:nth-child(3) {
+            background-image: url('css/images/selectcontainerguide.svg');
+            background-size: contain;
+            background-position: center top !important;
+        }
+
+    .guideSteps:nth-child(2) div:nth-child(3) {
         background-image: url('css/images/movecontainerguide.svg');
-        background-size: 214px 158px;
-        height: 110px;
-        width: 164px;
+        background-size: auto 80px;
+        background-position: center !important;
+    }
+
+
+#gifOfHTP {
+    background-image: url('css/images/howtoplaygif.gif');
+    background-size: 125px auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 125px;
+    margin-right:10px;
+}
+
+
+    #gifOfHTP:hover {
+        background-size: 105px auto;
+        background-color: #EDEEEF;
+        transform: scale(2.2);
+        outline: 2px solid #233E46;
+        outline-offset: -2px;
     }
 
 
