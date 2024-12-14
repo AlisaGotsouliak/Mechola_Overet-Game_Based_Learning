@@ -31,13 +31,24 @@
 
     void countChars()
     {
+        bool hasLetter = false;
         if (CurrentValueAsString != null)
+        {
             length = CurrentValueAsString.Length;
-        if (length >= minLength && length < maxLength)
+            for (int i = 0; i < CurrentValueAsString.Length; i++)
+            {
+                if (CurrentValueAsString[i].ToString() != " ")
+                {
+                    hasLetter = true;
+                    break;
+                }
+            }
+        }
+        if (length >= minLength && length < maxLength && hasLetter)
         {
             inputClass = "good-input";
         }
-        else if (length == maxLength)
+        else if (length == maxLength && hasLetter)
         {
             inputClass = "warnning-input";
         }
