@@ -8,12 +8,12 @@
 <div id="editPage" class="edit_page_bg">
     <div id="pageTop">
         @if (GameName != "")
-        {         
+        {
             <h3>עריכת משחק</h3>
             <div id="GameCode">
                 <span>
                     קוד משחק:
-                    <br/>
+                    <br />
                     @GameCode.ToString()
                 </span>
             </div>
@@ -236,7 +236,7 @@
                                             {
                                                 if (question.ID == idOfQ)
                                                 {
-                                                    <div id="selectedQuestion"  class="questionInList">
+                                                    <div id="selectedQuestion" class="questionInList">
                                                         <p @onclick="(() =>ShowQuestion(question))"><span class="questionNumberInList">@i</span> @question.QuestionText</p>
                                                         <div @onclick='() => DeleteQuestionPopUp(question)' class="deleteIcon"></div>
                                                     </div>
@@ -1256,12 +1256,22 @@
         }
     }
 
-    private void Cancel()
+    async Task Cancel()
     {
         if (Temp != null && Temp.question_List != null)
         {
             foreach (QuestionDB i in Temp.question_List)
             {
+                for (int j = 0; j < Temp.question_List.Count; j++)
+                {
+                    if (full_gameInfo.question_List[j].QuestionImage != Temp.question_List[j].QuestionImage)
+                    {
+                        DeletedImages.Remove(Temp.question_List[j].QuestionImage);
+                        //no images
+                        MakeDeleteList(full_gameInfo.question_List[j].QuestionImage);
+                    }
+                }
+
                 if (i.ID == GameToShow.ID)
                 {
                     GameToShow = i;
@@ -1269,6 +1279,7 @@
                     break;
                 }
             }
+            await DeleteImagesFromDB();
         }
         ShowPopUp = false;
         ChangesSaved = 2;
@@ -1309,11 +1320,11 @@
                 }
             }
         }
-        if (Qimage != "No image" || Qimage != null)
-        {
-            MakeDeleteList(Qimage);
-            GameToShow.QuestionImage = myFileImage;
-        }
+        // if (Qimage != "No image" || Qimage != null)
+        // {
+        //     MakeDeleteList(Qimage);
+        //    // GameToShow.QuestionImage = myFileImage;
+        // }
         GameToShow.QuestionImage = myFileImage;
         myFileImage = "";
     }
@@ -1411,11 +1422,10 @@
 
     private void MakeDeleteList(string imageToDelete)
     {
-        DeletedImages.Add(imageToDelete);
+        if (imageToDelete != "No image")
+            DeletedImages.Add(imageToDelete);
         if (GameToShow.QuestionImage == imageToDelete)
-        {
             GameToShow.QuestionImage = "No image";
-        }
     }
 
     private async Task DeleteImagesFromDB()
