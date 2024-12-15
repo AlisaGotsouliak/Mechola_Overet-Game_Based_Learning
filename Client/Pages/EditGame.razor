@@ -726,7 +726,7 @@
                                 </div>
                                 <div>
                                     <a href="GamesList">
-                                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" @onclick="Cancel"/>
                                     </a>
                                     <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                                 </div>
@@ -1223,6 +1223,14 @@
 
     async Task RemoveQuestionFromDB(QuestionDB input)
     {
+        if (input.QuestionImage != null && input.QuestionImage != "No images")
+            MakeDeleteList(input.QuestionImage);
+        foreach(AnswerDB a in input.Answers)
+        {
+            if (a.AnswerImage != null && a.AnswerImage != "No images")
+                MakeDeleteList(a.AnswerImage);
+        }
+        await DeleteImagesFromDB();
         isShown = "false";
         idOfQ = -1;
         full_gameInfo.question_List.Remove(input);
