@@ -1266,9 +1266,34 @@
                 {
                     if (full_gameInfo.question_List[j].QuestionImage != Temp.question_List[j].QuestionImage)
                     {
-                        DeletedImages.Remove(Temp.question_List[j].QuestionImage);
-                        //no images
+                        if (Temp.question_List[j].QuestionImage != "No image")
+                            DeletedImages.Remove(Temp.question_List[j].QuestionImage);
                         MakeDeleteList(full_gameInfo.question_List[j].QuestionImage);
+                    }
+                    int BiggerCount;
+                    if (Temp.question_List[j].Answers.Count > full_gameInfo.question_List[j].Answers.Count)
+                        BiggerCount = Temp.question_List[j].Answers.Count;
+                    else
+                        BiggerCount = full_gameInfo.question_List[j].Answers.Count;
+                    for (int k = 0; k < BiggerCount; k++)
+                    {
+                        if (k < Temp.question_List[j].Answers.Count && k < full_gameInfo.question_List[j].Answers.Count)
+                        {
+                            if (full_gameInfo.question_List[j].Answers[k].AnswerImage != Temp.question_List[j].Answers[k].AnswerImage)
+                            {
+                                if (Temp.question_List[j].Answers[k].AnswerImage != "No image")
+                                    DeletedImages.Remove(Temp.question_List[j].Answers[k].AnswerImage);
+                                MakeDeleteList(full_gameInfo.question_List[j].Answers[k].AnswerImage);
+                            }
+                        }
+                        else if (Temp.question_List[j].Answers.Count <= k && full_gameInfo.question_List[j].Answers.Count>=k)
+                        {
+                            MakeDeleteList(full_gameInfo.question_List[j].Answers[k].AnswerImage);
+                        }
+                        else if (Temp.question_List[j].Answers.Count >k)
+                        {
+                            DeletedImages.Remove(Temp.question_List[j].Answers[k].AnswerImage);
+                        }
                     }
                 }
 
@@ -1320,11 +1345,6 @@
                 }
             }
         }
-        // if (Qimage != "No image" || Qimage != null)
-        // {
-        //     MakeDeleteList(Qimage);
-        //    // GameToShow.QuestionImage = myFileImage;
-        // }
         GameToShow.QuestionImage = myFileImage;
         myFileImage = "";
     }
@@ -1361,7 +1381,7 @@
                 myFileImage = "";
                 break;
             }
-            else if (a.AnswerImage == null)
+            else if (a.AnswerImage == null || a.ID == 0)
             {
                 a.AnswerImage = myFileImage;
                 myFileImage = "";
