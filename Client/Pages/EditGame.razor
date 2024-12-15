@@ -448,14 +448,14 @@
                                     @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && CheckEmptyAnswerText())
                                     {
                                         <div class="questionButtonAndSubmitContainer">
-                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                             <input type="submit" value="שמירת שאלה" class="Allbuttons">
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="questionButtonAndSubmitContainer">
-                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                            <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                             <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton" disabled>
                                         </div>
 
@@ -487,7 +487,7 @@
                                         </div>
                                     </div>
                                     <div class="questionButtonAndSubmitContainer">
-                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
+                                        <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
                                         <input type="submit" value="שמירת שאלה" class="Allbuttons disabledButton" disabled>
                                     </div>
                                 }
@@ -1286,11 +1286,11 @@
                                 MakeDeleteList(full_gameInfo.question_List[j].Answers[k].AnswerImage);
                             }
                         }
-                        else if (Temp.question_List[j].Answers.Count <= k && full_gameInfo.question_List[j].Answers.Count>=k)
+                        else if (Temp.question_List[j].Answers.Count <= k && full_gameInfo.question_List[j].Answers.Count >= k)
                         {
                             MakeDeleteList(full_gameInfo.question_List[j].Answers[k].AnswerImage);
                         }
-                        else if (Temp.question_List[j].Answers.Count >k)
+                        else if (Temp.question_List[j].Answers.Count > k)
                         {
                             DeletedImages.Remove(Temp.question_List[j].Answers[k].AnswerImage);
                         }
@@ -1304,8 +1304,19 @@
                     break;
                 }
             }
-            await DeleteImagesFromDB();
         }
+        else if (GameToShow != null)
+        {
+            if (GameToShow.QuestionImage != null || GameToShow.QuestionImage != "No image")
+                MakeDeleteList(GameToShow.QuestionImage);
+
+            foreach (AnswerDB a in GameToShow.Answers)
+            {
+                if (a.AnswerImage != null || a.AnswerImage != "No image")
+                    MakeDeleteList(a.AnswerImage);
+            }
+        }
+        await DeleteImagesFromDB();
         ShowPopUp = false;
         ChangesSaved = 2;
         ChangesMadeInEditing = false;
@@ -1323,7 +1334,7 @@
 
     private async Task UploadQuestioImageInDB(InputFileChangeEventArgs e, string Qimage)
     {
-        if (Qimage != "No image")
+        if (Qimage != "No image" && Qimage != null)
         {
             MakeDeleteList(Qimage);
         }
