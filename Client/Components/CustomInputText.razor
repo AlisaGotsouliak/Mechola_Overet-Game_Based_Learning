@@ -1,4 +1,6 @@
-﻿@inherits Microsoft.AspNetCore.Components.Forms.InputText
+﻿@using template.Shared.DTOs
+@inherits Microsoft.AspNetCore.Components.Forms.InputText
+@inject HasLetters SharedData;
 
 <div>
 <input @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength" />
@@ -18,23 +20,39 @@
     string inputClass = "";
     //  משתנה שיכיל את אורך המחרוזת
     int length = 0;
-    
+
     protected override async Task OnInitializedAsync()
     {
         length = CurrentValueAsString.Length;
+        SharedData.HasLetter = false;
     }
     void countChars()
     {
-        length = CurrentValueAsString.Length;
-        if (length >= minLength && length < maxLength)
+         if (CurrentValueAsString != null)
+        {
+            length = CurrentValueAsString.Length;
+            for (int i = 0; i < CurrentValueAsString.Length; i++)
+            {
+                if (CurrentValueAsString[i].ToString() != " ")
+                {
+                    SharedData.HasLetter = true;
+                    break;
+                }
+                else
+                {
+                    SharedData.HasLetter = false;
+                }
+            }
+        }
+        if (length >= minLength && length < maxLength && SharedData.HasLetter)
         {
             inputClass = "good-input";
         }
-        else if (length == maxLength)
+        else if (length == maxLength && SharedData.HasLetter)
         {
             inputClass = "warnning-input";
         }
-        else
+        else if (length > maxLength || !SharedData.HasLetter)
         {
             inputClass = "danger-input";
         }

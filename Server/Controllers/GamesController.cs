@@ -84,7 +84,7 @@ namespace template.Server.Controllers
                 {
                     foreach (GameToCard ToCheck in GamesList)
                     {
-                        bool Can=await CanPublishFunc(ToCheck.GameCode);
+                        bool Can = await CanPublishFunc(ToCheck.GameCode);
                         ToCheck.CanPublish = Can;
                     }
 
@@ -500,7 +500,10 @@ namespace template.Server.Controllers
                 string queryDeleteQuestion = "DELETE FROM Questions WHERE ID=@QuestionID";
                 int isQDeleted = await _db.SaveDataAsync(queryDeleteQuestion, paramQ);
                 if (isQDeleted == 1)
+                {
+                    await CanPublishFunc(question.GameID);
                     return Ok("Question deleted succesfully");
+                }
                 else
                     return BadRequest("Couldn't delete question");
             }

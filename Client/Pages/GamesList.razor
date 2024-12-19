@@ -104,7 +104,7 @@
                             {
                                 <label class="switch">
                                     <input type="checkbox" checked="@game.IsPublished"
-                               @onchange="(() =>changePublish(game))">
+                                           @onchange="(() =>changePublish(game))">
                                     <span class="slider round"></span>
                                     <div class="togglesToolTips">
                                         <p>כפתור פרסום משחק</p>
@@ -170,6 +170,8 @@
     public string chosenButton = "";
     bool ShowPopUp = false;
     GameToCard gameToDelete = new GameToCard();
+    List<string> DeletedImages = new List<string>();
+    FullGame FullgameTODelete = new FullGame();
 
     void showPopup(GameToCard gameDelete)
     {
@@ -246,6 +248,8 @@
 
     async Task DeleteGame(GameToCard game)
     {
+        await GetImagesToDelete(game);
+        await DeleteImagesFromDB();
         GameCodeClass gameCode = new GameCodeClass();
         gameCode.GameCode = game.GameCode;
         var gamesRes = await Http.PostAsJsonAsync("api/Games/Delete", gameCode);
@@ -266,6 +270,27 @@
         ShowPopUp = false;
     }
 
+    async Task GetImagesToDelete(GameToCard game)
+    {
+        var gamesRes = await Http.GetAsync("api/Games/GetFullGame/"+ game.GameCode);
+        if (gamesRes.IsSuccessStatusCode)
+        {
+            FullgameTODelete = await gamesRes.Content.ReadFromJsonAsync<FullGame>();
+            foreach (QuestionDB q in FullgameTODelete.question_List)
+            {
+                if (q.QuestionImage != "No image")
+                    MakeDeleteList(q.QuestionImage);
+
+                foreach (AnswerDB a in q.Answers)
+                {
+                    if (a.AnswerImage != "No image")
+                        MakeDeleteList(a.AnswerImage);
+                }
+            }
+        }
+        else
+            msg = "המחיקה נכשלה";
+    }
 
     protected async Task changePublish(GameToCard game)
     {
@@ -298,6 +323,26 @@
                 // אחרת נקרא לפונקציית הודעות השגיאה אליה נוסיף את האופציות החדשות
                 ShowError(error);
             }
+        }
+    }
+
+    private void MakeDeleteList(string imageToDelete)
+    {
+        DeletedImages.Add(imageToDelete);
+    }
+
+    private async Task DeleteImagesFromDB()
+    {
+        var saveResponse = await Http.PostAsJsonAsync("api/Images/deleteImages", DeletedImages);
+
+        if (saveResponse.IsSuccessStatusCode == true)
+        {
+            msg = "התמונות נמחקו בהצלחה";
+            DeletedImages.Clear();
+        }
+        else
+        {
+            msg = saveResponse.Content.ReadAsStringAsync().Result;
         }
     }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.IdentityModel.Tokens;
 using template.Server.Data;
 using template.Server.Helpers;
+using template.Shared.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddScoped<AuthRepository>();
 builder.Services.AddScoped<AuthCheck>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddDistributedMemoryCache();
-
+//builder.Services.AddScoped<HasLetters>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromHours(1));
 

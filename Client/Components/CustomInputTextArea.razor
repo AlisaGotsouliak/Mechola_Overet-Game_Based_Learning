@@ -1,4 +1,6 @@
-﻿@inherits Microsoft.AspNetCore.Components.Forms.InputTextArea
+﻿@using template.Shared.DTOs
+@inherits Microsoft.AspNetCore.Components.Forms.InputTextArea
+@inject HasLetters SharedData;
 
 <div class="inputAndCharCount">
     <textarea @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString" @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength"></textarea>
@@ -23,6 +25,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        SharedData.HasLetter = false;
         if (CurrentValueAsString != null)
             length = CurrentValueAsString.Length;
         else
@@ -40,7 +43,12 @@
                 if (CurrentValueAsString[i].ToString() != " ")
                 {
                     hasLetter = true;
+                    SharedData.HasLetter = true;
                     break;
+                }
+                else
+                {
+                    SharedData.HasLetter = false;
                 }
             }
         }
@@ -52,7 +60,7 @@
         {
             inputClass = "warnning-input";
         }
-        else
+        else if (length > maxLength || !SharedData.HasLetter)
         {
             inputClass = "danger-input";
         }

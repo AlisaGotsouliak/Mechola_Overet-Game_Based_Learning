@@ -1,9 +1,11 @@
 ﻿@page "/EditGame/RouteParams/{GameCode:int}/{GameName}/{GameTime:int}/{IsPublished:bool}"
+@using template.Shared.DTOs
 @using template.Shared.Games;
 @using template.Shared.Models.Games;
 @using template.Client.Components;
 @inject HttpClient Http;
-@inject NavigationManager Navigation
+@inject NavigationManager Navigation;
+@inject HasLetters SharedData;
 
 <div id="editPage" class="edit_page_bg">
     <div id="pageTop">
@@ -44,6 +46,8 @@
                 else
                 {
                     currentGameStatus.CanPublish = false;
+                    currentGameStatus.IsPublished = false;
+
                     <div id="canNotPublishGame" class="publishCurrentGameStatus">
                         <div class="ToolTipInfos">
                             <p>
@@ -150,7 +154,7 @@
                                         </div>
                                     </div>
                                     <div class="buttonContainer">
-                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons @(gameToAdd.Game.Length>3?btnDisabled="":btnDisabled="disabledButton")" disabled=@(gameToAdd.Game.Length>3?false:true) />
+                                        <input type="submit" value="שמירת הגדרות" class="Allbuttons @(gameToAdd.Game.Trim().Length >= 3 ? "" : "disabledButton")" disabled=@(gameToAdd.Game.Length < 3? true : false) />
                                     </div>
                                 </EditForm>
                             }
@@ -189,7 +193,7 @@
                                         </div>
                                     </div>
                                     <div class="buttonContainer">
-                                        @if (gameToAdd.Game.Length < 3 || !changesMadeInSetting)
+                                        @if (gameToAdd.Game.Trim().Length < 3 || !changesMadeInSetting)
                                         {
                                             <input type="submit" value="שמירת הגדרות" class="Allbuttons disabledButton" disabled />
                                         }
@@ -350,7 +354,7 @@
                                     @if (GameToShow.QuestionImage == null || GameToShow.QuestionImage == "No image")
                                     {
                                         <label for="FileInputID" class="insertQuestionImage"></label>
-                                        <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
+                                        <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" accept="image/png, image/jpeg" hidden />
                                     }
                                     else
                                     {
@@ -358,7 +362,7 @@
                                             <div id="editOrDeleteQImage">
                                                 <div>
                                                     <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
-                                                    <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
+                                                    <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" accept="image/png, image/jpeg" hidden />
                                                 </div>
                                                 <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                             </div>
@@ -398,7 +402,7 @@
                                                 else if (ans.AnswerImage == null)
                                                 {
                                                     <label for="@UploadImage" class="insertQuestionImage ansImageContainer"></label>
-                                                    <InputFile id="@UploadImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                    <InputFile id="@UploadImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" accept="image/png, image/jpeg" hidden />
                                                     <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
                                                     ImageEmpty = true;
                                                 }
@@ -408,7 +412,7 @@
                                                         <img src="@ans.AnswerImage" height="90" width="90" />
                                                         <div class="editAnsImage">
                                                             <label for="@ChangeImage" class="insertQuestionImage"></label>
-                                                            <InputFile id="@ChangeImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                            <InputFile id="@ChangeImage" OnChange="(e => UploadAnswerImageInDB(e, ans))" accept="image/png, image/jpeg" hidden />
                                                         </div>
                                                     </div>
                                                     <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
@@ -445,7 +449,7 @@
                                         }
                                     </div>
 
-                                    @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && CheckEmptyAnswerText())
+                                    @if (GameToShow.Answers.Count >= 2 && oneAnsCorrect && GameToShow.QuestionText.Trim().Length >= 7 && !ImageEmpty && CheckEmptyAnswerText())
                                     {
                                         <div class="questionButtonAndSubmitContainer">
                                             <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick="Cancel">
@@ -529,7 +533,7 @@
                                             <ValidationMessage For="@(() => GameToShow.QuestionText)" />                                            @if (GameToShow.QuestionImage == "No image")
                                             {
                                                 <label for="FileInputID" class="insertQuestionImage"></label>
-                                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
+                                                <InputFile id="FileInputID" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" accept="image/png, image/jpeg" hidden />
                                             }
                                             else
                                             {
@@ -537,7 +541,7 @@
                                                     <div id="editOrDeleteQImage">
                                                         <div>
                                                             <label for="FileInputIDChangeImage" class="insertQuestionImage"></label>
-                                                            <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" hidden />
+                                                            <InputFile id="FileInputIDChangeImage" OnChange="(e => UploadQuestioImageInDB(e, GameToShow.QuestionImage))" accept="image/png, image/jpeg" hidden />
                                                         </div>
                                                         <div @onclick="(() =>MakeDeleteList(GameToShow.QuestionImage))"></div>
                                                     </div>
@@ -576,7 +580,7 @@
                                                         else if (ans.AnswerImage == null)
                                                         {
                                                             <label for="@UploadImageID" class="insertQuestionImage ansImageContainer"></label>
-                                                            <InputFile id="@UploadImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                            <InputFile id="@UploadImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" accept="image/png, image/jpeg" hidden />
                                                             <div class="deleteIcon deleteImageIcon" @onclick='() => showPopup("DeleteAns")'></div>
                                                             ImageEmpty = true;
                                                         }
@@ -586,7 +590,7 @@
                                                                 <img src="@ans.AnswerImage" height="90" width="90" />
                                                                 <div class="editAnsImage">
                                                                     <label for="@ChangeImageID" class="insertQuestionImage"></label>
-                                                                    <InputFile id="@ChangeImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" hidden />
+                                                                    <InputFile id="@ChangeImageID" OnChange="(e => UploadAnswerImageInDB(e, ans))" accept="image/png, image/jpeg" hidden />
                                                                 </div>
                                                             </div>
                                                             <div class="deleteIcon deleteImageIcon" @onclick="(() =>DeleteAnswerPopUp(ans))"></div>
@@ -622,7 +626,7 @@
                                                 }
                                             </div>
                                             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Length >= 7 && !ImageEmpty && ChangesMadeInEditing && CheckEmptyAnswerText())
+                                            @if (GameToShow.Answers.Count >= 2 && isChecked && GameToShow.QuestionText.Trim().Length >= 7 && !ImageEmpty && ChangesMadeInEditing && CheckEmptyAnswerText())
                                             {
                                                 <div class="questionButtonAndSubmitContainer">
                                                     <input type="button" value="ביטול שינוים" class="Allbuttons cancelChanges" @onclick='() => showPopup("Cancel")'>
@@ -726,7 +730,7 @@
                                 </div>
                                 <div>
                                     <a href="GamesList">
-                                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" @onclick="Cancel"/>
+                                        <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" @onclick="Cancel" />
                                     </a>
                                     <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                                 </div>
@@ -751,7 +755,7 @@
                             </div>
                             <div>
                                 <a href="GamesList">
-                                    <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" />
+                                    <input type="button" value="למשחקים שלי" class="Allbuttons cancelChanges" @onclick="BackToGames" />
                                 </a>
                                 <input type="button" value="לא, המשך עריכה" class="Allbuttons" @onclick='() =>showPopup("")'>
                             </div>
@@ -902,6 +906,15 @@
                 }
             }
         }
+        else if (GameToShow != null)
+        {
+            if (GameToShow.ID == 0 && (GameToShow.QuestionText!=null || GameToShow.Answers != null))
+            {
+                ChangesSaved = 0;
+                ShowPopUp = true;
+                PopMsg = "Go Back Without Saving Question Or Answer";
+            }
+        }
         else
         {
             PopUpSettingsManager();
@@ -946,7 +959,7 @@
     void BackToGames()
     {
         PopUpManager();
-        if (ChangesSaved == 1)
+        if (ChangesSaved == 1 || ChangesSaved==-1)
         {
             Navigation.NavigateTo("GamesList");
         }
@@ -1225,7 +1238,7 @@
     {
         if (input.QuestionImage != null && input.QuestionImage != "No images")
             MakeDeleteList(input.QuestionImage);
-        foreach(AnswerDB a in input.Answers)
+        foreach (AnswerDB a in input.Answers)
         {
             if (a.AnswerImage != null && a.AnswerImage != "No images")
                 MakeDeleteList(a.AnswerImage);
@@ -1392,21 +1405,25 @@
                 }
             }
         }
-        foreach (AnswerDB a in GameToShow.Answers)
-        {
-            if (a.ID == ans.ID && a.ID != 0)
-            {
-                a.AnswerImage = myFileImage;
-                myFileImage = "";
-                break;
-            }
-            else if (a.AnswerImage == null || a.ID == 0)
-            {
-                a.AnswerImage = myFileImage;
-                myFileImage = "";
-                break;
-            }
-        }
+        int id = GameToShow.Answers.IndexOf(ans);
+        GameToShow.Answers[id].AnswerImage = myFileImage;
+        myFileImage = "";
+
+        // foreach (AnswerDB a in GameToShow.Answers)
+        // {
+        //     if (a.ID == ans.ID && a.ID != 0)
+        //     {
+        //         a.AnswerImage = myFileImage;
+        //         myFileImage = "";
+        //         break;
+        //     }
+        //     else if (a.AnswerImage == null || a.ID == 0)
+        //     {
+        //         a.AnswerImage = myFileImage;
+        //         myFileImage = "";
+        //         break;
+        //     }
+        // }
     }
 
     public bool CheckEmptyAnswerText()
@@ -1414,9 +1431,9 @@
         bool isText = true;
         foreach (AnswerDB ans in GameToShow.Answers)
         {
-            if (string.IsNullOrEmpty(ans.AnswerImage) || ans.AnswerImage.ToLower() == "no image")
+            if (string.IsNullOrEmpty(ans.AnswerImage) || ans.AnswerImage.ToLower() == "no image" )
             {
-                if (string.IsNullOrEmpty(ans.AnswerText))
+                if (string.IsNullOrEmpty(ans.AnswerText) || ans.AnswerText.Trim().Length < 3)
                 {
                     isText = false;
                 }
@@ -1425,7 +1442,7 @@
         return isText;
     }
 
-    protected async Task changePublish(GameToCard game)
+    async Task changePublish(GameToCard game)
     {
         // בעת לחיצה על פרסום ניצור מופע של מחלקה עם מזהה המשחק ומצב הפרסום
         PublishGame gameToSend = new PublishGame();
@@ -1481,7 +1498,6 @@
             msg = saveResponse.Content.ReadAsStringAsync().Result;
         }
     }
-
 
     void ShowError(string error)
     {
